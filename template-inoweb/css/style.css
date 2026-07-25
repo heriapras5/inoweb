@@ -87,6 +87,20 @@ body { font-family: 'Inter', sans-serif; color: #1a1a2e; overflow-x: hidden; }
 .navbar-dark .nav-link.active::after { width: 60%; }
 .btn-cta { font-size: 0.9rem; padding: 10px 24px !important; }
 
+/* ─── NAVBAR TOGGLER ─── */
+.navbar-toggler {
+    border: 1px solid rgba(255,255,255,0.25);
+    padding: 6px 10px;
+    transition: var(--transition-fast);
+}
+.navbar-toggler:focus {
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.3);
+}
+.navbar-toggler-icon {
+    width: 1.3em;
+    height: 1.3em;
+}
+
 /* ─── HERO ─── */
 .hero-section {
     background: var(--gradient-hero);
@@ -458,32 +472,175 @@ body { font-family: 'Inter', sans-serif; color: #1a1a2e; overflow-x: hidden; }
 
 /* ─── RESPONSIVE ─── */
 @media (max-width: 991.98px) {
+    #mainNav {
+        background: rgba(10,25,47,0.92);
+        backdrop-filter: blur(20px);
+    }
+    #mainNav.scrolled {
+        background: rgba(5,15,35,0.98);
+    }
+    .navbar-collapse {
+        background: rgba(10,25,47,0.98);
+        backdrop-filter: blur(20px);
+        border-radius: 12px;
+        padding: 16px;
+        margin-top: 12px;
+        border: 1px solid rgba(37,99,235,0.15);
+        box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    }
+    .navbar-nav .nav-link {
+        padding: 10px 16px !important;
+        border-radius: 8px;
+        text-align: center;
+    }
+    .navbar-nav .nav-link:hover {
+        background: rgba(37,99,235,0.1);
+    }
+    .navbar-nav .nav-link::after {
+        display: none;
+    }
+    .btn-cta {
+        display: block;
+        text-align: center;
+        margin-top: 8px;
+    }
+
     .hero-title { font-size: 2.5rem; }
     .hero-mockup { margin-top: 40px; }
     .mockup-main { transform: none; }
     .mockup-float { display: none; }
     .section-title { font-size: 2rem; }
     .page-hero-title { font-size: 2.2rem; }
-    .filter-section { flex-direction: column; align-items: stretch !important; }
+    .filter-section {
+        flex-direction: column;
+        align-items: stretch !important;
+        padding: 20px;
+    }
+    .filter-tabs {
+        justify-content: center;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 8px;
+        gap: 6px;
+    }
+    .filter-tab {
+        white-space: nowrap;
+        font-size: 0.8rem;
+        padding: 6px 16px;
+        flex-shrink: 0;
+    }
     .search-box { max-width: 100%; margin-left: 0; margin-top: 12px; }
     .cta-bottom-section { flex-direction: column; text-align: center; }
     .project-mockup { margin-top: 40px; }
     .mockup-laptop { transform: none; }
     .mockup-phone { position: relative; right: 0; bottom: 0; margin-top: 20px; margin-left: auto; }
+    .tech-item { padding: 16px 12px; }
+    .tech-icon { width: 40px; height: 40px; font-size: 1.2rem; }
+    .pagination .page-link { width: 36px; height: 36px; font-size: 0.85rem; }
 }
 
 @media (max-width: 767.98px) {
     .hero-title { font-size: 2rem; }
     .hero-features { flex-direction: column; gap: 12px; }
+    .hero-desc { max-width: 100%; }
     .section-padding { padding: 60px 0; }
-    .filter-tabs { justify-content: center; }
+    .section-title { font-size: 1.75rem; }
+    .section-desc { font-size: 0.95rem; }
+    .page-hero-title { font-size: 1.9rem; }
+    .page-hero-desc { font-size: 0.95rem; max-width: 100%; }
+    .page-hero { padding: 140px 0 60px; }
+    .cta-title { font-size: 1.8rem; }
+    .cta-desc { font-size: 0.95rem; }
+    .cta-section { padding: 60px 0; }
+
+    .process-card { padding: 20px 12px; }
+    .process-step { font-size: 2.5rem; }
+    .process-icon { width: 54px; height: 54px; font-size: 1.3rem; }
+
+    .service-card { padding: 24px 20px; }
+    .service-icon { width: 48px; height: 48px; font-size: 1.3rem; }
+
+    .testimonial-card { padding: 24px; }
+    .testimonial-nav { justify-content: center; margin-top: 20px !important; }
+
+    .footer-section { padding: 60px 0 24px; }
+    .footer-divider { margin: 30px 0 16px; }
 }
 
 @media (max-width: 575.98px) {
     .hero-title { font-size: 1.7rem; }
+    .hero-desc { font-size: 0.95rem; }
     .hero-buttons .btn { display: block; width: 100%; margin-bottom: 10px; }
     .hero-buttons .btn + .btn { margin-left: 0 !important; }
-    .cta-title { font-size: 1.6rem; }
+    .hero-badge { font-size: 0.7rem; padding: 6px 16px; }
+
+    .section-padding { padding: 40px 0; }
+    .section-title { font-size: 1.5rem; }
+    .section-label { font-size: 0.75rem; }
+    .page-hero-title { font-size: 1.6rem; }
+    .page-hero { padding: 120px 0 40px; }
+
+    .service-card { padding: 20px 16px; }
+    .service-icon { width: 42px; height: 42px; font-size: 1.1rem; margin-bottom: 14px; }
+    .service-title { font-size: 1rem; }
+    .service-desc { font-size: 0.85rem; }
+
+    .portfolio-img { height: 180px; }
+    .portfolio-info { padding: 16px; }
+
+    .process-card { padding: 16px 8px; }
+    .process-icon { width: 46px; height: 46px; font-size: 1.1rem; margin-bottom: 14px; }
+    .process-title { font-size: 0.9rem; }
+    .process-desc { font-size: 0.8rem; }
+
+    .testimonial-card { padding: 20px; }
+    .testimonial-text { font-size: 0.9rem; }
+    .testimonial-nav .btn { width: 38px; height: 38px; }
+
+    .cta-title { font-size: 1.4rem; }
+    .cta-desc { font-size: 0.9rem; }
+    .cta-section { padding: 40px 0; }
     .cta-section .btn { display: block; width: 100%; margin-bottom: 10px; }
     .cta-section .btn + .btn { margin-left: 0 !important; }
+    .cta-content .btn-lg { font-size: 0.9rem; padding: 10px 20px; }
+
+    .footer-section { padding: 40px 0 16px; }
+    .footer-title { font-size: 0.9rem; }
+    .footer-links a { font-size: 0.85rem; }
+
+    .project-meta { gap: 16px; }
+    .meta-item { flex-direction: column; align-items: flex-start; gap: 6px; }
+
+    .project-stat-card { padding: 16px 12px; }
+    .project-stat-number { font-size: 1.5rem; }
+    .project-stat-label { font-size: 0.75rem; }
+
+    .result-stat { padding: 12px; }
+    .result-stat-number { font-size: 1.4rem; }
+    .result-stat-label { font-size: 0.7rem; }
+
+    .tech-item { padding: 12px 8px; }
+    .tech-icon { width: 36px; height: 36px; font-size: 1rem; }
+    .tech-name { font-size: 0.75rem; }
+
+    .gallery-item { height: 140px; }
+
+    .client-testimonial { padding: 24px; }
+    .cta-bottom-section { padding: 32px 20px; }
+    .cta-bottom-title { font-size: 1.2rem; }
+    .cta-bottom-desc { font-size: 0.85rem; }
+    .cta-bottom-buttons .btn { width: 100%; font-size: 0.85rem; padding: 10px 16px; }
+
+    .detail-section { padding: 40px 0; }
+    .detail-section-title { font-size: 1.3rem; }
+
+    .filter-section { padding: 16px; margin-top: -30px; }
+    .filter-tab { font-size: 0.75rem; padding: 5px 12px; }
+    .search-box input { font-size: 0.8rem; padding: 8px 14px 8px 36px; }
+    .search-box i { left: 12px; }
+
+    .pagination .page-link { width: 32px; height: 32px; font-size: 0.75rem; }
+
+    .portfolio-grid .col-md-6 { padding: 0 8px; }
+    .row.g-4 { --bs-gutter-x: 16px; }
 }

@@ -13,6 +13,7 @@
 }
 
 html { scroll-behavior: smooth; }
+body { overflow-x: hidden; }
 
 /* ─── Gradient Background ─── */
 .bg-gradient-hero {
@@ -424,3 +425,53 @@ html { scroll-behavior: smooth; }
     transition: all 0.3s ease;
 }
 .mockup-laptop:hover { transform: perspective(1200px) rotateY(0deg); }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 1023.98px) {
+    .mockup-main { transform: none; }
+    .mockup-laptop { transform: none; }
+    .filter-tabs { overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; }
+    .filter-tab { flex-shrink: 0; }
+}
+
+@media (max-width: 767.98px) {
+    .service-card { padding: 24px 20px; }
+    .service-icon { width: 48px; height: 48px; font-size: 1.3rem; }
+    .process-card { padding: 20px 12px; }
+    .process-step { font-size: 2.5rem; }
+    .process-icon { width: 54px; height: 54px; font-size: 1.3rem; }
+    .testimonial-card { padding: 24px; }
+    .testimonial-nav { justify-content: center; }
+    .project-stat-card { padding: 20px 16px; }
+    .tech-item { padding: 16px 12px; }
+    .tech-item .w-\[50px\] { width: 40px; height: 40px; font-size: 1.2rem; }
+    .gallery-item { height: 160px; }
+    .portfolio-img { height: 200px; }
+}
+
+@media (max-width: 575.98px) {
+    .hero-badge { font-size: 0.7rem; padding: 6px 14px; }
+    .service-card { padding: 20px 16px; }
+    .service-icon { width: 42px; height: 42px; font-size: 1.1rem; margin-bottom: 14px; }
+    .process-card { padding: 16px 8px; }
+    .process-icon { width: 46px; height: 46px; font-size: 1.1rem; margin-bottom: 14px; }
+    .testimonial-card { padding: 20px; }
+    .testimonial-text { font-size: 0.9rem; }
+    .project-stat-card { padding: 16px 12px; }
+    .project-stat-number { font-size: 1.5rem; }
+    .result-stat-number { font-size: 1.4rem; }
+    .result-stat-icon { font-size: 1.2rem; }
+    .tech-item { padding: 12px 8px; }
+    .tech-item span { font-size: 0.75rem; }
+    .gallery-item { height: 120px; }
+    .portfolio-img { height: 180px; }
+    .filter-section { padding: 16px 20px; }
+    .filter-tab { font-size: 0.78rem; padding: 6px 14px; }
+    .pagination-link { width: 34px; height: 34px; font-size: 0.8rem; }
+    .footer-social { width: 36px; height: 36px; }
+    .cta-bottom-section { padding: 32px 24px; }
+    .cta-bottom-title { font-size: 1.2rem; }
+    .feature-list li { font-size: 0.9rem; padding: 8px 0; }
+    .feature-list li svg { width: 1rem; height: 1rem; }
+    .client-testimonial { padding: 24px; }
+}

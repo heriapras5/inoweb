@@ -6,7 +6,7 @@
 
 @section('content')
 <!-- Page Hero -->
-<section class="bg-gradient-hero pt-40 pb-20 relative overflow-hidden">
+<section class="bg-gradient-hero pt-36 sm:pt-40 pb-16 sm:pb-20 relative overflow-hidden">
     <div class="absolute inset-0 pointer-events-none opacity-50">
         <div class="absolute w-px h-3/5 top-1/5 left-1/5 bg-blue-600/10"></div>
         <div class="absolute w-px h-2/5 top-1/3 right-1/4 bg-blue-600/10"></div>
@@ -27,17 +27,17 @@
 </section>
 
 <!-- Filter & Grid -->
-<section class="pb-24">
+<section class="pb-16 sm:pb-24">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="filter-section flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4" data-aos="fade-up">
-            <div class="flex flex-wrap gap-2">
-                <button class="filter-tab active" data-filter="all">Semua</button>
-                <button class="filter-tab" data-filter="company">Company Profile</button>
-                <button class="filter-tab" data-filter="catalog">Katalog Produk</button>
-                <button class="filter-tab" data-filter="umkm">Website UMKM</button>
-                <button class="filter-tab" data-filter="sistem">Sistem Management</button>
-                <button class="filter-tab" data-filter="landing">Landing Page</button>
-                <button class="filter-tab" data-filter="custom">Custom Website</button>
+            <div class="flex gap-2 overflow-x-auto flex-nowrap max-lg:pb-2 -mx-2 px-2 max-lg:w-full">
+                <button class="filter-tab active shrink-0" data-filter="all">Semua</button>
+                <button class="filter-tab shrink-0" data-filter="company">Company Profile</button>
+                <button class="filter-tab shrink-0" data-filter="catalog">Katalog Produk</button>
+                <button class="filter-tab shrink-0" data-filter="umkm">Website UMKM</button>
+                <button class="filter-tab shrink-0" data-filter="sistem">Sistem Management</button>
+                <button class="filter-tab shrink-0" data-filter="landing">Landing Page</button>
+                <button class="filter-tab shrink-0" data-filter="custom">Custom Website</button>
             </div>
             <div class="relative w-full lg:w-auto min-w-[200px] max-w-[280px]">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-4 top-1/2 -translate-y-1/2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>

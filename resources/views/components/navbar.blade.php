@@ -1,7 +1,7 @@
 <nav x-data="{ scrolled: false, mobileOpen: false }"
      x-init="window.addEventListener('scroll', () => scrolled = window.scrollY > 50)"
-     :class="scrolled ? 'bg-[rgba(10,25,47,0.95)] backdrop-blur-[20px] shadow-[0_2px_20px_rgba(0,0,0,0.3)] py-2.5' : 'bg-transparent py-4'"
-     class="fixed top-0 left-0 w-full z-50 transition-all duration-300">
+     :class="(scrolled || mobileOpen) ? 'bg-[rgba(10,25,47,0.95)] backdrop-blur-[20px] shadow-[0_2px_20px_rgba(0,0,0,0.3)] py-2.5' : 'bg-transparent py-4'"
+     class="fixed top-0 left-0 w-full z-50 transition-all duration-300 max-lg:bg-[rgba(10,25,47,0.92)] max-lg:backdrop-blur-[20px] max-lg:py-2.5">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between">
             <a href="{{ url('/') }}" class="flex items-center gap-2 no-underline">
@@ -28,7 +28,7 @@
                 <svg x-show="mobileOpen" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
 
-            <div class="hidden lg:flex items-center gap-1" :class="{ 'hidden': !mobileOpen }">
+            <div class="hidden lg:flex items-center gap-1">
                 <div class="flex items-center gap-1">
                     <a href="{{ url('/') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Beranda</a>
                     <a href="{{ route('services') }}" class="nav-link {{ request()->routeIs('services') ? 'active' : '' }}">Layanan</a>
@@ -48,6 +48,9 @@
                  x-transition:enter="transition ease-out duration-200"
                  x-transition:enter-start="opacity-0 -translate-y-4"
                  x-transition:enter-end="opacity-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-150"
+                 x-transition:leave-start="opacity-100 translate-y-0"
+                 x-transition:leave-end="opacity-0 -translate-y-4"
                  class="lg:hidden fixed top-[72px] left-0 w-full bg-[rgba(10,25,47,0.98)] backdrop-blur-[20px] pb-6 pt-4 px-4 shadow-xl"
                  @click.outside="mobileOpen = false">
                 <div class="flex flex-col gap-2">

@@ -4,7 +4,7 @@
 @section('meta_description', 'Hubungi INOWEB untuk konsultasi pembuatan website profesional. Tersedia WhatsApp, email, dan formulir kontak.')
 
 @section('content')
-<section class="bg-gradient-hero pt-40 pb-20 relative overflow-hidden">
+<section class="bg-gradient-hero pt-32 sm:pt-40 pb-16 sm:pb-20 relative overflow-hidden">
     <div class="absolute inset-0 pointer-events-none opacity-50">
         <div class="absolute w-px h-3/5 top-1/5 left-1/5 bg-blue-600/10"></div>
         <div class="absolute w-px h-2/5 top-1/3 right-1/4 bg-blue-600/10"></div>
@@ -24,7 +24,7 @@
     </div>
 </section>
 
-<section class="py-24 bg-white">
+<section class="py-16 sm:py-24 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid lg:grid-cols-2 gap-16">
             <div data-aos="fade-right">
@@ -108,7 +108,7 @@
     </div>
 </section>
 
-<section class="py-12 bg-gray-50">
+<section class="py-10 sm:py-12 bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="rounded-2xl overflow-hidden shadow-lg" data-aos="fade-up">
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3953.123456789!2d110.369!3d-7.801!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zN8KwNDgnMDMuNiJTIDExMMKwMjInMDguNCJF!5e0!3m2!1sid!2sid!4v1" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>

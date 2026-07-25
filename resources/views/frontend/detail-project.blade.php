@@ -5,7 +5,7 @@
 
 @section('content')
 <!-- Detail Hero -->
-<section class="bg-gradient-hero pt-40 pb-20 relative overflow-hidden">
+<section class="bg-gradient-hero pt-32 sm:pt-40 pb-16 sm:pb-20 relative overflow-hidden">
     <div class="absolute inset-0 pointer-events-none opacity-50">
         <div class="absolute w-px h-3/5 top-1/5 left-1/5 bg-blue-600/10"></div>
         <div class="absolute w-px h-2/5 top-1/3 right-1/4 bg-blue-600/10"></div>
@@ -97,7 +97,7 @@
 </section>
 
 <!-- Tentang Proyek -->
-<section class="py-20 bg-white">
+<section class="py-16 sm:py-20 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid lg:grid-cols-12 gap-12">
             <div class="lg:col-span-7" data-aos="fade-right">
@@ -134,7 +134,7 @@
 </section>
 
 <!-- Teknologi & Galeri -->
-<section class="py-20 bg-gray-50">
+<section class="py-16 sm:py-20 bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid lg:grid-cols-12 gap-12">
             <div class="lg:col-span-5" data-aos="fade-right">
@@ -163,7 +163,7 @@
 </section>
 
 <!-- Hasil & Testimoni -->
-<section class="py-20 bg-white">
+<section class="py-16 sm:py-20 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid lg:grid-cols-12 gap-12">
             <div class="lg:col-span-7" data-aos="fade-right">
@@ -200,9 +200,9 @@
 
 <!-- Related Projects -->
 @if($relatedProjects->count() > 0)
-<section class="py-20 bg-gray-50">
+<section class="py-16 sm:py-20 bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-12" data-aos="fade-up">
+        <div class="text-center mb-8 sm:mb-12" data-aos="fade-up">
             <span class="inline-block text-blue-600 font-bold text-sm tracking-[2px] uppercase mb-3">PROYEK TERKAIT</span>
             <h2 class="text-3xl sm:text-4xl font-extrabold text-[#1a1a2e]">Proyek <span class="text-blue-600">Lainnya</span></h2>
         </div>
@@ -234,9 +234,9 @@
 @endif
 
 <!-- CTA Bottom -->
-<section class="py-20">
+<section class="py-16 sm:py-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="bg-gradient-blue rounded-2xl p-10 lg:p-12 flex flex-col lg:flex-row items-center justify-between gap-6" data-aos="fade-up">
+        <div class="bg-gradient-blue rounded-2xl p-6 sm:p-10 lg:p-12 flex flex-col lg:flex-row items-center justify-between gap-6" data-aos="fade-up">
             <div>
                 <h3 class="text-xl sm:text-2xl font-bold text-white">Punya proyek serupa?</h3>
                 <p class="text-white/70 mt-2">Kami siap membantu mewujudkan website profesional yang sesuai dengan kebutuhan bisnis Anda.</p>

@@ -4,7 +4,7 @@
 @section('meta_description', 'Kebijakan privasi INOWEB menjelaskan bagaimana kami mengumpulkan, menggunakan, dan melindungi data pribadi Anda.')
 
 @section('content')
-<section class="bg-gradient-hero pt-40 pb-20 relative overflow-hidden">
+<section class="bg-gradient-hero pt-32 sm:pt-40 pb-16 sm:pb-20 relative overflow-hidden">
     <div class="absolute inset-0 pointer-events-none opacity-50">
         <div class="absolute w-px h-3/5 top-1/5 left-1/5 bg-blue-600/10"></div>
         <div class="absolute w-px h-2/5 top-1/3 right-1/4 bg-blue-600/10"></div>
@@ -23,7 +23,7 @@
     </div>
 </section>
 
-<section class="py-24 bg-white">
+<section class="py-16 sm:py-24 bg-white">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 prose prose-gray max-w-none">
         <div class="space-y-8 text-[#475569] leading-relaxed">
             <p>Kebijakan privasi ini menjelaskan bagaimana INOWEB mengumpulkan, menggunakan, dan melindungi informasi pribadi yang Anda berikan saat menggunakan website kami.</p>

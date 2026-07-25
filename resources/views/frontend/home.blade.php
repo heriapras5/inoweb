@@ -78,7 +78,7 @@
 </section>
 
 <!-- Layanan -->
-<section class="py-24 bg-white" id="layanan">
+<section class="py-16 sm:py-24 bg-white" id="layanan">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid lg:grid-cols-2 gap-8 items-center mb-16">
             <div data-aos="fade-right">
@@ -104,7 +104,7 @@
 </section>
 
 <!-- Portfolio -->
-<section class="py-24 bg-gray-50" id="portofolio">
+<section class="py-16 sm:py-24 bg-gray-50" id="portofolio">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid lg:grid-cols-2 gap-8 items-center mb-16">
             <div data-aos="fade-right">
@@ -148,7 +148,7 @@
 </section>
 
 <!-- Proses Kerja -->
-<section class="py-24 bg-white" id="proses">
+<section class="py-16 sm:py-24 bg-white" id="proses">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid lg:grid-cols-2 gap-8 items-center mb-16">
             <div data-aos="fade-right">
@@ -159,7 +159,7 @@
                 <p class="text-[#64748b] text-base leading-relaxed lg:text-right mb-0">Kami memiliki proses kerja yang jelas untuk memastikan hasil terbaik sesuai kebutuhan Anda.</p>
             </div>
         </div>
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
             <div class="process-card text-center" data-aos="fade-up">
                 <div class="process-step">01</div>
                 <div class="process-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
@@ -195,7 +195,7 @@
 </section>
 
 <!-- Testimoni -->
-<section class="py-24 bg-white" id="testimoni">
+<section class="py-16 sm:py-24 bg-white" id="testimoni">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid lg:grid-cols-2 gap-8 items-center mb-16">
             <div data-aos="fade-right">
@@ -231,15 +231,15 @@
 </section>
 
 <!-- CTA -->
-<section class="bg-gradient-blue py-20 relative overflow-hidden cta-section">
+<section class="bg-gradient-blue py-16 sm:py-20 relative overflow-hidden cta-section">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="grid lg:grid-cols-2 gap-8 items-center" data-aos="zoom-in">
             <div data-aos="fade-right" data-aos-delay="200">
                 <h2 class="text-3xl sm:text-4xl font-extrabold text-white leading-tight mb-4">Siap Membangun Website Profesional untuk Bisnis Anda?</h2>
                 <p class="text-white/70 text-base leading-relaxed">Konsultasikan kebutuhan Anda sekarang juga dan dapatkan solusi terbaik dari tim profesional INOWEB.</p>
             </div>
-            <div class="text-right" data-aos="fade-left" data-aos-delay="400">
-                <a href="https://wa.me/6281234567890?text=Halo,%20saya%20tertarik%20dengan%20layanan%20INOWEB" target="_blank" class="inline-flex items-center gap-2 bg-white text-blue-600 px-8 py-4 rounded-full font-semibold text-base no-underline hover:bg-gray-100 transition-all hover:-translate-y-0.5">
+            <div class="sm:text-right" data-aos="fade-left" data-aos-delay="400">
+                <a href="https://wa.me/6281234567890?text=Halo,%20saya%20tertarik%20dengan%20layanan%20INOWEB" target="_blank" class="flex sm:inline-flex items-center justify-center gap-2 bg-white text-blue-600 px-8 py-4 rounded-full font-semibold text-base no-underline hover:bg-gray-100 transition-all hover:-translate-y-0.5">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
                     Hubungi via WhatsApp
                 </a>

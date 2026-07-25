@@ -4,7 +4,7 @@
 @section('meta_description', 'Pertanyaan yang sering diajukan seputar layanan pembuatan website INOWEB.')
 
 @section('content')
-<section class="bg-gradient-hero pt-40 pb-20 relative overflow-hidden">
+<section class="bg-gradient-hero pt-32 sm:pt-40 pb-16 sm:pb-20 relative overflow-hidden">
     <div class="absolute inset-0 pointer-events-none opacity-50">
         <div class="absolute w-px h-3/5 top-1/5 left-1/5 bg-blue-600/10"></div>
         <div class="absolute w-px h-2/5 top-1/3 right-1/4 bg-blue-600/10"></div>
@@ -24,7 +24,7 @@
     </div>
 </section>
 
-<section class="py-24 bg-white">
+<section class="py-16 sm:py-24 bg-white">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="space-y-4">
             @foreach($faqs as $i => $faq)
@@ -43,7 +43,7 @@
     </div>
 </section>
 
-<section class="bg-gradient-blue py-20 relative overflow-hidden cta-section">
+<section class="bg-gradient-blue py-16 sm:py-20 relative overflow-hidden cta-section">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center" data-aos="zoom-in">
             <h2 class="text-3xl sm:text-4xl font-extrabold text-white leading-tight mb-4">Masih punya pertanyaan?</h2>
