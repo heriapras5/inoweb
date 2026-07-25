@@ -3,14 +3,7 @@
 @section('content')
 <!-- Hero -->
 <section class="bg-gradient-hero min-h-screen relative overflow-hidden pt-20 flex items-center">
-    <div class="absolute inset-0 pointer-events-none">
-        <div class="absolute w-px h-3/5 top-1/5 left-1/5 bg-blue-600/10"></div>
-        <div class="absolute w-px h-2/5 top-1/3 right-1/4 bg-blue-600/10"></div>
-        <div class="absolute w-2/5 h-px top-1/2 left-1/3 bg-blue-600/10"></div>
-        <div class="absolute w-1.5 h-1.5 bg-blue-600/50 rounded-full top-1/4 left-[18%]"></div>
-        <div class="absolute w-1.5 h-1.5 bg-blue-600/50 rounded-full top-[45%] right-[23%]"></div>
-        <div class="absolute w-1.5 h-1.5 bg-blue-600/50 rounded-full bottom-[30%] left-[40%]"></div>
-    </div>
+    <x-hero-bg />
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full">
         <div class="grid lg:grid-cols-2 gap-12 items-center min-h-[calc(100vh-80px)]">
             <div data-aos="fade-right" data-aos-duration="1000">
@@ -117,7 +110,7 @@
         </div>
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($projects as $index => $project)
-            <div x-data @click="window.open('{{ $project->url }}', '_blank')" class="portfolio-card cursor-pointer" data-aos="fade-up" data-aos-delay="{{ $index * 100 }}">
+            <div x-data @click="window.location='{{ route('portfolio.detail', $project->slug) }}'" class="portfolio-card cursor-pointer" data-aos="fade-up" data-aos-delay="{{ $index * 100 }}">
                 <div class="portfolio-img">
                     <img src="{{ $project->images->first()->image ?? '' }}" alt="{{ $project->name }}" loading="lazy">
                     <div class="absolute top-4 left-4"><span class="portfolio-badge {{ $project->badge_class }}">{{ $project->category->name }}</span></div>
@@ -196,26 +189,28 @@
 
 <!-- Testimoni -->
 <section class="py-16 sm:py-24 bg-white" id="testimoni">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" x-data="{ active: 0, total: {{ $testimonials->count() }} }">
         <div class="grid lg:grid-cols-2 gap-8 items-center mb-16">
             <div data-aos="fade-right">
                 <span class="inline-block text-blue-600 font-bold text-sm tracking-[2px] uppercase mb-3">TESTIMONI KLIEN</span>
                 <h2 class="text-3xl sm:text-4xl font-extrabold text-[#1a1a2e] leading-tight">Apa Kata Mereka Tentang <span class="text-blue-600">INOWEB</span>?</h2>
             </div>
-            <div class="text-right" data-aos="fade-left">
+            <div class="text-right max-md:hidden" data-aos="fade-left">
                 <div class="inline-flex gap-2.5">
-                    <button id="prevTestimonial" class="w-11 h-11 flex items-center justify-center rounded-full border border-[#dee2e6] bg-white text-[#475569] hover:bg-blue-600 hover:border-blue-600 hover:text-white transition-all">
+                    <button @click="active = active > 0 ? active - 1 : total - 1" class="w-11 h-11 flex items-center justify-center rounded-full border border-[#dee2e6] bg-white text-[#475569] hover:bg-blue-600 hover:border-blue-600 hover:text-white transition-all">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
                     </button>
-                    <button id="nextTestimonial" class="w-11 h-11 flex items-center justify-center rounded-full border border-[#dee2e6] bg-white text-[#475569] hover:bg-blue-600 hover:border-blue-600 hover:text-white transition-all">
+                    <button @click="active = active < total - 1 ? active + 1 : 0" class="w-11 h-11 flex items-center justify-center rounded-full border border-[#dee2e6] bg-white text-[#475569] hover:bg-blue-600 hover:border-blue-600 hover:text-white transition-all">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
                     </button>
                 </div>
             </div>
         </div>
-        <div class="grid md:grid-cols-3 gap-6" id="testimonialCarousel">
+        <div class="grid md:grid-cols-3 gap-6">
             @foreach($testimonials as $i => $testimonial)
-            <div data-aos="fade-up" data-aos-delay="{{ $i * 100 }}">
+            <div :class="active !== {{ $i }} ? 'hidden md:block' : ''"
+                 x-transition.opacity.duration.300ms
+                 data-aos="fade-up" data-aos-delay="{{ $i * 100 }}">
                 <div class="testimonial-card">
                     <div class="testimonial-stars">{{ str_repeat('★', $testimonial->rating) }}</div>
                     <p class="testimonial-text">"{{ $testimonial->quote }}"</p>
@@ -226,6 +221,19 @@
                 </div>
             </div>
             @endforeach
+        </div>
+        <div class="flex md:hidden items-center justify-center gap-3 mt-6">
+            <button @click="active = active > 0 ? active - 1 : total - 1" class="w-10 h-10 flex items-center justify-center rounded-full border border-[#dee2e6] bg-white text-[#475569] hover:bg-blue-600 hover:border-blue-600 hover:text-white transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <div class="flex items-center gap-2">
+                @foreach($testimonials as $i => $t)
+                <button @click="active = {{ $i }}" :class="active === {{ $i }} ? 'bg-blue-600 w-3' : 'bg-gray-300 w-2.5'" class="h-2.5 rounded-full transition-all"></button>
+                @endforeach
+            </div>
+            <button @click="active = active < total - 1 ? active + 1 : 0" class="w-10 h-10 flex items-center justify-center rounded-full border border-[#dee2e6] bg-white text-[#475569] hover:bg-blue-600 hover:border-blue-600 hover:text-white transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
         </div>
     </div>
 </section>
@@ -248,64 +256,5 @@
     </div>
 </section>
 
-@push('scripts')
-<script>
-    // Portfolio filter
-    document.querySelectorAll('.filter-tab').forEach(tab => {
-        tab.addEventListener('click', function() {
-            document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-            this.classList.add('active');
-            const filter = this.getAttribute('data-filter');
-            document.querySelectorAll('.portfolio-card').forEach((card, i) => {
-                const match = filter === 'all' || card.getAttribute('data-category') === filter;
-                card.parentElement.style.display = match ? 'block' : 'none';
-                if (match) card.style.animation = `fadeIn 0.5s ease ${i * 0.05}s forwards`;
-            });
-        });
-    });
 
-    // Portfolio search
-    const searchInput = document.querySelector('.search-box input');
-    if (searchInput) {
-        searchInput.addEventListener('input', function() {
-            const term = this.value.toLowerCase();
-            document.querySelectorAll('.portfolio-card').forEach(card => {
-                const text = (card.querySelector('.portfolio-name')?.textContent + card.querySelector('.portfolio-desc')?.textContent || '').toLowerCase();
-                card.parentElement.style.display = text.includes(term) ? 'block' : 'none';
-            });
-        });
-    }
-
-    // Gallery lightbox
-    document.querySelectorAll('.gallery-item').forEach(item => {
-        item.addEventListener('click', function() {
-            const img = this.querySelector('img');
-            if (!img) return;
-            const overlay = document.createElement('div');
-            overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:9999;display:flex;align-items:center;justify-content:center;cursor:pointer;animation:fadeIn 0.3s ease';
-            const full = document.createElement('img');
-            full.src = img.src;
-            full.style.cssText = 'max-width:90%;max-height:90vh;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,0.5)';
-            overlay.appendChild(full);
-            overlay.addEventListener('click', () => overlay.remove());
-            document.body.appendChild(overlay);
-        });
-    });
-
-    // Testimonial nav
-    const prevBtn = document.getElementById('prevTestimonial');
-    const nextBtn = document.getElementById('nextTestimonial');
-    const testCards = document.querySelectorAll('#testimonialCarousel > div');
-    let currentIdx = 0;
-    if (prevBtn && nextBtn && testCards.length) {
-        [prevBtn, nextBtn].forEach(btn => {
-            btn.addEventListener('click', function() {
-                testCards[currentIdx].style.opacity = '0.3';
-                currentIdx = (currentIdx + (this.id === 'nextTestimonial' ? 1 : -1) + testCards.length) % testCards.length;
-                testCards[currentIdx].style.opacity = '1';
-            });
-        });
-    }
-</script>
-@endpush
 @endsection

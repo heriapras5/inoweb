@@ -5,12 +5,7 @@
 
 @section('content')
 <section class="bg-gradient-hero pt-32 sm:pt-40 pb-16 sm:pb-20 relative overflow-hidden">
-    <div class="absolute inset-0 pointer-events-none opacity-50">
-        <div class="absolute w-px h-3/5 top-1/5 left-1/5 bg-blue-600/10"></div>
-        <div class="absolute w-px h-2/5 top-1/3 right-1/4 bg-blue-600/10"></div>
-        <div class="absolute w-1.5 h-1.5 bg-blue-600/50 rounded-full top-1/4 left-[18%]"></div>
-        <div class="absolute w-1.5 h-1.5 bg-blue-600/50 rounded-full top-[45%] right-[23%]"></div>
-    </div>
+    <x-hero-bg />
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <nav class="flex mb-6 text-sm" data-aos="fade-up">
             <ol class="flex items-center gap-2">

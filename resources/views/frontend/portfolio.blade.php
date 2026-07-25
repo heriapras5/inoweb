@@ -7,12 +7,7 @@
 @section('content')
 <!-- Page Hero -->
 <section class="bg-gradient-hero pt-36 sm:pt-40 pb-16 sm:pb-20 relative overflow-hidden">
-    <div class="absolute inset-0 pointer-events-none opacity-50">
-        <div class="absolute w-px h-3/5 top-1/5 left-1/5 bg-blue-600/10"></div>
-        <div class="absolute w-px h-2/5 top-1/3 right-1/4 bg-blue-600/10"></div>
-        <div class="absolute w-1.5 h-1.5 bg-blue-600/50 rounded-full top-1/4 left-[18%]"></div>
-        <div class="absolute w-1.5 h-1.5 bg-blue-600/50 rounded-full top-[45%] right-[23%]"></div>
-    </div>
+    <x-hero-bg />
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <nav class="flex mb-6 text-sm" aria-label="Breadcrumb" data-aos="fade-up">
             <ol class="flex items-center gap-2">
@@ -47,7 +42,7 @@
 
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
             @foreach($projects as $index => $project)
-            <div x-data @click="window.open('{{ $project->url }}', '_blank')" class="portfolio-card cursor-pointer" data-aos="fade-up" data-aos-delay="{{ $index * 100 }}" data-category="{{ $project->category->slug }}">
+            <div x-data @click="window.location='{{ route('portfolio.detail', $project->slug) }}'" class="portfolio-card cursor-pointer" data-aos="fade-up" data-aos-delay="{{ $index * 100 }}" data-category="{{ $project->category->slug }}">
                 <div class="portfolio-img">
                     <img src="{{ $project->images->first()->image ?? '' }}" alt="{{ $project->name }}" loading="lazy">
                     <div class="absolute top-4 left-4"><span class="portfolio-badge {{ $project->badge_class }}">{{ $project->category->name }}</span></div>

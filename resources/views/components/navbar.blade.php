@@ -30,12 +30,12 @@
 
             <div class="hidden lg:flex items-center gap-1">
                 <div class="flex items-center gap-1">
-                    <a href="{{ url('/') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Beranda</a>
-                    <a href="{{ route('services') }}" class="nav-link {{ request()->routeIs('services') ? 'active' : '' }}">Layanan</a>
-                    <a href="{{ route('portfolio') }}" class="nav-link {{ request()->routeIs('portfolio*') ? 'active' : '' }}">Portofolio</a>
-                    <a href="{{ route('about') }}" class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}">Tentang Kami</a>
-                    <a href="{{ route('faq') }}" class="nav-link {{ request()->routeIs('faq') ? 'active' : '' }}">FAQ</a>
-                    <a href="{{ route('contact') }}" class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}">Kontak</a>
+                    <a href="{{ url('/') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" {{ request()->routeIs('home') ? 'aria-current="page"' : '' }}>Beranda</a>
+                    <a href="{{ route('services') }}" class="nav-link {{ request()->routeIs('services') ? 'active' : '' }}" {{ request()->routeIs('services') ? 'aria-current="page"' : '' }}>Layanan</a>
+                    <a href="{{ route('portfolio') }}" class="nav-link {{ request()->routeIs('portfolio*') ? 'active' : '' }}" {{ request()->routeIs('portfolio*') ? 'aria-current="page"' : '' }}>Portofolio</a>
+                    <a href="{{ route('about') }}" class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}" {{ request()->routeIs('about') ? 'aria-current="page"' : '' }}>Tentang Kami</a>
+                    <a href="{{ route('faq') }}" class="nav-link {{ request()->routeIs('faq') ? 'active' : '' }}" {{ request()->routeIs('faq') ? 'aria-current="page"' : '' }}>FAQ</a>
+                    <a href="{{ route('contact') }}" class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}" {{ request()->routeIs('contact') ? 'aria-current="page"' : '' }}>Kontak</a>
                 </div>
                 <a href="https://wa.me/6281234567890" target="_blank"
                    class="ml-3 bg-blue-600 text-white px-5 py-2.5 rounded-full text-sm font-semibold no-underline transition-all duration-300 hover:bg-blue-700 hover:-translate-y-0.5 hover:shadow-[0_4px_20px_rgba(37,99,235,0.3)]">
@@ -44,7 +44,7 @@
                 </a>
             </div>
 
-            <div x-show="mobileOpen"
+            <div x-show="mobileOpen" x-cloak
                  x-transition:enter="transition ease-out duration-200"
                  x-transition:enter-start="opacity-0 -translate-y-4"
                  x-transition:enter-end="opacity-100 translate-y-0"
@@ -54,12 +54,12 @@
                  class="lg:hidden fixed top-[72px] left-0 w-full bg-[rgba(10,25,47,0.98)] backdrop-blur-[20px] pb-6 pt-4 px-4 shadow-xl"
                  @click.outside="mobileOpen = false">
                 <div class="flex flex-col gap-2">
-                    <a href="{{ url('/') }}" class="block px-4 py-2.5 text-white/80 no-underline font-medium rounded-lg hover:bg-white/5 transition-colors">Beranda</a>
-                    <a href="{{ route('services') }}" class="block px-4 py-2.5 text-white/80 no-underline font-medium rounded-lg hover:bg-white/5 transition-colors">Layanan</a>
-                    <a href="{{ route('portfolio') }}" class="block px-4 py-2.5 text-white/80 no-underline font-medium rounded-lg hover:bg-white/5 transition-colors">Portofolio</a>
-                    <a href="{{ route('about') }}" class="block px-4 py-2.5 text-white/80 no-underline font-medium rounded-lg hover:bg-white/5 transition-colors">Tentang Kami</a>
-                    <a href="{{ route('faq') }}" class="block px-4 py-2.5 text-white/80 no-underline font-medium rounded-lg hover:bg-white/5 transition-colors">FAQ</a>
-                    <a href="{{ route('contact') }}" class="block px-4 py-2.5 text-white/80 no-underline font-medium rounded-lg hover:bg-white/5 transition-colors">Kontak</a>
+                    <a href="{{ url('/') }}" class="block px-4 py-2.5 text-white/80 no-underline font-medium rounded-lg hover:bg-white/5 transition-colors" {{ request()->routeIs('home') ? 'aria-current="page"' : '' }}>Beranda</a>
+                    <a href="{{ route('services') }}" class="block px-4 py-2.5 text-white/80 no-underline font-medium rounded-lg hover:bg-white/5 transition-colors" {{ request()->routeIs('services') ? 'aria-current="page"' : '' }}>Layanan</a>
+                    <a href="{{ route('portfolio') }}" class="block px-4 py-2.5 text-white/80 no-underline font-medium rounded-lg hover:bg-white/5 transition-colors" {{ request()->routeIs('portfolio*') ? 'aria-current="page"' : '' }}>Portofolio</a>
+                    <a href="{{ route('about') }}" class="block px-4 py-2.5 text-white/80 no-underline font-medium rounded-lg hover:bg-white/5 transition-colors" {{ request()->routeIs('about') ? 'aria-current="page"' : '' }}>Tentang Kami</a>
+                    <a href="{{ route('faq') }}" class="block px-4 py-2.5 text-white/80 no-underline font-medium rounded-lg hover:bg-white/5 transition-colors" {{ request()->routeIs('faq') ? 'aria-current="page"' : '' }}>FAQ</a>
+                    <a href="{{ route('contact') }}" class="block px-4 py-2.5 text-white/80 no-underline font-medium rounded-lg hover:bg-white/5 transition-colors" {{ request()->routeIs('contact') ? 'aria-current="page"' : '' }}>Kontak</a>
                     <div class="pt-2 px-4">
                         <a href="https://wa.me/6281234567890" target="_blank" class="block w-full text-center bg-blue-600 text-white px-5 py-2.5 rounded-full text-sm font-semibold no-underline hover:bg-blue-700 transition-colors">Pesan via WhatsApp</a>
                     </div>

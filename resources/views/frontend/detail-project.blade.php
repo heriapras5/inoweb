@@ -6,12 +6,7 @@
 @section('content')
 <!-- Detail Hero -->
 <section class="bg-gradient-hero pt-32 sm:pt-40 pb-16 sm:pb-20 relative overflow-hidden">
-    <div class="absolute inset-0 pointer-events-none opacity-50">
-        <div class="absolute w-px h-3/5 top-1/5 left-1/5 bg-blue-600/10"></div>
-        <div class="absolute w-px h-2/5 top-1/3 right-1/4 bg-blue-600/10"></div>
-        <div class="absolute w-1.5 h-1.5 bg-blue-600/50 rounded-full top-1/4 left-[18%]"></div>
-        <div class="absolute w-1.5 h-1.5 bg-blue-600/50 rounded-full top-[45%] right-[23%]"></div>
-    </div>
+    <x-hero-bg />
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <nav class="flex mb-6 text-sm" data-aos="fade-up">
             <ol class="flex items-center gap-2">
@@ -142,7 +137,7 @@
                 <div class="grid grid-cols-3 gap-3 mt-2">
                     @foreach($project->technologies as $tech)
                     <div class="tech-item">
-                        <div class="w-[50px] h-[50px] bg-blue-600/10 rounded-xl flex items-center justify-center text-blue-600 text-2xl">{!! $tech->icon !!}</div>
+                        <div class="tech-icon-box">{!! $tech->icon !!}</div>
                         <span class="text-sm font-semibold text-[#1a1a2e]">{{ $tech->name }}</span>
                     </div>
                     @endforeach
@@ -208,7 +203,7 @@
         </div>
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($relatedProjects as $related)
-            <div x-data @click="window.open('{{ $related->url }}', '_blank')" class="portfolio-card cursor-pointer" data-aos="fade-up">
+            <div x-data @click="window.location='{{ route('portfolio.detail', $related->slug) }}'" class="portfolio-card cursor-pointer" data-aos="fade-up">
                 <div class="portfolio-img">
                     <img src="{{ $related->images->first()->image ?? '' }}" alt="{{ $related->name }}" loading="lazy">
                     <div class="absolute top-4 left-4"><span class="portfolio-badge {{ $related->badge_class }}">{{ $related->category->name }}</span></div>
@@ -249,22 +244,5 @@
     </div>
 </section>
 
-@push('scripts')
-<script>
-    document.querySelectorAll('.gallery-item').forEach(item => {
-        item.addEventListener('click', function() {
-            const img = this.querySelector('img');
-            if (!img) return;
-            const overlay = document.createElement('div');
-            overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:9999;display:flex;align-items:center;justify-content:center;cursor:pointer;animation:fadeIn 0.3s ease';
-            const full = document.createElement('img');
-            full.src = img.src;
-            full.style.cssText = 'max-width:90%;max-height:90vh;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,0.5)';
-            overlay.appendChild(full);
-            overlay.addEventListener('click', () => overlay.remove());
-            document.body.appendChild(overlay);
-        });
-    });
-</script>
-@endpush
+
 @endsection

@@ -14,6 +14,7 @@
 
 html { scroll-behavior: smooth; }
 body { overflow-x: hidden; }
+[x-cloak] { display: none !important; }
 
 /* ─── Gradient Background ─── */
 .bg-gradient-hero {
@@ -231,7 +232,7 @@ body { overflow-x: hidden; }
 .portfolio-img {
     position: relative;
     overflow: hidden;
-    height: 220px;
+    aspect-ratio: 16/9;
 }
 .portfolio-img img {
     width: 100%;
@@ -377,12 +378,23 @@ body { overflow-x: hidden; }
     transition: all 0.3s ease;
 }
 .tech-item:hover { transform: translateY(-3px); box-shadow: 0 4px 20px rgba(0,0,0,0.08); border-color: #2563eb; }
+.tech-icon-box {
+    width: 50px;
+    height: 50px;
+    background: rgba(37,99,235,0.1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #2563eb;
+    font-size: 1.5rem;
+}
 
 .gallery-item {
     border-radius: 12px;
     overflow: hidden;
     cursor: pointer;
-    height: 200px;
+    aspect-ratio: 4/3;
 }
 .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
 .gallery-item:hover img { transform: scale(1.08); }
@@ -444,9 +456,9 @@ body { overflow-x: hidden; }
     .testimonial-nav { justify-content: center; }
     .project-stat-card { padding: 20px 16px; }
     .tech-item { padding: 16px 12px; }
-    .tech-item .w-\[50px\] { width: 40px; height: 40px; font-size: 1.2rem; }
-    .gallery-item { height: 160px; }
-    .portfolio-img { height: 200px; }
+    .tech-icon-box { width: 40px; height: 40px; font-size: 1.2rem; }
+    .gallery-item { aspect-ratio: 4/3; }
+    .portfolio-img { aspect-ratio: 16/9; }
 }
 
 @media (max-width: 575.98px) {
@@ -463,8 +475,8 @@ body { overflow-x: hidden; }
     .result-stat-icon { font-size: 1.2rem; }
     .tech-item { padding: 12px 8px; }
     .tech-item span { font-size: 0.75rem; }
-    .gallery-item { height: 120px; }
-    .portfolio-img { height: 180px; }
+    .gallery-item { aspect-ratio: 4/3; }
+    .portfolio-img { aspect-ratio: 16/9; }
     .filter-section { padding: 16px 20px; }
     .filter-tab { font-size: 0.78rem; padding: 6px 14px; }
     .pagination-link { width: 34px; height: 34px; font-size: 0.8rem; }

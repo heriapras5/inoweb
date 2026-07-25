@@ -5,12 +5,7 @@
 
 @section('content')
 <section class="bg-gradient-hero pt-32 sm:pt-40 pb-16 sm:pb-20 relative overflow-hidden">
-    <div class="absolute inset-0 pointer-events-none opacity-50">
-        <div class="absolute w-px h-3/5 top-1/5 left-1/5 bg-blue-600/10"></div>
-        <div class="absolute w-px h-2/5 top-1/3 right-1/4 bg-blue-600/10"></div>
-        <div class="absolute w-1.5 h-1.5 bg-blue-600/50 rounded-full top-1/4 left-[18%]"></div>
-        <div class="absolute w-1.5 h-1.5 bg-blue-600/50 rounded-full top-[45%] right-[23%]"></div>
-    </div>
+    <x-hero-bg />
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <nav class="flex mb-6 text-sm" data-aos="fade-up">
             <ol class="flex items-center gap-2">
@@ -65,7 +60,7 @@
                         <label class="block text-sm font-semibold text-[#1a1a2e] mb-2">Pesan</label>
                         <textarea name="message" rows="4" placeholder="Ceritakan kebutuhan website Anda..." required class="w-full px-4 py-3 border border-[#e2e8f0] rounded-xl text-sm outline-none focus:border-blue-600 focus:shadow-[0_0_0_3px_rgba(37,99,235,0.1)] transition-all resize-none"></textarea>
                     </div>
-                    <button type="submit" class="btn-primary px-8 py-3 text-base">Kirim Pesan <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+                    <button type="submit" class="btn-primary w-full sm:w-auto px-8 py-3 text-base justify-center">Kirim Pesan <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
                 </form>
             </div>
             <div data-aos="fade-left">

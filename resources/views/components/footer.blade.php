@@ -1,4 +1,4 @@
-<footer class="bg-[#0a192f] pt-20 pb-8">
+<footer class="bg-[#0a192f] pt-16 sm:pt-20 pb-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
             <div class="lg:col-span-1">
@@ -72,11 +72,11 @@
             <div>
                 <h6 class="footer-title">Newsletter</h6>
                 <p class="text-white/60 text-sm leading-relaxed mb-4">Dapatkan tips dan informasi terbaru seputar website dan digital bisnis.</p>
-                <form action="{{ route('newsletter.subscribe') }}" method="POST" class="flex">
+                <form action="{{ route('newsletter.subscribe') }}" method="POST" class="flex flex-col sm:flex-row">
                     @csrf
                     <input type="email" name="email" placeholder="Masukkan email Anda" required
-                           class="flex-1 bg-white/10 border border-white/20 text-white text-sm px-4 py-2.5 rounded-l-lg outline-none focus:border-blue-600 placeholder:text-white/40">
-                    <button type="submit" class="bg-blue-600 text-white px-4 rounded-r-lg hover:bg-blue-700 transition-colors">
+                           class="flex-1 bg-white/10 border border-white/20 text-white text-sm px-4 py-2.5 rounded-l-lg sm:rounded-l-lg rounded-r-lg sm:rounded-r-lg outline-none focus:border-blue-600 placeholder:text-white/40">
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2.5 rounded-lg sm:rounded-l-none sm:rounded-r-lg hover:bg-blue-700 transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
                     </button>
                 </form>

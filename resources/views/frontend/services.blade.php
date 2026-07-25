@@ -5,12 +5,7 @@
 
 @section('content')
 <section class="bg-gradient-hero pt-32 sm:pt-40 pb-16 sm:pb-20 relative overflow-hidden">
-    <div class="absolute inset-0 pointer-events-none opacity-50">
-        <div class="absolute w-px h-3/5 top-1/5 left-1/5 bg-blue-600/10"></div>
-        <div class="absolute w-px h-2/5 top-1/3 right-1/4 bg-blue-600/10"></div>
-        <div class="absolute w-1.5 h-1.5 bg-blue-600/50 rounded-full top-1/4 left-[18%]"></div>
-        <div class="absolute w-1.5 h-1.5 bg-blue-600/50 rounded-full top-[45%] right-[23%]"></div>
-    </div>
+    <x-hero-bg />
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <nav class="flex mb-6 text-sm" data-aos="fade-up">
             <ol class="flex items-center gap-2">
@@ -32,7 +27,7 @@
                 <div class="service-icon">{!! $service->icon !!}</div>
                 <h5 class="text-lg font-bold text-[#1a1a2e] mb-2.5">{{ $service->title }}</h5>
                 <p class="text-sm text-[#64748b] leading-relaxed mb-4">{{ $service->description }}</p>
-                <ul class="space-y-2 mb-4">
+                <ul class="space-y-1.5 sm:space-y-2 mb-4">
                     @foreach($service->features as $feature)
                     <li class="flex items-center gap-2 text-sm text-[#475569]">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
