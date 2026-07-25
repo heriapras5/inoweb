@@ -201,7 +201,7 @@
             <span class="inline-block text-blue-600 font-bold text-sm tracking-[2px] uppercase mb-3">PROYEK TERKAIT</span>
             <h2 class="text-3xl sm:text-4xl font-extrabold text-[#1a1a2e]">Proyek <span class="text-blue-600">Lainnya</span></h2>
         </div>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             @foreach($relatedProjects as $related)
             <div x-data @click="window.location='{{ route('portfolio.detail', $related->slug) }}'" class="portfolio-card cursor-pointer" data-aos="fade-up">
                 <div class="portfolio-img">

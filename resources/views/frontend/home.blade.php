@@ -84,7 +84,7 @@
             <h2 class="text-3xl sm:text-4xl font-extrabold text-[#1a1a2e] leading-tight">Layanan Lengkap untuk Kebutuhan <span class="text-blue-600">Website</span> Anda</h2>
             <p class="text-[#64748b] text-base leading-relaxed mt-3 max-w-2xl mx-auto">Kami menyediakan berbagai solusi website yang dirancang khusus sesuai kebutuhan bisnis Anda.</p>
         </div>
-        <div class="grid sm:grid-cols-2 gap-6">
+        <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             @foreach($services as $i => $service)
             <div class="service-card" data-aos="fade-up" data-aos-delay="{{ $i * 100 }}">
                 <div class="service-icon">{!! $service->icon !!}</div>
@@ -107,7 +107,7 @@
             <span class="inline-block text-blue-600 font-bold text-sm tracking-[2px] uppercase mb-3">PORTOFOLIO KAMI</span>
             <h2 class="text-3xl sm:text-4xl font-extrabold text-[#1a1a2e] leading-tight">Beberapa Hasil Karya <span class="text-blue-600">Terbaik</span> Kami</h2>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             @foreach($projects as $index => $project)
             <div x-data @click="window.location='{{ route('portfolio.detail', $project->slug) }}'" class="portfolio-card cursor-pointer" data-aos="fade-up" data-aos-delay="{{ $index * 100 }}">
                 <div class="portfolio-img">

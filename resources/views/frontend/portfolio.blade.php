@@ -40,7 +40,7 @@
             </div>
         </div>
 
-        <div class="grid sm:grid-cols-2 gap-6 mt-12">
+        <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-12">
             @foreach($projects as $index => $project)
             <div x-data @click="window.location='{{ route('portfolio.detail', $project->slug) }}'" class="portfolio-card cursor-pointer" data-aos="fade-up" data-aos-delay="{{ $index * 100 }}" data-category="{{ $project->category->slug }}">
                 <div class="portfolio-img">

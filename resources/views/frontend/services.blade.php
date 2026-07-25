@@ -21,7 +21,7 @@
 
 <section class="py-16 sm:py-24 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid sm:grid-cols-2 gap-6">
+        <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             @foreach($services as $i => $service)
             <div class="service-card flex flex-col" data-aos="fade-up" data-aos-delay="{{ $i * 100 }}">
                 <div class="service-icon">{!! $service->icon !!}</div>
