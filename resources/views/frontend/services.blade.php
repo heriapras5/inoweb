@@ -21,13 +21,13 @@
 
 <section class="py-16 sm:py-24 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid sm:grid-cols-2 gap-6">
             @foreach($services as $i => $service)
-            <div class="service-card" data-aos="fade-up" data-aos-delay="{{ $i * 100 }}">
+            <div class="service-card flex flex-col" data-aos="fade-up" data-aos-delay="{{ $i * 100 }}">
                 <div class="service-icon">{!! $service->icon !!}</div>
                 <h5 class="text-lg font-bold text-[#1a1a2e] mb-2.5">{{ $service->title }}</h5>
                 <p class="text-sm text-[#64748b] leading-relaxed mb-4">{{ $service->description }}</p>
-                <ul class="space-y-1.5 sm:space-y-2 mb-4">
+                <ul class="space-y-1.5 sm:space-y-2 mb-4 flex-1">
                     @foreach($service->features as $feature)
                     <li class="flex items-center gap-2 text-sm text-[#475569]">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
@@ -35,7 +35,7 @@
                     </li>
                     @endforeach
                 </ul>
-                <a href="https://wa.me/6281234567890?text=Halo,%20saya%20tertarik%20dengan%20layanan%20{{ urlencode($service->title) }}" target="_blank" class="text-blue-600 font-semibold text-sm no-underline inline-flex items-center gap-1.5 hover:gap-2.5 transition-all">Pesan via WhatsApp <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                <a href="https://wa.me/6281234567890?text=Halo,%20saya%20tertarik%20dengan%20layanan%20{{ urlencode($service->title) }}" target="_blank" class="text-blue-600 font-semibold text-sm no-underline inline-flex items-center gap-1.5 hover:gap-2.5 transition-all mt-auto">Pesan via WhatsApp <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
             </div>
             @endforeach
         </div>

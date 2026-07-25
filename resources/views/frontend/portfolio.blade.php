@@ -40,7 +40,7 @@
             </div>
         </div>
 
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+        <div class="grid sm:grid-cols-2 gap-6 mt-12">
             @foreach($projects as $index => $project)
             <div x-data @click="window.location='{{ route('portfolio.detail', $project->slug) }}'" class="portfolio-card cursor-pointer" data-aos="fade-up" data-aos-delay="{{ $index * 100 }}" data-category="{{ $project->category->slug }}">
                 <div class="portfolio-img">
@@ -48,16 +48,11 @@
                     <div class="absolute top-4 left-4"><span class="portfolio-badge {{ $project->badge_class }}">{{ $project->category->name }}</span></div>
                 </div>
                 <div class="p-5">
-                    <h5 class="portfolio-name text-base font-bold text-[#1a1a2e] mb-1">{{ $project->name }}</h5>
-                    <p class="portfolio-desc text-sm text-[#64748b] mb-3">{{ $project->description }}</p>
+                    <h5 class="portfolio-name text-base font-bold text-[#1a1a2e] mb-2">{{ $project->name }}</h5>
+                    <p class="portfolio-desc text-sm text-[#64748b] line-clamp-2 mb-3">{{ $project->description }}</p>
                     <div class="flex flex-wrap gap-2">
-                        <a href="{{ $project->url }}" target="_blank" @click.stop
-                           class="inline-flex items-center gap-1 bg-blue-600 text-white text-xs px-3 py-1.5 rounded-full no-underline hover:bg-blue-700 transition-all">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                            Kunjungi Website
-                        </a>
                         <a href="{{ route('portfolio.detail', $project->slug) }}" @click.stop
-                           class="inline-flex items-center gap-1 border border-blue-600 text-blue-600 text-xs px-3 py-1.5 rounded-full no-underline hover:bg-blue-600 hover:text-white transition-all">
+                           class="inline-flex items-center gap-1 bg-blue-600 text-white text-xs px-3 py-1.5 rounded-full no-underline hover:bg-blue-700 transition-all">
                             Detail
                         </a>
                         <a href="https://wa.me/6281234567890?text=Halo,%20saya%20tertarik%20dengan%20proyek%20{{ urlencode($project->name) }}" target="_blank" @click.stop

@@ -26,7 +26,7 @@
 </head>
 <body class="font-sans text-[#1a1a2e] overflow-x-hidden">
 
-    <x-navbar />
+    <x-header />
 
     <main>
         @yield('content')

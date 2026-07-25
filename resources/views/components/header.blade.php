@@ -1,0 +1,3 @@
+<header>
+    <x-navbar />
+</header>

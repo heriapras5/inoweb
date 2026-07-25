@@ -34,38 +34,44 @@
                     <div class="flex items-center gap-2 text-[#ccd6f6] text-sm"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Support Cepat & Ramah</span></div>
                 </div>
             </div>
-                <div class="hidden lg:block relative py-10" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
-                <div class="mockup-main transition-all duration-300 hover:!rotate-y-0 hover:!rotate-x-0">
-                    <div class="bg-[#1a1a2e] px-4 py-2.5 flex gap-1.5">
-                        <span class="w-2.5 h-2.5 rounded-full bg-red-500"></span>
-                        <span class="w-2.5 h-2.5 rounded-full bg-yellow-500"></span>
-                        <span class="w-2.5 h-2.5 rounded-full bg-green-500"></span>
-                    </div>
-                    <div class="p-8 bg-gradient-to-b from-[#0f2744] to-[#0a192f]">
-                        <div class="h-3 bg-white/10 rounded-full w-3/4 mb-2"></div>
-                        <div class="h-3 bg-white/10 rounded-full w-1/2 mb-3"></div>
-                        <div class="w-[120px] h-9 bg-blue-600 rounded-lg mt-2.5"></div>
+                <div class="hidden lg:block relative py-10" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200"
+                     x-data="{ active: 0, images: {{ json_encode($projects->pluck('images')->flatten(1)->pluck('image')->filter()->take(4)->values()) }}, interval: null }"
+                     x-init="if (images.length > 1) { interval = setInterval(() => active = (active + 1) % images.length, 4000) }"
+                     @mouseenter="if (images.length > 1) clearInterval(interval)"
+                     @mouseleave="if (images.length > 1) interval = setInterval(() => active = (active + 1) % images.length, 4000)">
+                    <div class="mockup-main overflow-hidden">
+                        <div class="bg-[#1a1a2e] px-4 py-2.5 flex gap-1.5">
+                            <span class="w-2.5 h-2.5 rounded-full bg-red-500"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-yellow-500"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-green-500"></span>
+                        </div>
+                        <div class="relative bg-gradient-to-b from-[#0f2744] to-[#0a192f]" style="min-height: 320px;">
+                            <template x-if="images.length">
+                                <template x-for="(img, i) in images" :key="i">
+                                    <img :src="img" x-show="active === i" x-transition.opacity.duration.500
+                                         class="w-full h-full object-cover absolute inset-0"
+                                         style="min-height: 320px;">
+                                </template>
+                            </template>
+                            <template x-if="!images.length">
+                                <div class="p-8">
+                                    <div class="h-3 bg-white/10 rounded-full w-3/4 mb-2"></div>
+                                    <div class="h-3 bg-white/10 rounded-full w-1/2 mb-3"></div>
+                                    <div class="w-[120px] h-9 bg-blue-600 rounded-lg mt-2.5"></div>
+                                </div>
+                            </template>
+                            <template x-if="images.length > 1">
+                                <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+                                    <template x-for="(img, i) in images" :key="i">
+                                        <button @click="active = i"
+                                                :class="active === i ? 'bg-blue-500 w-5' : 'bg-white/40 w-2'"
+                                                class="h-2 rounded-full transition-all duration-300"></button>
+                                    </template>
+                                </div>
+                            </template>
+                        </div>
                     </div>
                 </div>
-                <div class="absolute top-[10%] -right-[10%] animate-float">
-                    <div class="bg-[rgba(17,34,64,0.95)] border border-blue-600/20 rounded-xl px-4 py-3 flex items-center gap-2.5 backdrop-blur-[10px] shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
-                        <div class="w-9 h-9 bg-blue-600/20 rounded-lg flex items-center justify-center text-blue-600"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
-                        <div><div class="h-2.5 bg-white/10 rounded-full w-[4.5rem] mb-1"></div><div class="h-2 bg-white/10 rounded-full w-[3rem]"></div></div>
-                    </div>
-                </div>
-                <div class="absolute bottom-[30%] -left-[5%] animate-float-delay-1">
-                    <div class="bg-[rgba(17,34,64,0.95)] border border-blue-600/20 rounded-xl px-4 py-3 flex items-center gap-2.5 backdrop-blur-[10px] shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
-                        <div class="w-9 h-9 bg-blue-600/20 rounded-lg flex items-center justify-center text-blue-600"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg></div>
-                        <div><div class="h-2.5 bg-white/10 rounded-full w-[4.5rem] mb-1"></div><div class="h-2 bg-white/10 rounded-full w-[3rem]"></div></div>
-                    </div>
-                </div>
-                <div class="absolute bottom-[5%] right-[5%] animate-float-delay-2">
-                    <div class="bg-[rgba(17,34,64,0.95)] border border-blue-600/20 rounded-xl px-4 py-3 flex items-center gap-2.5 backdrop-blur-[10px] shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
-                        <div class="w-9 h-9 bg-blue-600/20 rounded-lg flex items-center justify-center text-blue-600"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div>
-                        <div><div class="h-2.5 bg-white/10 rounded-full w-[4.5rem] mb-1"></div><div class="h-2 bg-white/10 rounded-full w-[3rem]"></div></div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </section>
@@ -73,17 +79,12 @@
 <!-- Layanan -->
 <section class="py-16 sm:py-24 bg-white" id="layanan">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid lg:grid-cols-2 gap-8 items-center mb-16">
-            <div data-aos="fade-right">
-                <span class="inline-block text-blue-600 font-bold text-sm tracking-[2px] uppercase mb-3">LAYANAN KAMI</span>
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-[#1a1a2e] leading-tight">Layanan Lengkap untuk Kebutuhan <span class="text-blue-600">Website</span> Anda</h2>
-                <p class="text-[#64748b] text-base leading-relaxed mt-3">Kami menyediakan berbagai solusi website yang dirancang khusus sesuai kebutuhan bisnis Anda.</p>
-            </div>
-            <div class="text-right" data-aos="fade-left">
-                <a href="{{ route('services') }}" class="btn-outline-dark px-6 py-3 text-base">Lihat Semua Layanan <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-            </div>
+        <div class="text-center mb-12" data-aos="fade-up">
+            <span class="inline-block text-blue-600 font-bold text-sm tracking-[2px] uppercase mb-3">LAYANAN KAMI</span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-[#1a1a2e] leading-tight">Layanan Lengkap untuk Kebutuhan <span class="text-blue-600">Website</span> Anda</h2>
+            <p class="text-[#64748b] text-base leading-relaxed mt-3 max-w-2xl mx-auto">Kami menyediakan berbagai solusi website yang dirancang khusus sesuai kebutuhan bisnis Anda.</p>
         </div>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid sm:grid-cols-2 gap-6">
             @foreach($services as $i => $service)
             <div class="service-card" data-aos="fade-up" data-aos-delay="{{ $i * 100 }}">
                 <div class="service-icon">{!! $service->icon !!}</div>
@@ -93,22 +94,20 @@
             </div>
             @endforeach
         </div>
+        <div class="text-center mt-10" data-aos="fade-up">
+            <a href="{{ route('services') }}" class="btn-outline-dark px-6 py-3 text-base">Lihat Semua Layanan <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+        </div>
     </div>
 </section>
 
 <!-- Portfolio -->
 <section class="py-16 sm:py-24 bg-gray-50" id="portofolio">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid lg:grid-cols-2 gap-8 items-center mb-16">
-            <div data-aos="fade-right">
-                <span class="inline-block text-blue-600 font-bold text-sm tracking-[2px] uppercase mb-3">PORTOFOLIO KAMI</span>
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-[#1a1a2e] leading-tight">Beberapa Hasil Karya <span class="text-blue-600">Terbaik</span> Kami</h2>
-            </div>
-            <div class="text-right" data-aos="fade-left">
-                <a href="{{ route('portfolio') }}" class="btn-outline-dark px-6 py-3 text-base">Lihat Semua Portofolio <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-            </div>
+        <div class="text-center mb-12" data-aos="fade-up">
+            <span class="inline-block text-blue-600 font-bold text-sm tracking-[2px] uppercase mb-3">PORTOFOLIO KAMI</span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-[#1a1a2e] leading-tight">Beberapa Hasil Karya <span class="text-blue-600">Terbaik</span> Kami</h2>
         </div>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             @foreach($projects as $index => $project)
             <div x-data @click="window.location='{{ route('portfolio.detail', $project->slug) }}'" class="portfolio-card cursor-pointer" data-aos="fade-up" data-aos-delay="{{ $index * 100 }}">
                 <div class="portfolio-img">
@@ -116,15 +115,11 @@
                     <div class="absolute top-4 left-4"><span class="portfolio-badge {{ $project->badge_class }}">{{ $project->category->name }}</span></div>
                 </div>
                 <div class="p-5">
-                    <h5 class="text-base font-bold text-[#1a1a2e] mb-3">{{ $project->name }}</h5>
+                    <h5 class="text-base font-bold text-[#1a1a2e] mb-2">{{ $project->name }}</h5>
+                    <p class="text-sm text-[#64748b] line-clamp-2 mb-3">{{ $project->description }}</p>
                     <div class="flex flex-wrap gap-2">
-                        <a href="{{ $project->url }}" target="_blank" @click.stop
-                           class="inline-flex items-center gap-1 bg-blue-600 text-white text-xs px-3 py-1.5 rounded-full no-underline hover:bg-blue-700 transition-all">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                            Kunjungi Website
-                        </a>
                         <a href="{{ route('portfolio.detail', $project->slug) }}" @click.stop
-                           class="inline-flex items-center gap-1 border border-blue-600 text-blue-600 text-xs px-3 py-1.5 rounded-full no-underline hover:bg-blue-600 hover:text-white transition-all">
+                           class="inline-flex items-center gap-1 bg-blue-600 text-white text-xs px-3 py-1.5 rounded-full no-underline hover:bg-blue-700 transition-all">
                             Detail
                         </a>
                         <a href="https://wa.me/6281234567890?text=Halo,%20saya%20tertarik%20dengan%20proyek%20{{ urlencode($project->name) }}" target="_blank" @click.stop
@@ -136,6 +131,9 @@
                 </div>
             </div>
             @endforeach
+        </div>
+        <div class="text-center mt-10" data-aos="fade-up">
+            <a href="{{ route('portfolio') }}" class="btn-outline-dark px-6 py-3 text-base">Lihat Semua Portofolio <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
         </div>
     </div>
 </section>
@@ -187,57 +185,6 @@
     </div>
 </section>
 
-<!-- Testimoni -->
-<section class="py-16 sm:py-24 bg-white" id="testimoni">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" x-data="{ active: 0, total: {{ $testimonials->count() }} }">
-        <div class="grid lg:grid-cols-2 gap-8 items-center mb-16">
-            <div data-aos="fade-right">
-                <span class="inline-block text-blue-600 font-bold text-sm tracking-[2px] uppercase mb-3">TESTIMONI KLIEN</span>
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-[#1a1a2e] leading-tight">Apa Kata Mereka Tentang <span class="text-blue-600">INOWEB</span>?</h2>
-            </div>
-            <div class="text-right max-md:hidden" data-aos="fade-left">
-                <div class="inline-flex gap-2.5">
-                    <button @click="active = active > 0 ? active - 1 : total - 1" class="w-11 h-11 flex items-center justify-center rounded-full border border-[#dee2e6] bg-white text-[#475569] hover:bg-blue-600 hover:border-blue-600 hover:text-white transition-all">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-                    </button>
-                    <button @click="active = active < total - 1 ? active + 1 : 0" class="w-11 h-11 flex items-center justify-center rounded-full border border-[#dee2e6] bg-white text-[#475569] hover:bg-blue-600 hover:border-blue-600 hover:text-white transition-all">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div class="grid md:grid-cols-3 gap-6">
-            @foreach($testimonials as $i => $testimonial)
-            <div :class="active !== {{ $i }} ? 'hidden md:block' : ''"
-                 x-transition.opacity.duration.300ms
-                 data-aos="fade-up" data-aos-delay="{{ $i * 100 }}">
-                <div class="testimonial-card">
-                    <div class="testimonial-stars">{{ str_repeat('★', $testimonial->rating) }}</div>
-                    <p class="testimonial-text">"{{ $testimonial->quote }}"</p>
-                    <div class="testimonial-author flex items-center gap-3">
-                        <div class="author-avatar"><img src="{{ $testimonial->avatar }}" alt="{{ $testimonial->name }}"></div>
-                        <div><h6 class="text-sm font-bold text-[#1a1a2e] mb-0">{{ $testimonial->name }}</h6><small class="text-[#64748b] text-xs">{{ $testimonial->role }}</small></div>
-                    </div>
-                </div>
-            </div>
-            @endforeach
-        </div>
-        <div class="flex md:hidden items-center justify-center gap-3 mt-6">
-            <button @click="active = active > 0 ? active - 1 : total - 1" class="w-10 h-10 flex items-center justify-center rounded-full border border-[#dee2e6] bg-white text-[#475569] hover:bg-blue-600 hover:border-blue-600 hover:text-white transition-all">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-            </button>
-            <div class="flex items-center gap-2">
-                @foreach($testimonials as $i => $t)
-                <button @click="active = {{ $i }}" :class="active === {{ $i }} ? 'bg-blue-600 w-3' : 'bg-gray-300 w-2.5'" class="h-2.5 rounded-full transition-all"></button>
-                @endforeach
-            </div>
-            <button @click="active = active < total - 1 ? active + 1 : 0" class="w-10 h-10 flex items-center justify-center rounded-full border border-[#dee2e6] bg-white text-[#475569] hover:bg-blue-600 hover:border-blue-600 hover:text-white transition-all">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-            </button>
-        </div>
-    </div>
-</section>
-
 <!-- CTA -->
 <section class="bg-gradient-blue py-16 sm:py-20 relative overflow-hidden cta-section">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -247,8 +194,10 @@
                 <p class="text-white/70 text-base leading-relaxed">Konsultasikan kebutuhan Anda sekarang juga dan dapatkan solusi terbaik dari tim profesional INOWEB.</p>
             </div>
             <div class="sm:text-right" data-aos="fade-left" data-aos-delay="400">
-                <a href="https://wa.me/6281234567890?text=Halo,%20saya%20tertarik%20dengan%20layanan%20INOWEB" target="_blank" class="flex sm:inline-flex items-center justify-center gap-2 bg-white text-blue-600 px-8 py-4 rounded-full font-semibold text-base no-underline hover:bg-gray-100 transition-all hover:-translate-y-0.5">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                <a href="https://wa.me/6281234567890?text=Halo,%20saya%20tertarik%20dengan%20layanan%20INOWEB" target="_blank" class="flex sm:inline-flex items-center justify-center gap-2 bg-green-500 text-white px-8 py-4 rounded-full font-semibold text-base no-underline hover:bg-green-600 transition-all hover:-translate-y-0.5 hover:shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" width="20" height="20">
+                        <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6z"/>
+                    </svg>
                     Hubungi via WhatsApp
                 </a>
             </div>
