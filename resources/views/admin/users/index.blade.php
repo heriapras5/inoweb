@@ -46,12 +46,12 @@
                         <a href="{{ route('admin.users.edit', $u) }}" class="inline-flex items-center justify-center w-8 h-8 rounded-lg text-blue-600 hover:bg-blue-50 transition-colors" title="Edit">
                             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                         </a>
-                        @if($u->id !== 1 && $u->id !== auth()->id())
+                        @if($u->is_admin && $u->id !== 1 && $u->id !== auth()->id())
                         <button type="button" @click="deleteTarget = '{{ route('admin.users.destroy', $u) }}'; showDeleteModal = true" class="inline-flex items-center justify-center w-8 h-8 rounded-lg text-red-500 hover:bg-red-50 transition-colors" title="Hapus">
                             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
                         </button>
                         @else
-                        <span class="text-[#94a3b8] text-xs">{{ $u->id === 1 ? 'Super Admin' : 'Akun sendiri' }}</span>
+                        <span class="text-[#94a3b8] text-xs">{{ $u->id === 1 ? 'Super Admin' : ($u->id === auth()->id() ? 'Akun sendiri' : '-') }}</span>
                         @endif
                     </div>
                 </td>

@@ -14,26 +14,45 @@
             <h2 class="text-lg font-bold text-[#1e293b]">{{ $user->exists ? 'Edit Admin' : 'Tambah Admin' }}</h2>
             <p class="text-sm text-[#64748b] mt-0.5">{{ $user->exists ? 'Ubah data admin.' : 'Buat akun admin baru.' }}</p>
         </div>
+        @if($errors->any())
+        <div class="px-8 pt-6">
+            <div class="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl text-sm flex items-start gap-2.5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="shrink-0 mt-0.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <div>
+                    <p class="font-semibold mb-1">Terjadi kesalahan:</p>
+                    <ul class="list-disc list-inside space-y-0.5">
+                        @foreach($errors->all() as $err)
+                        <li>{{ $err }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        </div>
+        @endif
         <form action="{{ $user->exists ? route('admin.users.update', $user) : route('admin.users.store') }}" method="POST" class="p-8 space-y-6">
             @csrf @if($user->exists) @method('PUT') @endif
             <div class="grid grid-cols-2 gap-4">
                 <div>
                     <label class="block text-sm font-medium text-[#1a1a2e] mb-1.5">Nama</label>
-                    <input type="text" name="name" value="{{ old('name', $user->name) }}" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow" required>
+                    <input type="text" name="name" value="{{ old('name', $user->name) }}" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow {{ $errors->has('name') ? 'border-red-300 bg-red-50' : '' }}" required>
+                    @error('name') <p class="text-xs text-red-500 mt-1.5">{{ $message }}</p> @enderror
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-[#1a1a2e] mb-1.5">Email</label>
-                    <input type="email" name="email" value="{{ old('email', $user->email) }}" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow" required>
+                    <input type="email" name="email" value="{{ old('email', $user->email) }}" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow {{ $errors->has('email') ? 'border-red-300 bg-red-50' : '' }}" required>
+                    @error('email') <p class="text-xs text-red-500 mt-1.5">{{ $message }}</p> @enderror
                 </div>
             </div>
             <div class="grid grid-cols-2 gap-4">
                 <div>
                     <label class="block text-sm font-medium text-[#1a1a2e] mb-1.5">Password{{ $user->exists ? ' (kosongkan jika tidak diubah)' : '' }}</label>
-                    <input type="password" name="password" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow" {{ $user->exists ? '' : 'required' }}>
+                    <input type="password" name="password" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow {{ $errors->has('password') ? 'border-red-300 bg-red-50' : '' }}" {{ $user->exists ? '' : 'required' }}>
+                    @error('password') <p class="text-xs text-red-500 mt-1.5">{{ $message }}</p> @enderror
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-[#1a1a2e] mb-1.5">Konfirmasi Password</label>
-                    <input type="password" name="password_confirmation" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow" {{ $user->exists ? '' : 'required' }}>
+                    <input type="password" name="password_confirmation" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow {{ $errors->has('password_confirmation') ? 'border-red-300 bg-red-50' : '' }}" {{ $user->exists ? '' : 'required' }}>
+                    @error('password_confirmation') <p class="text-xs text-red-500 mt-1.5">{{ $message }}</p> @enderror
                 </div>
             </div>
             <div class="flex items-center gap-2 text-sm text-[#1a1a2e]">
