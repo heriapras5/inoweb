@@ -11,23 +11,28 @@ class GoogleLoginController extends Controller
 {
     public function redirect()
     {
-        $redirectUrl = config('services.google.redirect');
-        if (!str_starts_with($redirectUrl, 'http')) {
-            $redirectUrl = url($redirectUrl);
+        try {
+            $redirectUrl = route('auth.google.callback');
+            return Socialite::driver('google')->redirectUrl($redirectUrl)->redirect();
+        } catch (\Exception $e) {
+            Log::error('Google login redirect failed', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            return redirect()->route('login')->withErrors(['email' => 'Gagal menghubungkan ke Google. Silakan coba lagi.']);
         }
-        return Socialite::driver('google')->redirectUrl($redirectUrl)->redirect();
     }
 
     public function callback()
     {
         try {
-            $redirectUrl = config('services.google.redirect');
-            if (!str_starts_with($redirectUrl, 'http')) {
-                $redirectUrl = url($redirectUrl);
-            }
+            $redirectUrl = route('auth.google.callback');
             $googleUser = Socialite::driver('google')->redirectUrl($redirectUrl)->user();
         } catch (\Exception $e) {
-            Log::error('Google login callback failed', ['error' => $e->getMessage()]);
+            Log::error('Google login callback failed', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
             return redirect()->route('login')->withErrors(['email' => 'Gagal masuk dengan Google. Silakan coba lagi.']);
         }
 

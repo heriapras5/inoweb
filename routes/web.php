@@ -42,7 +42,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Google Login
 Route::get('/auth/google', [GoogleLoginController::class, 'redirect'])->name('auth.google');
-Route::get('/auth/google/callback', [GoogleLoginController::class, 'callback']);
+Route::get('/auth/google/callback', [GoogleLoginController::class, 'callback'])->name('auth.google.callback');
 
 // Admin
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
