@@ -79,7 +79,7 @@
             </div>
 
             <!-- Right: iMac monitor with image slider -->
-            <div class="hidden lg:block relative py-10" data-aos="fade-left" data-aos-delay="200">
+            <div class="block lg:block relative py-10 lg:py-10" data-aos="fade-left" data-aos-delay="200">
                 <template x-if="slides.length">
                     <div>
                         <div class="imac-body">
@@ -129,37 +129,7 @@
     </div>
 </section>
 
-<!-- Layanan -->
-<section class="py-16 sm:py-24 bg-white" id="layanan">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-end justify-between mb-12" data-aos="fade-up">
-            <div>
-                <span class="inline-block text-blue-600 font-bold text-sm tracking-[2px] uppercase mb-3">LAYANAN KAMI</span>
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0f172a] leading-tight">Solusi Website Profesional<br>Untuk Berbagai Kebutuhan</h2>
-            </div>
-            <a href="{{ route('services') }}" class="hidden sm:inline-flex items-center gap-1.5 text-blue-600 font-semibold text-sm hover:underline">
-                Lihat Semua Layanan
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </a>
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            @foreach($services as $i => $service)
-            <div class="service-card" data-aos="fade-up" data-aos-delay="{{ $i * 80 }}">
-                <div class="service-icon">{!! $service->icon !!}</div>
-                <h5 class="text-lg font-bold text-[#0f172a] mb-2">{{ $service->title }}</h5>
-                <p class="text-sm text-[#64748b] leading-relaxed mb-4">{{ $service->description }}</p>
-                <a href="{{ route('services') }}" class="inline-flex items-center gap-1 text-blue-600 text-sm font-semibold hover:gap-2 transition-all">
-                    Selengkapnya
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                </a>
-            </div>
-            @endforeach
-        </div>
-        <div class="text-center mt-8 sm:hidden" data-aos="fade-up">
-            <a href="{{ route('services') }}" class="btn-outline-dark px-6 py-3 text-sm">Lihat Semua Layanan <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-        </div>
-    </div>
-</section>
+
 
 <!-- Portfolio -->
 <section class="py-16 sm:py-24 bg-gray-50" id="portofolio">
@@ -170,7 +140,7 @@
         </div>
 
         <!-- Filter tabs -->
-        <div class="flex flex-wrap justify-center gap-2 mb-10" data-aos="fade-up" data-aos-delay="100">
+        <div class="flex overflow-x-auto flex-nowrap lg:flex-wrap justify-start lg:justify-center gap-2 mb-10 pb-2 -mx-2 px-2 scrollbar-hide" data-aos="fade-up" data-aos-delay="100">
             <button class="filter-tab active" data-filter="all">Semua</button>
             @foreach($categories ?? [] as $cat)
             <button class="filter-tab" data-filter="{{ $cat->slug }}">{{ $cat->name }}</button>
@@ -186,7 +156,7 @@
                 </div>
                 <div class="p-5">
                     <h5 class="text-base font-bold text-[#0f172a] mb-2">{{ $project->name }}</h5>
-                    <p class="text-sm text-[#64748b] line-clamp-2 mb-4">{{ $project->description }}</p>
+                    <p class="text-sm text-[#64748b] line-clamp-2 mb-4">{!! strip_tags($project->description) !!}</p>
                     <a href="{{ route('portfolio.detail', $project->slug) }}" class="inline-flex items-center gap-1.5 text-blue-600 text-sm font-semibold hover:gap-2 transition-all">
                         Lihat Detail
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
@@ -279,8 +249,8 @@
         <div class="grid lg:grid-cols-2 gap-16 items-center">
             <div data-aos="fade-right">
                 <span class="inline-block text-blue-600 font-bold text-sm tracking-[2px] uppercase mb-3">TENTANG KAMI</span>
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0f172a] leading-tight mb-6">{!! nl2br(e($aboutSection->title)) !!}</h2>
-                <div class="text-[#475569] leading-relaxed space-y-4">{!! nl2br(e($aboutSection->description)) !!}</div>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0f172a] leading-tight mb-6">{!! $aboutSection->title !!}</h2>
+                <div class="text-[#475569] leading-relaxed space-y-4 prose-content">{!! $aboutSection->description !!}</div>
             </div>
             <div data-aos="fade-left">
                 @if($aboutSection->vision || $aboutSection->mission)
@@ -317,6 +287,32 @@
     </div>
 </section>
 @endif
+
+<!-- Layanan -->
+<section class="py-16 sm:py-24 bg-white" id="layanan">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12" data-aos="fade-up">
+            <span class="inline-block text-blue-600 font-bold text-sm tracking-[2px] uppercase mb-3">LAYANAN KAMI</span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0f172a] leading-tight">Solusi Website Profesional<br>Untuk Berbagai Kebutuhan</h2>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            @foreach($services as $i => $service)
+            <div class="service-card text-center" data-aos="fade-up" data-aos-delay="{{ $i * 80 }}">
+                <div class="service-icon mx-auto">{!! $service->icon !!}</div>
+                <h5 class="text-lg font-bold text-[#0f172a] mb-2">{{ $service->title }}</h5>
+                <p class="text-sm text-[#64748b] leading-relaxed mb-4">{{ $service->description }}</p>
+                <a href="{{ route('services') }}" class="inline-flex items-center gap-1 text-blue-600 text-sm font-semibold hover:gap-2 transition-all">
+                    Selengkapnya
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </a>
+            </div>
+            @endforeach
+        </div>
+        <div class="text-center mt-10" data-aos="fade-up">
+            <a href="{{ route('services') }}" class="btn-outline-dark px-6 py-3 text-base">Lihat Semua Layanan <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+        </div>
+    </div>
+</section>
 
 <!-- CTA -->
 <section class="bg-gradient-blue py-16 sm:py-20 relative overflow-hidden cta-section">
