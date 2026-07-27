@@ -50,7 +50,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                 </div>
                 <h3 class="text-xl font-bold text-[#1a1a2e] mb-4">Visi</h3>
-                <p class="text-[#475569] leading-relaxed">{!! nl2br(e($aboutSection->vision)) !!}</p>
+                <div class="text-[#475569] leading-relaxed prose-content">{!! $aboutSection->vision !!}</div>
             </div>
             @endif
             @if($aboutSection->mission && count($aboutSection->mission))

@@ -102,7 +102,7 @@
 <section class="py-10 sm:py-12 bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="rounded-2xl overflow-hidden shadow-lg" data-aos="fade-up">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3953.123456789!2d110.369!3d-7.801!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zN8KwNDgnMDMuNiJTIDExMMKwMjInMDguNCJF!5e0!3m2!1sid!2sid!4v1" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="h-[280px] sm:h-[400px]"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3963.921223689605!2d110.71746057402963!3d-6.531633363851354!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7123ec892f0a27%3A0x84a7ef5fcfe6c44e!2sJuneo%20Phone%20%7C%20Service%20HP!5e0!3m2!1sid!2sid!4v1785157977417!5m2!1sid!2sid" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" class="h-[280px] sm:h-[400px]"></iframe>
         </div>
     </div>
 </section>

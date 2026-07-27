@@ -291,7 +291,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                         </div>
                         <h3 class="text-lg font-bold text-[#0f172a] mb-3">Visi</h3>
-                        <p class="text-sm text-[#475569] leading-relaxed">{{ $aboutSection->vision }}</p>
+                        <div class="text-sm text-[#475569] leading-relaxed prose-content">{!! $aboutSection->vision !!}</div>
                     </div>
                     @endif
                     @if($aboutSection->mission && count($aboutSection->mission))
