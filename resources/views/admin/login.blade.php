@@ -11,7 +11,15 @@
         $logoImage = setting('logo_image');
         $logoSvg = setting('logo_icon');
         $siteTagline = setting('site_tagline', 'INOVASI WEBSITE');
+        $favicon = setting('favicon');
     @endphp
+    @if($favicon)
+    <link rel="icon" type="image/x-icon" href="{{ asset($favicon) }}">
+    <link rel="shortcut icon" href="{{ asset($favicon) }}">
+    <link rel="apple-touch-icon" href="{{ asset($favicon) }}">
+    @else
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='4' y='6' width='24' height='18' rx='3' fill='%232563eb'/><rect x='12' y='24' width='8' height='3' fill='%232563eb'/><rect x='14' y='27' width='4' height='3' fill='%232563eb'/></svg>">
+    @endif
     <style>
         body {
             background: linear-gradient(145deg, #060d24 0%, #0c1a3a 25%, #143264 50%, #1c4a8c 75%, #2563eb 100%);
@@ -89,7 +97,7 @@
     <div class="text-center mb-8 relative z-10">
         <div class="inline-flex items-center gap-3 bg-white/5 backdrop-blur-sm rounded-2xl px-5 py-3 shadow-lg shadow-black/20 mb-2">
             @if($logoImage)
-                <img src="{{ $logoImage }}" alt="{{ $siteName }}" class="h-12 drop-shadow-[0_0_12px_rgba(255,255,255,0.3)]">
+                <img src="{{ asset($logoImage) }}" alt="{{ $siteName }}" class="h-12 drop-shadow-[0_0_12px_rgba(255,255,255,0.3)]">
             @elseif($logoSvg)
                 <div class="w-12 h-12 flex items-center justify-center drop-shadow-[0_0_10px_rgba(255,255,255,0.4)]">{!! $logoSvg !!}</div>
             @else

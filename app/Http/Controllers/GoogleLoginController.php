@@ -11,13 +11,21 @@ class GoogleLoginController extends Controller
 {
     public function redirect()
     {
-        return Socialite::driver('google')->redirect();
+        $redirectUrl = config('services.google.redirect');
+        if (!str_starts_with($redirectUrl, 'http')) {
+            $redirectUrl = url($redirectUrl);
+        }
+        return Socialite::driver('google')->redirectUrl($redirectUrl)->redirect();
     }
 
     public function callback()
     {
         try {
-            $googleUser = Socialite::driver('google')->user();
+            $redirectUrl = config('services.google.redirect');
+            if (!str_starts_with($redirectUrl, 'http')) {
+                $redirectUrl = url($redirectUrl);
+            }
+            $googleUser = Socialite::driver('google')->redirectUrl($redirectUrl)->user();
         } catch (\Exception $e) {
             Log::error('Google login callback failed', ['error' => $e->getMessage()]);
             return redirect()->route('login')->withErrors(['email' => 'Gagal masuk dengan Google. Silakan coba lagi.']);

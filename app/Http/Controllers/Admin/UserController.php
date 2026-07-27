@@ -59,6 +59,9 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
+        if ($user->id === 1) {
+            return back()->with('error', 'Super admin tidak dapat dihapus.');
+        }
         if ($user->id === auth()->id()) {
             return back()->with('error', 'Tidak bisa menghapus akun sendiri.');
         }

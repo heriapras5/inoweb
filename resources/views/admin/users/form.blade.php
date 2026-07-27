@@ -37,9 +37,12 @@
                 </div>
             </div>
             <div class="flex items-center gap-2 text-sm text-[#1a1a2e]">
-                <input type="checkbox" name="is_admin" value="1" {{ old('is_admin', $user->is_admin) ? 'checked' : '' }} class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-                <label>Akses Admin</label>
+                <input type="checkbox" name="is_admin" value="1" {{ old('is_admin', $user->is_admin) ? 'checked' : '' }} {{ $user->id === 1 ? 'disabled' : '' }} class="rounded border-gray-300 text-blue-600 focus:ring-blue-500 {{ $user->id === 1 ? 'opacity-60 cursor-not-allowed' : '' }}">
+                <label>{{ $user->id === 1 ? 'Akses Admin (Super Admin - tidak dapat diubah)' : 'Akses Admin' }}</label>
             </div>
+            @if($user->id === 1)
+            <input type="hidden" name="is_admin" value="1">
+            @endif
             <div class="flex gap-3 pt-2">
                 <button type="submit" class="bg-gradient-to-r from-[#0a192f] to-[#1a365d] text-white px-6 py-2.5 rounded-xl text-sm font-medium hover:from-[#0f2a4a] hover:to-[#1e4978] shadow-md hover:shadow-lg transition-all">{{ $user->exists ? 'Simpan Perubahan' : 'Simpan' }}</button>
                 <a href="{{ route('admin.users.index') }}" class="px-6 py-2.5 rounded-xl text-sm border border-gray-200 hover:border-gray-300 hover:bg-gray-50 shadow-sm transition-all">Batal</a>
