@@ -27,7 +27,7 @@ class GoogleLoginController extends Controller
     {
         try {
             $redirectUrl = route('auth.google.callback');
-            $googleUser = Socialite::driver('google')->redirectUrl($redirectUrl)->user();
+            $googleUser = Socialite::driver('google')->redirectUrl($redirectUrl)->stateless()->user();
         } catch (\Exception $e) {
             Log::error('Google login callback failed', [
                 'error' => $e->getMessage(),
