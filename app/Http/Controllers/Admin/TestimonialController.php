@@ -8,9 +8,11 @@ use Illuminate\Http\Request;
 
 class TestimonialController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $testimonials = Testimonial::orderBy('sort_order')->get();
+        $search = $request->get('search');
+        $testimonials = Testimonial::when($search, fn($q) => $q->where('name', 'like', "%{$search}%"))
+            ->orderBy('sort_order')->paginate(10);
         return view('admin.testimonials.index', compact('testimonials'));
     }
 

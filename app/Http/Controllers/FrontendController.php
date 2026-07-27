@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HeroSection;
+use App\Models\AboutSection;
 use App\Services\Frontend\FrontendService;
 use Illuminate\Http\Request;
 
@@ -13,10 +15,13 @@ class FrontendController extends Controller
 
     public function home()
     {
-        $projects = $this->frontendService->getFeaturedProjects(6);
+        $heroSections = HeroSection::where('is_active', true)->orderBy('sort_order')->get();
+        $aboutSection = AboutSection::where('is_active', true)->first();
+        $projects = $this->frontendService->getProjects(6);
+        $categories = $this->frontendService->getProjectCategories();
         $services = $this->frontendService->getServices();
-        $testimonials = $this->frontendService->getTestimonials();
-        return view('frontend.home', compact('projects', 'services', 'testimonials'));
+        $faqs = $this->frontendService->getFaqs();
+        return view('frontend.home', compact('heroSections', 'aboutSection', 'projects', 'services', 'faqs', 'categories'));
     }
 
     public function portfolio()
@@ -32,8 +37,7 @@ class FrontendController extends Controller
         if (!$project) {
             abort(404);
         }
-        $relatedProjects = $this->frontendService->getRelatedProjects($project->id, $project->category_id, 3);
-        return view('frontend.detail-project', compact('project', 'relatedProjects'));
+        return view('frontend.detail-project', compact('project'));
     }
 
     public function services()
@@ -44,7 +48,8 @@ class FrontendController extends Controller
 
     public function about()
     {
-        return view('frontend.about');
+        $aboutSection = AboutSection::where('is_active', true)->first() ?? new AboutSection();
+        return view('frontend.about', compact('aboutSection'));
     }
 
     public function faq()

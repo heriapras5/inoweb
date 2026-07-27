@@ -12,8 +12,8 @@ class Project extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'category_id', 'name', 'slug', 'url', 'client', 'year', 'duration',
-        'description', 'about', 'result_text', 'stats', 'budget', 'is_featured', 'status',
+        'category_id', 'name', 'slug', 'description',
+        'sort_order', 'is_featured', 'status',
     ];
 
     protected function casts(): array
@@ -45,6 +45,11 @@ class Project extends Model
     public function images(): HasMany
     {
         return $this->hasMany(ProjectImage::class);
+    }
+
+    public function coverImage(): ?ProjectImage
+    {
+        return $this->images->firstWhere('type', 'cover') ?? $this->images->first();
     }
 
     public function features(): HasMany

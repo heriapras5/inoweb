@@ -8,9 +8,13 @@ use Illuminate\Http\Request;
 
 class MessageController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $messages = Message::orderBy('created_at', 'desc')->get();
+        $search = $request->get('search');
+        $messages = Message::when($search, fn($q) => $q->where('name', 'like', "%{$search}%")
+                ->orWhere('email', 'like', "%{$search}%")
+                ->orWhere('subject', 'like', "%{$search}%"))
+            ->orderBy('created_at', 'desc')->paginate(15);
         return view('admin.messages.index', compact('messages'));
     }
 

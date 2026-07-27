@@ -23,7 +23,7 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             if (Auth::user()->is_admin) {
-                return redirect()->intended('/admin');
+                return redirect()->intended(route('admin.dashboard'));
             }
 
             Auth::logout();
@@ -38,6 +38,6 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/');
+        return redirect()->route('login')->with('success', 'Anda berhasil logout.');
     }
 }

@@ -5,11 +5,13 @@ use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\Admin\ProjectCategoryController;
 use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\Admin\MessageController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\HeroSectionController;
 use App\Http\Controllers\AuthController;
 
 // Public
@@ -27,15 +29,23 @@ Route::post('/kontak/kirim', [FrontendController::class, 'sendMessage'])->name('
 Route::post('/newsletter', [FrontendController::class, 'subscribeNewsletter'])->name('newsletter.subscribe');
 
 // Auth
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
+Route::get('/admin', function () {
+    if (auth()->check()) {
+        return redirect()->route('admin.dashboard');
+    }
+    return view('admin.login');
+})->name('login');
+
+Route::post('/admin', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Admin
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
-    Route::resource('services', ServiceController::class);
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::resource('hero-sections', HeroSectionController::class);
+    Route::resource('project-categories', ProjectCategoryController::class);
     Route::resource('projects', ProjectController::class);
+    Route::resource('services', ServiceController::class);
     Route::resource('faqs', FaqController::class);
     Route::resource('testimonials', TestimonialController::class);
     Route::resource('messages', MessageController::class)->except(['create', 'store', 'edit', 'update']);

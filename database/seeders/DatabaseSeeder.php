@@ -9,11 +9,14 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        User::create([
-            'name' => 'Admin INOWEB',
-            'email' => 'admin@inoweb.id',
-            'password' => bcrypt('password'),
-        ]);
+        User::firstOrCreate(
+            ['email' => 'superadmin@inoweb.my.id'],
+            [
+                'name' => 'Super Admin',
+                'password' => bcrypt('admin123'),
+                'is_admin' => true,
+            ]
+        );
 
         $this->call([
             SettingsSeeder::class,

@@ -8,9 +8,11 @@ use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $services = Service::orderBy('sort_order')->get();
+        $search = $request->get('search');
+        $services = Service::when($search, fn($q) => $q->where('title', 'like', "%{$search}%"))
+            ->orderBy('sort_order')->paginate(10);
         return view('admin.services.index', compact('services'));
     }
 

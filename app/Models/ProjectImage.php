@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ProjectImage extends Model
 {
-    protected $fillable = ['project_id', 'image', 'type', 'sort_order'];
+    protected $fillable = ['project_id', 'image', 'caption', 'type', 'sort_order'];
 
     public function project(): BelongsTo
     {

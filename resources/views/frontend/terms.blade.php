@@ -4,13 +4,8 @@
 @section('meta_description', 'Syarat dan ketentuan penggunaan layanan jasa pembuatan website dari INOWEB.')
 
 @section('content')
-<section class="bg-gradient-hero pt-32 sm:pt-40 pb-16 sm:pb-20 relative overflow-hidden">
-    <div class="absolute inset-0 pointer-events-none opacity-50">
-        <div class="absolute w-px h-3/5 top-1/5 left-1/5 bg-blue-600/10"></div>
-        <div class="absolute w-px h-2/5 top-1/3 right-1/4 bg-blue-600/10"></div>
-        <div class="absolute w-1.5 h-1.5 bg-blue-600/50 rounded-full top-1/4 left-[18%]"></div>
-        <div class="absolute w-1.5 h-1.5 bg-blue-600/50 rounded-full top-[45%] right-[23%]"></div>
-    </div>
+<section class="bg-gradient-hero pt-20 sm:pt-32 pb-16 sm:pb-20 relative overflow-hidden">
+    <x-hero-bg />
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <nav class="flex mb-6 text-sm" data-aos="fade-up">
             <ol class="flex items-center gap-2">
@@ -81,6 +76,22 @@
             <div>
                 <h2 class="text-2xl font-bold text-[#1a1a2e] mb-4">10. Perubahan Ketentuan</h2>
                 <p>INOWEB berhak mengubah syarat dan ketentuan ini sewaktu-waktu. Perubahan akan diinformasikan melalui halaman ini.</p>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- CTA -->
+<section class="bg-gradient-blue py-16 sm:py-20 relative overflow-hidden cta-section">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid lg:grid-cols-2 gap-8 items-center" data-aos="zoom-in">
+            <div data-aos="fade-right" data-aos-delay="200">
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white leading-tight mb-4">Siap Membangun Website Profesional untuk Bisnis Anda?</h2>
+                <p class="text-white/70 text-base leading-relaxed">Konsultasikan kebutuhan Anda sekarang juga dan dapatkan solusi terbaik dari tim profesional INOWEB.</p>
+            </div>
+            <div class="sm:text-right" data-aos="fade-left" data-aos-delay="400">
+                <a href="https://wa.me/{{ setting('whatsapp_number', '6281234567890') }}?text=Halo,%20saya%20ingin%20bertanya%20tentang%20layanan%20INOWEB" target="_blank" class="flex sm:inline-flex items-center justify-center gap-2 bg-white text-blue-600 px-8 py-4 rounded-full font-semibold text-base no-underline hover:bg-gray-100 transition-all hover:-translate-y-0.5 hover:shadow-lg">
+                    Hubungi via WhatsApp
+                </a>
             </div>
         </div>
     </div>
