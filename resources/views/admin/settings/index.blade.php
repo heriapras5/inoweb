@@ -45,6 +45,11 @@
                     <label class="block text-sm font-medium text-[#475569] mb-1.5">Email Footer</label>
                     <input type="email" name="footer_email" value="{{ old('footer_email', $settings['footer_email'] ?? '') }}" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow" placeholder="email@example.com">
                 </div>
+                <div>
+                    <label class="block text-sm font-medium text-[#475569] mb-1.5">Google Maps Embed</label>
+                    <textarea name="maps_embed" rows="3" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm font-mono text-xs focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow" placeholder="&lt;iframe src=&quot;https://www.google.com/maps/embed?pb=...&quot;&gt;&lt;/iframe&gt;">{{ old('maps_embed', $settings['maps_embed'] ?? '') }}</textarea>
+                    <p class="text-xs text-[#94a3b8] mt-1.5">Kode embed iframe Google Maps. Kosongkan untuk tidak menampilkan peta.</p>
+                </div>
             </div>
         </div>
 
@@ -109,10 +114,10 @@
             </div>
         </div>
 
-        {{-- Tentang Kami --}}
+        {{-- Tentang --}}
         <div class="bg-white rounded-2xl border border-gray-200/80 shadow-sm">
             <div class="px-8 py-5 border-b border-gray-100">
-                <h2 class="text-lg font-bold text-[#1e293b]">Section Tentang Kami</h2>
+                <h2 class="text-lg font-bold text-[#1e293b]">Section Tentang</h2>
                 <p class="text-sm text-[#64748b] mt-0.5">Konten halaman tentang kami.</p>
             </div>
             <div class="p-8 space-y-4">

@@ -221,6 +221,40 @@
 </section>
 @endif
 
+{{-- Pagination --}}
+<section class="py-10 sm:py-14 bg-white border-t border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between gap-4" data-aos="fade-up">
+            @if($prevProject)
+            <a href="{{ route('portfolio.detail', $prevProject->slug) }}" class="group flex items-center gap-3 text-left no-underline max-w-[45%]">
+                <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-[#64748b] group-hover:bg-blue-600 group-hover:text-white transition-all shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                </div>
+                <div class="min-w-0">
+                    <span class="text-[11px] text-[#94a3b8] font-semibold uppercase tracking-wider">Sebelumnya</span>
+                    <p class="text-sm font-bold text-[#1e293b] truncate group-hover:text-blue-600 transition-colors">{{ $prevProject->name }}</p>
+                </div>
+            </a>
+            @else
+            <div></div>
+            @endif
+            @if($nextProject)
+            <a href="{{ route('portfolio.detail', $nextProject->slug) }}" class="group flex items-center gap-3 text-right no-underline max-w-[45%]">
+                <div class="min-w-0">
+                    <span class="text-[11px] text-[#94a3b8] font-semibold uppercase tracking-wider">Selanjutnya</span>
+                    <p class="text-sm font-bold text-[#1e293b] truncate group-hover:text-blue-600 transition-colors">{{ $nextProject->name }}</p>
+                </div>
+                <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-[#64748b] group-hover:bg-blue-600 group-hover:text-white transition-all shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                </div>
+            </a>
+            @else
+            <div></div>
+            @endif
+        </div>
+    </div>
+</section>
+
 {{-- CTA --}}
 <section class="py-16 sm:py-20 relative">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

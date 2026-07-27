@@ -1,6 +1,6 @@
 @extends('layouts.frontend')
 
-@section('title', 'Tentang Kami - INOWEB')
+@section('title', 'Tentang - INOWEB')
 @section('meta_description', 'Kenali lebih dekat INOWEB, pusat layanan pembuatan website profesional yang membantu bisnis Anda go digital.')
 
 @section('content')
@@ -11,10 +11,10 @@
             <ol class="flex items-center gap-2">
                 <li><a href="{{ url('/') }}" class="text-white/60 no-underline hover:text-white transition-colors">Beranda</a></li>
                 <li class="text-white/40">/</li>
-                <li class="text-blue-400 font-medium">Tentang Kami</li>
+                <li class="text-blue-400 font-medium">Tentang</li>
             </ol>
         </nav>
-        <h1 class="text-4xl sm:text-5xl font-extrabold text-white mb-4" data-aos="fade-up" data-aos-delay="100">Tentang <span class="text-gradient">INOWEB</span></h1>
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-white mb-4" data-aos="fade-up" data-aos-delay="100">Tentang <span class="text-gradient">Kami</span></h1>
         <p class="text-[#8892b0] text-lg max-w-xl" data-aos="fade-up" data-aos-delay="200">{{ $aboutSection->subtitle ?: 'Kenali lebih dekat siapa kami dan apa yang kami lakukan untuk membantu bisnis Anda.' }}</p>
     </div>
 </section>

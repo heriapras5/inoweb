@@ -37,7 +37,9 @@ class FrontendController extends Controller
         if (!$project) {
             abort(404);
         }
-        return view('frontend.detail-project', compact('project'));
+        $prevProject = $this->frontendService->getPrevProject($project->id);
+        $nextProject = $this->frontendService->getNextProject($project->id);
+        return view('frontend.detail-project', compact('project', 'prevProject', 'nextProject'));
     }
 
     public function services()

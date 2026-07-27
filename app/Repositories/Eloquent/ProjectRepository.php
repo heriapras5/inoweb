@@ -52,4 +52,32 @@ class ProjectRepository extends BaseRepository implements ProjectRepositoryInter
             ->where('status', true)
             ->get();
     }
+
+    public function getPrevProject(int $currentId): ?Model
+    {
+        $ids = $this->model->where('status', true)
+            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'desc')
+            ->pluck('id')
+            ->toArray();
+        $index = array_search($currentId, $ids);
+        if ($index === false || $index >= count($ids) - 1) {
+            return null;
+        }
+        return $this->model->with(['images', 'category'])->find($ids[$index + 1]);
+    }
+
+    public function getNextProject(int $currentId): ?Model
+    {
+        $ids = $this->model->where('status', true)
+            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'desc')
+            ->pluck('id')
+            ->toArray();
+        $index = array_search($currentId, $ids);
+        if ($index === false || $index <= 0) {
+            return null;
+        }
+        return $this->model->with(['images', 'category'])->find($ids[$index - 1]);
+    }
 }

@@ -48,7 +48,7 @@
                     <li><a href="{{ url('/') }}">Beranda</a></li>
                     <li><a href="{{ route('services') }}">Layanan</a></li>
                     <li><a href="{{ route('portfolio') }}">Projek</a></li>
-                    <li><a href="{{ route('about') }}">Tentang Kami</a></li>
+                    <li><a href="{{ route('about') }}">Tentang</a></li>
                     <li><a href="{{ route('faq') }}">FAQ</a></li>
                     <li><a href="{{ route('contact') }}">Kontak</a></li>
                 </ul>

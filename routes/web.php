@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\HeroSectionController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\GoogleLoginController;
 
 // Public
 Route::get('/', [FrontendController::class, 'home'])->name('home');
@@ -38,6 +39,10 @@ Route::get('/admin', function () {
 
 Route::post('/admin', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// Google Login
+Route::get('/auth/google', [GoogleLoginController::class, 'redirect'])->name('auth.google');
+Route::get('/auth/google/callback', [GoogleLoginController::class, 'callback']);
 
 // Admin
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {

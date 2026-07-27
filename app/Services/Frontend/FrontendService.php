@@ -10,6 +10,7 @@ use App\Repositories\Contracts\CategoryRepositoryInterface;
 use App\Repositories\Contracts\MessageRepositoryInterface;
 use App\Repositories\Contracts\NewsletterRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class FrontendService
@@ -41,6 +42,16 @@ class FrontendService
     public function getRelatedProjects(int $projectId, int $categoryId, int $limit = 3): Collection
     {
         return $this->projectRepo->getRelated($projectId, $categoryId, $limit);
+    }
+
+    public function getPrevProject(int $currentId): ?Model
+    {
+        return $this->projectRepo->getPrevProject($currentId);
+    }
+
+    public function getNextProject(int $currentId): ?Model
+    {
+        return $this->projectRepo->getNextProject($currentId);
     }
 
     public function getProjectCategories(): Collection

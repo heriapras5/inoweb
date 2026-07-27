@@ -88,21 +88,21 @@
                 <div class="p-5">
                     <h5 class="text-sm font-bold text-[#1a1a2e] mb-1.5">{{ $project->name }}</h5>
                     <p class="text-xs text-[#64748b] line-clamp-2 leading-relaxed mb-3">{!! strip_tags($project->description) !!}</p>
-                    <a href="{{ route('portfolio.detail', $project->slug) }}" @click.stop class="inline-flex items-center gap-1.5 text-blue-600 text-xs font-semibold no-underline hover:text-blue-700 transition-colors">
-                        Lihat Detail
-                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                    </a>
+                    <div class="flex items-center gap-2">
+                        <a href="{{ route('portfolio.detail', $project->slug) }}" @click.stop class="inline-flex items-center gap-1.5 text-blue-600 text-xs font-semibold no-underline hover:text-blue-700 transition-colors">
+                            Lihat Detail
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                        </a>
+                        <a href="{{ $project->url ?: '#' }}" target="_blank" @click.stop class="inline-flex items-center gap-1.5 text-emerald-600 text-xs font-semibold no-underline hover:text-emerald-700 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                            Demo
+                        </a>
+                    </div>
                 </div>
             </div>
             @endforeach
         </div>
 
-        <div class="flex justify-center mt-12" data-aos="fade-up">
-            <a href="#" class="inline-flex items-center gap-2 border-2 border-blue-600 text-blue-600 px-8 py-3 rounded-full text-sm font-semibold no-underline hover:bg-blue-600 hover:text-white transition-all">
-                Lihat Semua Projek
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </a>
-        </div>
     </div>
 </section>
 
