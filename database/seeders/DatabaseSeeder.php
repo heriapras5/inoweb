@@ -24,7 +24,6 @@ class DatabaseSeeder extends Seeder
             ServiceSeeder::class,
             FaqSeeder::class,
             TestimonialSeeder::class,
-            ProjectSeeder::class,
         ]);
     }
 }
