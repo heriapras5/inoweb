@@ -90,7 +90,7 @@
                     </div>
                 </div>
                 <div class="mt-8 flex flex-col sm:flex-row gap-3">
-                    <a href="https://wa.me/{{ setting('whatsapp_number', '6281234567890') }}" target="_blank" class="btn-primary bg-blue-600 hover:bg-blue-700 px-6 py-4 text-base justify-center flex sm:inline-flex items-center gap-2">
+                    <a href="https://wa.me/{{ setting('whatsapp_number', '6283114445775') }}" target="_blank" class="btn-primary bg-blue-600 hover:bg-blue-700 px-6 py-4 text-base justify-center flex sm:inline-flex items-center gap-2">
                         Chat via WhatsApp
                     </a>
                 </div>

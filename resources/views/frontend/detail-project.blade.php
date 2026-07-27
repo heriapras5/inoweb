@@ -34,7 +34,7 @@
                     {{ $first }} <span class="text-gradient">{{ $last }}</span>
                 </h1>
                 <div class="flex flex-wrap gap-3">
-                    <a href="https://wa.me/{{ setting('whatsapp_number', '6281234567890') }}?text=Halo,%20saya%20tertarik%20dengan%20proyek%20{{ urlencode($project->name) }}" target="_blank" class="btn-primary px-6 py-3 text-base inline-flex items-center gap-2">
+                    <a href="https://wa.me/{{ setting('whatsapp_number', '6283114445775') }}?text=Halo,%20saya%20tertarik%20dengan%20proyek%20{{ urlencode($project->name) }}" target="_blank" class="btn-primary px-6 py-3 text-base inline-flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                         Hubungi via WhatsApp
                     </a>
@@ -197,7 +197,7 @@
             <div class="w-12 h-1 bg-blue-600 mx-auto mt-3 rounded-full"></div>
             <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1a1a2e] mt-4">Tampilan {{ $project->name }}</h2>
         </div>
-        <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-6" data-aos="fade-up" data-aos-delay="100">
+        <div class="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-6" data-aos="fade-up" data-aos-delay="100">
             @foreach($_galleryImages as $i => $img)
             <a href="{{ asset($img->image) }}" data-fancybox="gallery-{{ $project->id }}"
                data-caption="{{ $img->caption ?? 'Tampilan ' . $project->name }}"
@@ -233,7 +233,7 @@
                 <p class="text-white/70 mt-2 max-w-xl">Kami siap membantu mewujudkan website profesional yang sesuai dengan kebutuhan bisnis Anda.</p>
             </div>
             <div class="shrink-0 flex flex-col items-center gap-2">
-                <a href="https://wa.me/{{ setting('whatsapp_number', '6281234567890') }}?text=Halo,%20saya%20tertarik%20dengan%20pembuatan%20website" target="_blank" class="inline-flex items-center gap-2 bg-white text-blue-600 px-8 py-3.5 rounded-full text-base font-semibold hover:bg-gray-100 hover:-translate-y-0.5 transition-all shadow-lg hover:shadow-xl">
+                <a href="https://wa.me/{{ setting('whatsapp_number', '6283114445775') }}?text=Halo,%20saya%20tertarik%20dengan%20pembuatan%20website" target="_blank" class="inline-flex items-center gap-2 bg-white text-blue-600 px-8 py-3.5 rounded-full text-base font-semibold hover:bg-gray-100 hover:-translate-y-0.5 transition-all shadow-lg hover:shadow-xl">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                     Konsultasi Gratis
                 </a>

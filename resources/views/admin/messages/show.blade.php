@@ -47,7 +47,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                     Balas Email
                 </a>
-                <a href="https://wa.me/{{ $message->phone ?: setting('whatsapp_number', '6281234567890') }}" target="_blank" class="border border-gray-200 text-[#1a1a2e] px-5 py-2.5 rounded-xl text-sm font-medium hover:border-gray-300 hover:bg-gray-50 shadow-sm transition-all inline-flex items-center gap-2">
+                <a href="https://wa.me/{{ $message->phone ?: setting('whatsapp_number', '6283114445775') }}" target="_blank" class="border border-gray-200 text-[#1a1a2e] px-5 py-2.5 rounded-xl text-sm font-medium hover:border-gray-300 hover:bg-gray-50 shadow-sm transition-all inline-flex items-center gap-2">
                     Chat WhatsApp
                 </a>
                 <a href="{{ route('admin.messages.index') }}" class="px-5 py-2.5 rounded-xl text-sm border border-gray-200 hover:border-gray-300 hover:bg-gray-50 shadow-sm transition-all">Kembali</a>

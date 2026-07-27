@@ -34,7 +34,7 @@
 
     <x-footer />
 
-    <a href="https://wa.me/{{ setting('whatsapp_number', '6281234567890') }}" target="_blank"
+    <a href="https://wa.me/{{ setting('whatsapp_number', '6283114445775') }}" target="_blank"
        class="fixed bottom-6 right-6 w-auto h-auto rounded-full flex items-center justify-center shadow-[0_4px_20px_rgba(0,0,0,0.15)] z-50 transition-all duration-300 hover:scale-110 hover:shadow-[0_6px_30px_rgba(0,0,0,0.25)]" aria-label="Chat via WhatsApp">
         <img src="/images/wa.png" alt="WhatsApp" width="56" height="56" class="block">
     </a>

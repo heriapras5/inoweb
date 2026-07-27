@@ -4,7 +4,7 @@
 <!-- Hero -->
 <section class="relative overflow-hidden pt-24 sm:pt-32 pb-16 sm:pb-20 lg:min-h-screen lg:flex lg:items-center" style="background: linear-gradient(180deg, #0a192f 0%, #0f2744 50%, #0a192f 100%);">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full">
-        @php $waNum = setting('whatsapp_number', '6281234567890'); @endphp
+        @php $waNum = setting('whatsapp_number', '6283114445775'); @endphp
         <div class="grid lg:grid-cols-2 gap-12 items-center"
              x-data="{
                  active: 0,

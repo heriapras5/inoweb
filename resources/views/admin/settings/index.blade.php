@@ -34,8 +34,16 @@
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-[#475569] mb-1.5">Nomor WhatsApp</label>
-                    <input type="text" name="whatsapp_number" value="{{ old('whatsapp_number', $settings['whatsapp_number'] ?? '6281234567890') }}" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow" placeholder="6281234567890">
+                    <input type="text" name="whatsapp_number" value="{{ old('whatsapp_number', $settings['whatsapp_number'] ?? '6283114445775') }}" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow" placeholder="6283114445775">
                     <p class="text-xs text-[#94a3b8] mt-1.5">Format: kode negara + nomor, tanpa + atau spasi.</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-[#475569] mb-1.5">Alamat Footer</label>
+                    <textarea name="footer_address" rows="2" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow" placeholder="Jl. Contoh No. 123, Kota">{{ old('footer_address', $settings['footer_address'] ?? '') }}</textarea>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-[#475569] mb-1.5">Email Footer</label>
+                    <input type="email" name="footer_email" value="{{ old('footer_email', $settings['footer_email'] ?? '') }}" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow" placeholder="email@example.com">
                 </div>
             </div>
         </div>

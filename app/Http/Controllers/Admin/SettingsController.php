@@ -11,7 +11,7 @@ class SettingsController extends Controller
 {
     public function index()
     {
-        $keys = ['site_name', 'site_tagline', 'site_description', 'logo_icon', 'logo_image', 'favicon', 'whatsapp_number'];
+        $keys = ['site_name', 'site_tagline', 'site_description', 'logo_icon', 'logo_image', 'favicon', 'whatsapp_number', 'footer_address', 'footer_email'];
         $settings = [];
         foreach ($keys as $key) {
             $settings[$key] = Setting::where('key', $key)->value('value');
@@ -30,6 +30,8 @@ class SettingsController extends Controller
             'logo_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'favicon' => 'nullable|image|mimes:jpeg,png,jpg,ico,webp|max:1024',
             'whatsapp_number' => 'nullable|string|max:20',
+            'footer_address' => 'nullable|string|max:500',
+            'footer_email' => 'nullable|email|max:255',
             'about_title' => 'nullable|string|max:255',
             'about_subtitle' => 'nullable|string|max:255',
             'about_description' => 'nullable|string',
@@ -41,7 +43,7 @@ class SettingsController extends Controller
             'remove_about_image' => 'nullable|boolean',
         ]);
 
-        foreach (['site_name', 'site_tagline', 'site_description', 'logo_icon', 'whatsapp_number'] as $key) {
+        foreach (['site_name', 'site_tagline', 'site_description', 'logo_icon', 'whatsapp_number', 'footer_address', 'footer_email'] as $key) {
             Setting::updateOrCreate(
                 ['key' => $key],
                 ['value' => $data[$key] ?? '', 'group' => 'general', 'type' => 'text']

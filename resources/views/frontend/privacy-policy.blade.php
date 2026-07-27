@@ -94,7 +94,7 @@
                 <p class="text-white/70 text-base leading-relaxed">Konsultasikan kebutuhan Anda sekarang juga dan dapatkan solusi terbaik dari tim profesional INOWEB.</p>
             </div>
             <div class="sm:text-right" data-aos="fade-left" data-aos-delay="400">
-                <a href="https://wa.me/{{ setting('whatsapp_number', '6281234567890') }}?text=Halo,%20saya%20ingin%20bertanya%20tentang%20layanan%20INOWEB" target="_blank" class="flex sm:inline-flex items-center justify-center gap-2 bg-white text-blue-600 px-8 py-4 rounded-full font-semibold text-base no-underline hover:bg-gray-100 transition-all hover:-translate-y-0.5 hover:shadow-lg">
+                <a href="https://wa.me/{{ setting('whatsapp_number', '6283114445775') }}?text=Halo,%20saya%20ingin%20bertanya%20tentang%20layanan%20INOWEB" target="_blank" class="flex sm:inline-flex items-center justify-center gap-2 bg-white text-blue-600 px-8 py-4 rounded-full font-semibold text-base no-underline hover:bg-gray-100 transition-all hover:-translate-y-0.5 hover:shadow-lg">
                     Hubungi via WhatsApp
                 </a>
             </div>

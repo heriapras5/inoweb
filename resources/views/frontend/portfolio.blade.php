@@ -87,7 +87,7 @@
                 </div>
                 <div class="p-5">
                     <h5 class="text-sm font-bold text-[#1a1a2e] mb-1.5">{{ $project->name }}</h5>
-                    <p class="text-xs text-[#64748b] line-clamp-2 leading-relaxed mb-3">{{ $project->description }}</p>
+                    <p class="text-xs text-[#64748b] line-clamp-2 leading-relaxed mb-3">{!! strip_tags($project->description) !!}</p>
                     <a href="{{ route('portfolio.detail', $project->slug) }}" @click.stop class="inline-flex items-center gap-1.5 text-blue-600 text-xs font-semibold no-underline hover:text-blue-700 transition-colors">
                         Lihat Detail
                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
@@ -118,7 +118,7 @@
                 <p class="text-white/70 text-base mt-2 max-w-xl">Kami siap membantu mewujudkan website profesional yang sesuai dengan kebutuhan bisnis Anda.</p>
             </div>
             <div class="shrink-0 flex flex-col items-center gap-2">
-                <a href="https://wa.me/{{ setting('whatsapp_number', '6281234567890') }}?text=Halo,%20saya%20tertarik%20dengan%20layanan%20INOWEB" target="_blank" class="inline-flex items-center justify-center bg-white text-blue-600 px-8 py-3.5 rounded-full font-semibold text-base no-underline hover:bg-gray-100 transition-all hover:-translate-y-0.5 hover:shadow-lg">
+                <a href="https://wa.me/{{ setting('whatsapp_number', '6283114445775') }}?text=Halo,%20saya%20tertarik%20dengan%20layanan%20INOWEB" target="_blank" class="inline-flex items-center justify-center bg-white text-blue-600 px-8 py-3.5 rounded-full font-semibold text-base no-underline hover:bg-gray-100 transition-all hover:-translate-y-0.5 hover:shadow-lg">
                     Konsultasi Gratis via WhatsApp
                 </a>
                 <span class="text-xs text-white/50">Gratis konsultasi &bull; Respon cepat &bull; Tanpa komitmen</span>
