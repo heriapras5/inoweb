@@ -303,19 +303,12 @@
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($services as $i => $service)
-            <div class="service-card text-center" data-aos="fade-up" data-aos-delay="{{ $i * 80 }}">
-                <div class="service-icon mx-auto">{!! $service->icon !!}</div>
-                <h5 class="text-lg font-bold text-[#0f172a] mb-2">{{ $service->title }}</h5>
-                <p class="text-sm text-[#64748b] leading-relaxed mb-4">{{ $service->description }}</p>
-                <a href="{{ route('services') }}" class="inline-flex items-center gap-1 text-blue-600 text-sm font-semibold hover:gap-2 transition-all">
-                    Selengkapnya
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                </a>
+            <div class="service-card text-left sm:text-center" data-aos="fade-up" data-aos-delay="{{ $i * 80 }}">
+                <div class="service-icon sm:mx-auto">{!! $service->icon !!}</div>
+                <h5 class="text-base sm:text-lg font-bold text-[#0f172a] mb-1.5 sm:mb-2">{{ $service->title }}</h5>
+                <p class="text-xs sm:text-sm text-[#64748b] leading-relaxed">{{ $service->description }}</p>
             </div>
             @endforeach
-        </div>
-        <div class="text-center mt-10" data-aos="fade-up">
-            <a href="{{ route('services') }}" class="btn-outline-dark px-6 py-3 text-base">Lihat Semua Layanan <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
         </div>
     </div>
 </section>
@@ -373,7 +366,7 @@
                 <p class="text-[#64748b] text-base leading-relaxed lg:text-right mb-0">Kami memiliki proses kerja yang jelas untuk memastikan hasil terbaik sesuai kebutuhan Anda.</p>
             </div>
         </div>
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
+        <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             <div class="process-card text-center" data-aos="fade-up">
                 <div class="process-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
                 <h5 class="text-base font-bold text-[#0f172a] mb-2">Konsultasi</h5>
@@ -393,11 +386,6 @@
                 <div class="process-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="10" ry="5"/><path d="M2 17v5M2 12v5M22 17v5M22 12v5M12 22v-4"/></svg></div>
                 <h5 class="text-base font-bold text-[#0f172a] mb-2">Testing & Revisi</h5>
                 <p class="text-sm text-[#64748b] leading-relaxed">Uji coba untuk memastikan semua berjalan sempurna.</p>
-            </div>
-            <div class="process-card text-center" data-aos="fade-up" data-aos-delay="400">
-                <div class="process-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16h16"/><polyline points="20 10 12 18 8 14"/></svg></div>
-                <h5 class="text-base font-bold text-[#0f172a] mb-2">Launch & Support</h5>
-                <p class="text-sm text-[#64748b] leading-relaxed">Website siap digunakan dan kami siap mendukung Anda.</p>
             </div>
         </div>
     </div>
