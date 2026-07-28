@@ -74,16 +74,16 @@
     @stack('styles')
 </head>
 <body x-data="{
-    sidebarOpen: false,
+    sidebarOpen: window.innerWidth >= 1024,
     showDeleteModal: false,
     deleteTarget: '',
-    notif: {{ 
-        session('success') ? json_encode(['msg' => session('success'), 'type' => 'success']) 
-        : (session('error') ? json_encode(['msg' => session('error'), 'type' => 'error']) 
-        : (session('warning') ? json_encode(['msg' => session('warning'), 'type' => 'warning']) 
-        : (session('info') ? json_encode(['msg' => session('info'), 'type' => 'info']) 
+    notif: {!! json_encode(
+        session('success') ? ['msg' => session('success'), 'type' => 'success'] 
+        : (session('error') ? ['msg' => session('error'), 'type' => 'error'] 
+        : (session('warning') ? ['msg' => session('warning'), 'type' => 'warning'] 
+        : (session('info') ? ['msg' => session('info'), 'type' => 'info'] 
          : null )))
-    }},
+    , JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!},
     headerSearch: '',
     userDropdown: false,
     notifDropdown: false
@@ -100,21 +100,21 @@
          x-transition:leave-end="opacity-0 translate-y-4"
          class="fixed top-4 right-4 z-[100] backdrop-blur-md text-white px-5 py-3 rounded-xl shadow-xl text-sm flex items-center gap-2.5"
          :class="{
-             'bg-emerald-500/90': notif.type === 'success',
-             'bg-red-500/90': notif.type === 'error',
-             'bg-amber-500/90': notif.type === 'warning',
-             'bg-blue-500/90': notif.type === 'info'
+             'bg-emerald-500/90': notif?.type === 'success',
+             'bg-red-500/90': notif?.type === 'error',
+             'bg-amber-500/90': notif?.type === 'warning',
+             'bg-blue-500/90': notif?.type === 'info'
          }">
-        <template x-if="notif.type === 'success'">
+        <template x-if="notif?.type === 'success'">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
         </template>
-        <template x-if="notif.type === 'error'">
+        <template x-if="notif?.type === 'error'">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
         </template>
-        <template x-if="notif.type === 'warning'">
+        <template x-if="notif?.type === 'warning'">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
         </template>
-        <template x-if="notif.type === 'info'">
+        <template x-if="notif?.type === 'info'">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
         </template>
         <span x-text="notif?.msg"></span>
@@ -149,8 +149,11 @@
 
     <div class="flex h-full min-h-0">
         <!-- ========== SIDEBAR ========== -->
-        <aside :class="sidebarOpen ? 'open' : ''"
-               class="sidebar-mobile lg:translate-x-0 lg:static lg:w-[260px] bg-[#0a192f] text-white flex flex-col shrink-0 h-full">
+        <aside :class="[
+            sidebarOpen ? 'open' : '',
+            sidebarOpen ? 'lg:w-[260px] lg:min-w-[260px] lg:shrink-0 lg:overflow-visible lg:opacity-100' : 'lg:w-0 lg:min-w-0 lg:overflow-hidden lg:opacity-0 lg:pointer-events-none'
+        ]"
+               class="sidebar-mobile lg:translate-x-0 lg:static bg-[#0a192f] text-white flex flex-col h-full lg:transition-all lg:duration-300 lg:ease-in-out">
             <div class="shrink-0">
                 <!-- Logo -->
                 @php $logoImage = setting('logo_image'); $logoSvg = setting('logo_icon'); @endphp
@@ -244,7 +247,7 @@
             <!-- Header -->
             <header class="bg-white border-b border-gray-200/60 px-4 lg:px-6 py-3 flex items-center justify-between shrink-0 shadow-sm">
                 <div class="flex items-center gap-3 lg:gap-6 flex-1 min-w-0">
-                    <button @click="sidebarOpen = true" class="lg:hidden text-[#64748b] hover:text-[#1e293b]">
+                    <button @click="sidebarOpen = !sidebarOpen" class="text-[#64748b] hover:text-[#1e293b]">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
                     </button>
                     <div class="relative flex-1 max-w-md">
