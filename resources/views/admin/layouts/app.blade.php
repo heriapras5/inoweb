@@ -26,10 +26,10 @@
         .swal2-cancel { border-radius: 10px !important; font-weight: 600 !important; font-size: 0.85rem !important; padding: 10px 24px !important; }
     </style>
     <style>
-        html { height: 100%; overflow: hidden; }
-        body { height: 100%; overflow: hidden; touch-action: manipulation; }
+        html { height: 100%; }
+        body { height: 100%; touch-action: manipulation; }
         [x-cloak] { display: none !important; }
-        .content-scroll { touch-action: manipulation; }
+        .content-scroll { touch-action: manipulation; overscroll-behavior: contain; }
         .note-editor .note-editing-area .note-editable { min-height: 200px; }
         .note-editor { border-radius: 12px !important; overflow: hidden; }
         .note-toolbar { border-radius: 12px 12px 0 0 !important; }
