@@ -35,7 +35,7 @@
     <x-footer />
 
     <a href="https://wa.me/{{ setting('whatsapp_number', '6283114445775') }}?text={{ urlencode('Halo INOWEB, saya ingin konsultasi website') }}" target="_blank"
-       class="fixed bottom-6 right-6 z-50 no-underline"
+       class="fixed bottom-6 right-6 z-50 no-underline group"
        aria-label="Chat via WhatsApp">
         <span class="relative flex shrink-0">
             <span class="absolute inset-0 rounded-full bg-green-500/40 wa-glow"></span>

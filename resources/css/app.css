@@ -719,16 +719,8 @@ body { overflow-x: hidden; position: relative; width: 100%; }
     0%, 100% { opacity: 0.5; transform: scale(1); }
     50% { opacity: 0.15; transform: scale(1.6); }
 }
-.wa-glow { animation: wa-glow-pulse 2s ease-in-out infinite; }
-
-@keyframes wa-pulse {
-    0%, 100% { transform: scale(1); }
-    15% { transform: scale(1.15); }
-    30% { transform: scale(1); }
-    45% { transform: scale(1.08); }
-    60% { transform: scale(1); }
-}
-.wa-img { animation: wa-pulse 2s ease-in-out infinite; }
+.group .wa-glow { animation: none; }
+.group:hover .wa-glow { animation: wa-glow-pulse 2s ease-in-out infinite; }
 
 @keyframes wa-shake {
     0%, 100% { transform: scale(1); }
@@ -736,7 +728,7 @@ body { overflow-x: hidden; position: relative; width: 100%; }
     50% { transform: scale(1.1) rotate(6deg); }
     75% { transform: scale(1.1) rotate(-3deg); }
 }
-.wa-img:hover { animation: wa-shake 0.5s ease-in-out; }
+.group:hover .wa-img { animation: wa-shake 0.5s ease-in-out; }
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
