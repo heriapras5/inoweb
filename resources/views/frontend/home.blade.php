@@ -85,7 +85,7 @@
                         <div class="imac-body">
                             <div class="imac-screen">
                                 <template x-for="(slide, i) in slides" :key="i">
-                                    <img :src="slide.image" x-show="active === i" x-transition.opacity.duration.400
+                                    <img :src="slide.image || '{{ asset('images/placeholder.svg') }}'" x-show="active === i" x-transition.opacity.duration.400
                                          class="w-full h-full object-cover absolute inset-0"
                                          :alt="slide.title">
                                 </template>

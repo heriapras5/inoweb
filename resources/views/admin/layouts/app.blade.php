@@ -67,8 +67,8 @@
 
         @media (max-width: 1023px) {
             .sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 40; }
-            .sidebar-mobile { position: fixed; top: 0; left: 0; width: 280px; height: 100%; z-index: 50; transform: translateX(-100%); transition: transform 0.3s ease; }
-            .sidebar-mobile.open { transform: translateX(0); }
+            .sidebar-mobile { position: fixed; top: 0; left: 0; width: 280px; height: 100%; z-index: 50; transform: translateX(-100%); transition: transform 0.3s ease; pointer-events: none; }
+            .sidebar-mobile.open { transform: translateX(0); pointer-events: auto; }
         }
     </style>
     @stack('styles')
