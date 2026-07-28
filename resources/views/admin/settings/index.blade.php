@@ -53,6 +53,35 @@
             </div>
         </div>
 
+        {{-- Sosial Media --}}
+        <div class="bg-white rounded-2xl border border-gray-200/80 shadow-sm">
+            <div class="px-8 py-5 border-b border-gray-100">
+                <h2 class="text-lg font-bold text-[#1e293b]">Sosial Media</h2>
+                <p class="text-sm text-[#64748b] mt-0.5">Tautan media sosial yang tampil di footer.</p>
+            </div>
+            <div class="p-8 space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-[#475569] mb-1.5">Facebook</label>
+                        <input type="url" name="social_facebook" value="{{ old('social_facebook', $settings['social_facebook'] ?? '') }}" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow" placeholder="https://facebook.com/namapage">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-[#475569] mb-1.5">Instagram</label>
+                        <input type="url" name="social_instagram" value="{{ old('social_instagram', $settings['social_instagram'] ?? '') }}" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow" placeholder="https://instagram.com/namauser">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-[#475569] mb-1.5">LinkedIn</label>
+                        <input type="url" name="social_linkedin" value="{{ old('social_linkedin', $settings['social_linkedin'] ?? '') }}" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow" placeholder="https://linkedin.com/in/namauser">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-[#475569] mb-1.5">YouTube</label>
+                        <input type="url" name="social_youtube" value="{{ old('social_youtube', $settings['social_youtube'] ?? '') }}" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow" placeholder="https://youtube.com/@channel">
+                    </div>
+                </div>
+                <p class="text-xs text-[#94a3b8]">Kosongkan jika tidak ingin menampilkan ikon media sosial tertentu.</p>
+            </div>
+        </div>
+
         {{-- Logo & Favicon --}}
         <div class="bg-white rounded-2xl border border-gray-200/80 shadow-sm">
             <div class="px-8 py-5 border-b border-gray-100">

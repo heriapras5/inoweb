@@ -95,21 +95,21 @@
 
     <!-- Dynamic logo lockup -->
     <div class="text-center mb-8 relative z-10">
-        <div class="inline-flex items-center gap-3 bg-white/5 backdrop-blur-sm rounded-2xl px-5 py-3 shadow-lg shadow-black/20 mb-2">
+        <div class="inline-flex items-center gap-2.5 bg-white/5 backdrop-blur-sm rounded-2xl px-5 py-3 shadow-lg shadow-black/20 mb-2">
             @if($logoImage)
-                <img src="{{ asset($logoImage) }}" alt="{{ $siteName }}" class="h-12 drop-shadow-[0_0_12px_rgba(255,255,255,0.3)]">
+                <img src="{{ asset($logoImage) }}" alt="{{ $siteName }}" class="h-10 w-auto shrink-0 drop-shadow-[0_0_12px_rgba(255,255,255,0.3)]">
             @elseif($logoSvg)
-                <div class="w-12 h-12 flex items-center justify-center drop-shadow-[0_0_10px_rgba(255,255,255,0.4)]">{!! $logoSvg !!}</div>
+                <div class="w-10 h-10 flex items-center justify-center shrink-0 drop-shadow-[0_0_10px_rgba(255,255,255,0.4)]">{!! $logoSvg !!}</div>
             @else
-                <div class="w-12 h-12 flex items-center justify-center drop-shadow-[0_0_10px_rgba(255,255,255,0.4)]">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 52 52" fill="none">
-                        <rect width="52" height="52" rx="12" fill="white"/>
-                        <path d="M15 37V15h8.5a6.5 6.5 0 0 1 0 13H23m6-13 5.5 18M28 28h5" stroke="#0c1a3a" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <div class="w-10 h-10 flex items-center justify-center shrink-0 drop-shadow-[0_0_10px_rgba(255,255,255,0.4)]">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 44 44" fill="none">
+                        <rect width="44" height="44" rx="10" fill="white"/>
+                        <path d="M12 32V12h7.5a5.5 5.5 0 0 1 0 11H19m5-11 5 16M24 24h4.5" stroke="#0c1a3a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </div>
             @endif
             <div class="text-left">
-                <span class="text-2xl font-bold text-white tracking-tight drop-shadow-lg">
+                <span class="text-xl sm:text-2xl font-bold text-white tracking-tight drop-shadow-lg leading-tight">
                     @php
                         $parts = preg_split('/(?=[A-Z])/', $siteName, 2);
                     @endphp
@@ -119,10 +119,10 @@
                         {{ $siteName }}
                     @endif
                 </span>
-                <div class="flex items-center gap-2 text-blue-200/80 text-[11px] tracking-[0.25em] uppercase mt-0.5">
-                    <span class="w-6 h-px bg-blue-300/30"></span>
+                <div class="flex items-center gap-1.5 text-blue-200/80 text-[10px] sm:text-[11px] tracking-[0.25em] uppercase mt-0.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-blue-300/40 shrink-0"></span>
                     {{ $siteTagline }}
-                    <span class="w-6 h-px bg-blue-300/30"></span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-blue-300/40 shrink-0"></span>
                 </div>
             </div>
         </div>

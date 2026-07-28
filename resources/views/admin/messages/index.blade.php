@@ -29,7 +29,7 @@
                     <th class="px-6 py-4 w-10">No</th>
                     <th class="px-6 py-4">Nama</th>
                     <th class="px-6 py-4">Email</th>
-                    <th class="px-6 py-4">Subjek</th>
+                    <th class="px-6 py-4">Layanan</th>
                     <th class="px-6 py-4 w-20">Status</th>
                     <th class="px-6 py-4 w-28">Tanggal</th>
                     <th class="px-6 py-4 w-24"></th>
@@ -40,7 +40,7 @@
                     <td class="px-6 py-4 text-[#94a3b8] text-xs">{{ $messages->firstItem() + $index }}</td>
                     <td class="px-6 py-4">{{ $m->name }}</td>
                     <td class="px-6 py-4 text-[#64748b]">{{ $m->email }}</td>
-                    <td class="px-6 py-4">{{ $m->subject ? \Str::limit($m->subject, 30) : '-' }}</td>
+                    <td class="px-6 py-4">{{ $m->service ? \Str::limit($m->service, 30) : '-' }}</td>
                     <td class="px-6 py-4">
                         @if($m->is_read)
                         <span class="inline-flex items-center gap-1.5 text-xs font-medium text-green-600">

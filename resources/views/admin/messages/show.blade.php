@@ -30,10 +30,10 @@
                 <p class="text-sm text-[#1a1a2e] font-medium mt-0.5">{{ $message->phone }}</p>
             </div>
             @endif
-            @if($message->subject)
+            @if($message->service)
             <div class="mb-5">
-                <span class="text-xs text-[#64748b] font-medium uppercase tracking-wider">Subjek</span>
-                <p class="text-sm text-[#1a1a2e] font-medium mt-0.5">{{ $message->subject }}</p>
+                <span class="text-xs text-[#64748b] font-medium uppercase tracking-wider">Layanan</span>
+                <p class="text-sm text-[#1a1a2e] font-medium mt-0.5">{{ $message->service }}</p>
             </div>
             @endif
             <div class="mb-8">

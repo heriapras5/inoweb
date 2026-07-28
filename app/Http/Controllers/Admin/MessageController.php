@@ -13,7 +13,7 @@ class MessageController extends Controller
         $search = $request->get('search');
         $messages = Message::when($search, fn($q) => $q->where('name', 'like', "%{$search}%")
                 ->orWhere('email', 'like', "%{$search}%")
-                ->orWhere('subject', 'like', "%{$search}%"))
+                ->orWhere('service', 'like', "%{$search}%"))
             ->orderBy('created_at', 'desc')->paginate(15);
         return view('admin.messages.index', compact('messages'));
     }
