@@ -82,11 +82,6 @@
         <hr class="border-white/10 my-8 sm:my-12">
         <div class="flex flex-col items-center gap-2 text-center">
             <p class="text-white/40 text-sm">&copy; {{ date('Y') }} {{ setting('site_name', 'INOWEB') }} - {{ setting('site_tagline', 'Inovasi Website') }}. All Rights Reserved.</p>
-            <div class="flex items-center gap-3 text-white/40 text-sm">
-                <a href="{{ route('privacy') }}" class="footer-bottom-link">Kebijakan Privasi</a>
-                <span class="text-white/20">|</span>
-                <a href="{{ route('terms') }}" class="footer-bottom-link">Syarat & Ketentuan</a>
-            </div>
         </div>
     </div>
 </footer>
