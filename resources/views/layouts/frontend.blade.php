@@ -34,10 +34,13 @@
 
     <x-footer />
 
-    <a href="https://wa.me/{{ setting('whatsapp_number', '6283114445775') }}" target="_blank"
-       class="fixed bottom-6 right-6 rounded-full flex items-center justify-center z-50 transition-all duration-300 hover:scale-110 hover:shadow-[0_6px_30px_rgba(0,0,0,0.25)] shadow-[0_4px_20px_rgba(0,0,0,0.15)]" aria-label="Chat via WhatsApp">
-        <span class="absolute inset-0 rounded-full bg-green-500/40 animate-ping"></span>
-        <img src="/images/wa.png" alt="WhatsApp" width="56" height="56" class="block relative rounded-full">
+    <a href="https://wa.me/{{ setting('whatsapp_number', '6283114445775') }}?text={{ urlencode('Halo INOWEB, saya ingin konsultasi website') }}" target="_blank"
+       class="fixed bottom-6 right-6 z-50 no-underline"
+       aria-label="Chat via WhatsApp">
+        <span class="relative flex shrink-0">
+            <span class="absolute inset-0 rounded-full bg-green-500/40 wa-glow"></span>
+            <img src="/images/wa.png" alt="WhatsApp" width="56" height="56" class="block relative rounded-full shadow-lg wa-img">
+        </span>
     </a>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -49,7 +52,7 @@
             : (session('error') ? json_encode(['msg' => session('error'), 'type' => 'error']) 
             : (session('warning') ? json_encode(['msg' => session('warning'), 'type' => 'warning']) 
             : (session('info') ? json_encode(['msg' => session('info'), 'type' => 'info']) 
-            : 'null' )))
+             : null )))
         }
     }" x-init="if (notif) { setTimeout(() => notif = null, 4000) }"
          x-show="notif" x-cloak

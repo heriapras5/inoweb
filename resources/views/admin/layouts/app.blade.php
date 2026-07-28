@@ -81,7 +81,7 @@
         : (session('error') ? json_encode(['msg' => session('error'), 'type' => 'error']) 
         : (session('warning') ? json_encode(['msg' => session('warning'), 'type' => 'warning']) 
         : (session('info') ? json_encode(['msg' => session('info'), 'type' => 'info']) 
-        : 'null' )))
+         : null )))
     }},
     headerSearch: '',
     userDropdown: false,

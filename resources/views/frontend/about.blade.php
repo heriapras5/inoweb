@@ -21,15 +21,15 @@
 
 <section class="py-16 sm:py-24 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div class="grid lg:grid-cols-2 gap-12 items-start">
             <div data-aos="fade-right">
                 <span class="inline-block text-blue-600 font-bold text-sm tracking-[2px] uppercase mb-3">TENTANG KAMI</span>
                 <h2 class="text-3xl sm:text-4xl font-extrabold text-[#1a1a2e] leading-tight mb-6">{{ $aboutSection->title ?: 'Mitra Terpercaya untuk Solusi Website Profesional' }}</h2>
                 <div class="text-[#475569] leading-relaxed prose-content">{!! $aboutSection->description !!}</div>
             </div>
             @if($aboutSection->image)
-            <div data-aos="fade-left">
-                <img src="{{ $aboutSection->image ? asset($aboutSection->image) : '' }}" alt="Tentang INOWEB" class="rounded-2xl w-full">
+            <div data-aos="fade-left" class="flex justify-center lg:justify-start">
+                <img src="{{ $aboutSection->image ? asset($aboutSection->image) : '' }}" alt="Tentang INOWEB" class="rounded-2xl w-full max-h-96 object-cover object-center shadow-xl border border-gray-100">
             </div>
             @endif
         </div>

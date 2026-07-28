@@ -250,45 +250,46 @@
 
             <!-- Tentang -->
 @if($aboutSection)
+@php
+    $hasVision = (bool) $aboutSection->vision;
+    $hasMission = $aboutSection->mission && count($aboutSection->mission);
+    $bothVisionMisi = $hasVision && $hasMission;
+@endphp
 <section class="py-16 sm:py-24 bg-gray-50" id="tentang">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid lg:grid-cols-2 gap-16 items-center">
-            <div data-aos="fade-right">
-                <span class="inline-block text-blue-600 font-bold text-sm tracking-[2px] uppercase mb-3">TENTANG KAMI</span>
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0f172a] leading-tight mb-6">{!! $aboutSection->title !!}</h2>
-                <div class="text-[#475569] leading-relaxed space-y-4 prose-content">{!! $aboutSection->description !!}</div>
-            </div>
-            <div data-aos="fade-left">
-                @if($aboutSection->vision || $aboutSection->mission)
-                <div class="grid sm:grid-cols-2 gap-6">
-                    @if($aboutSection->vision)
-                    <div class="bg-white rounded-2xl p-8 border border-[#e2e8f0] text-center">
-                        <div class="w-14 h-14 bg-blue-600/10 rounded-2xl flex items-center justify-center text-blue-600 text-2xl mb-5 mx-auto">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                        </div>
-                        <h3 class="text-lg font-bold text-[#0f172a] mb-3">Visi</h3>
-                        <div class="text-sm text-[#475569] leading-relaxed prose-content">{!! $aboutSection->vision !!}</div>
+        <div class="max-w-4xl mx-auto" data-aos="fade-up">
+            <span class="inline-block text-blue-600 font-bold text-sm tracking-[2px] uppercase mb-3">TENTANG KAMI</span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0f172a] leading-tight mb-6">{!! $aboutSection->title !!}</h2>
+            <div class="text-[#475569] leading-relaxed space-y-4 prose-content mb-10">{!! $aboutSection->description !!}</div>
+            @if($hasVision || $hasMission)
+            <div class="{{ $bothVisionMisi ? 'grid sm:grid-cols-2 gap-6' : 'flex flex-col items-center' }}">
+                @if($hasVision)
+                <div class="bg-white rounded-2xl p-8 border border-[#e2e8f0] text-center {{ !$bothVisionMisi ? 'max-w-md w-full' : '' }}">
+                    <div class="w-14 h-14 bg-blue-600/10 rounded-2xl flex items-center justify-center text-blue-600 text-2xl mb-5 mx-auto">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                     </div>
-                    @endif
-                    @if($aboutSection->mission && count($aboutSection->mission))
-                    <div class="bg-white rounded-2xl p-8 border border-[#e2e8f0]">
-                        <div class="w-14 h-14 bg-blue-600/10 rounded-2xl flex items-center justify-center text-blue-600 text-2xl mb-5 mx-auto">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-                        </div>
-                        <h3 class="text-lg font-bold text-[#0f172a] mb-3 text-center">Misi</h3>
-                        <ul class="space-y-2.5">
-                            @foreach($aboutSection->mission as $item)
-                            <li class="flex items-start gap-2.5 text-sm text-[#475569]">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
-                                {{ $item }}
-                            </li>
-                            @endforeach
-                        </ul>
+                    <h3 class="text-lg font-bold text-[#0f172a] mb-3">Visi</h3>
+                    <div class="text-sm text-[#475569] leading-relaxed prose-content">{!! $aboutSection->vision !!}</div>
+                </div>
+                @endif
+                @if($hasMission)
+                <div class="bg-white rounded-2xl p-8 border border-[#e2e8f0] {{ !$bothVisionMisi ? 'max-w-md w-full' : '' }}">
+                    <div class="w-14 h-14 bg-blue-600/10 rounded-2xl flex items-center justify-center text-blue-600 text-2xl mb-5 mx-auto">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
                     </div>
-                    @endif
+                    <h3 class="text-lg font-bold text-[#0f172a] mb-3 text-center">Misi</h3>
+                    <ul class="space-y-2.5">
+                        @foreach($aboutSection->mission as $item)
+                        <li class="flex items-start gap-2.5 text-sm text-[#475569]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
+                            {{ $item }}
+                        </li>
+                        @endforeach
+                    </ul>
                 </div>
                 @endif
             </div>
+            @endif
         </div>
     </div>
 </section>
