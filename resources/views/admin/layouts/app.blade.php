@@ -3,8 +3,16 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title', 'Dashboard') - Admin INOWEB</title>
+    <title>@yield('title', 'Dashboard') - Admin {{ setting('site_name', 'INOWEB') }}</title>
     @vite('resources/css/app.css')
+    @php $favicon = setting('favicon'); @endphp
+    @if($favicon)
+    <link rel="icon" type="image/x-icon" href="{{ asset($favicon) }}">
+    <link rel="shortcut icon" href="{{ asset($favicon) }}">
+    <link rel="apple-touch-icon" href="{{ asset($favicon) }}">
+    @else
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='4' y='6' width='24' height='18' rx='3' fill='%232563eb'/><rect x='12' y='24' width='8' height='3' fill='%232563eb'/><rect x='14' y='27' width='4' height='3' fill='%232563eb'/></svg>">
+    @endif
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -144,14 +152,21 @@
                class="sidebar-mobile lg:translate-x-0 lg:static lg:w-[260px] bg-[#0a192f] text-white flex flex-col shrink-0 h-full">
             <div class="shrink-0">
                 <!-- Logo -->
+                @php $logoImage = setting('logo_image'); $logoSvg = setting('logo_icon'); @endphp
                 <div class="px-6 pt-6 pb-4">
                     <a href="{{ url('/admin') }}" class="flex items-center gap-3">
-                        <div class="w-9 h-9 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-600/30">
+                        @if($logoImage)
+                        <img src="{{ asset($logoImage) }}" alt="{{ setting('site_name', 'INOWEB') }}" class="w-9 h-9 rounded-xl object-cover shadow-lg shadow-blue-600/20 shrink-0">
+                        @elseif($logoSvg)
+                        <div class="w-9 h-9 flex items-center justify-center text-blue-400 shrink-0">{!! $logoSvg !!}</div>
+                        @else
+                        <div class="w-9 h-9 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-600/30 shrink-0">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
                         </div>
+                        @endif
                         <div>
                             <span class="text-lg font-bold tracking-wide">{!! nl2br(e(setting('site_name', 'INOWEB'))) !!}</span>
-                            <span class="block text-[0.55rem] tracking-[0.2em] text-blue-300/50 uppercase font-semibold -mt-0.5">INOVASI WEBSITE</span>
+                            <span class="block text-[0.55rem] tracking-[0.2em] text-blue-300/50 uppercase font-semibold -mt-0.5">{{ setting('site_tagline', 'INOVASI WEBSITE') }}</span>
                         </div>
                     </a>
                 </div>
