@@ -24,7 +24,7 @@ class TrackVisitor
         PageView::create([
             'ip_address' => $request->ip(),
             'user_agent' => $agent,
-            'page_url' => $request->fullUrl(),
+            'page_url' => mb_substr($request->fullUrl(), 0, 255),
             'device_type' => $deviceType,
         ]);
 

@@ -39,7 +39,8 @@ class FrontendController extends Controller
         }
         $prevProject = $this->frontendService->getPrevProject($project->id);
         $nextProject = $this->frontendService->getNextProject($project->id);
-        return view('frontend.detail-project', compact('project', 'prevProject', 'nextProject'));
+        $pagination = $this->frontendService->getProjectPagination($project->id);
+        return view('frontend.detail-project', compact('project', 'prevProject', 'nextProject', 'pagination'));
     }
 
     public function services()

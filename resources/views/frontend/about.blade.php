@@ -25,7 +25,7 @@
             <div data-aos="fade-right">
                 <span class="inline-block text-blue-600 font-bold text-sm tracking-[2px] uppercase mb-3">TENTANG KAMI</span>
                 <h2 class="text-3xl sm:text-4xl font-extrabold text-[#1a1a2e] leading-tight mb-6">{{ $aboutSection->title ?: 'Mitra Terpercaya untuk Solusi Website Profesional' }}</h2>
-                <div class="text-[#475569] leading-relaxed space-y-4">{!! nl2br(e($aboutSection->description)) !!}</div>
+                <div class="text-[#475569] leading-relaxed prose-content">{!! $aboutSection->description !!}</div>
             </div>
             @if($aboutSection->image)
             <div data-aos="fade-left">

@@ -114,6 +114,9 @@ body { overflow-x: hidden; position: relative; width: 100%; }
 .footer-social:hover { background: #2563eb; color: #fff; transform: translateY(-3px); }
 .footer-bottom-link { color: rgba(255,255,255,0.4); text-decoration: none; transition: all 0.2s ease; }
 .footer-bottom-link:hover { color: #2563eb; }
+@media (min-width: 1024px) {
+    .footer-title::after { left: 0; transform: none; }
+}
 
 /* ─── Buttons ─── */
 .btn-primary {

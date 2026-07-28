@@ -54,6 +54,21 @@ class FrontendService
         return $this->projectRepo->getNextProject($currentId);
     }
 
+    public function getProjectPagination(int $currentId): array
+    {
+        $projects = $this->projectRepo->active()
+            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'desc')
+            ->all(['id', 'slug']);
+        $ids = $projects->pluck('id')->toArray();
+        $currentIndex = array_search($currentId, $ids);
+        return [
+            'items' => $projects,
+            'currentIndex' => $currentIndex !== false ? $currentIndex : 0,
+            'total' => $projects->count(),
+        ];
+    }
+
     public function getProjectCategories(): Collection
     {
         return $this->categoryRepo->active()->orderBy('sort_order')->all();

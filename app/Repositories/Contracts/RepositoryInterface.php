@@ -21,4 +21,5 @@ interface RepositoryInterface
     public function limit(int $limit): self;
     public function active(): self;
     public function featured(): self;
+    public function pluck(string $column): array;
 }

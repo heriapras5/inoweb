@@ -78,6 +78,11 @@ abstract class BaseRepository implements RepositoryInterface
         return $this;
     }
 
+    public function pluck(string $column): array
+    {
+        return $this->applyCriteria()->pluck($column)->toArray();
+    }
+
     public function active(): self
     {
         $this->criteria[] = fn($q) => $q->where('status', true);

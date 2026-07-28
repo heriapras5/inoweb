@@ -27,35 +27,53 @@
                 <h2 class="text-3xl sm:text-4xl font-extrabold text-[#1a1a2e] leading-tight mb-6">Diskusikan <span class="text-blue-600">Proyek</span> Anda</h2>
                 <form action="{{ route('contact.send') }}" method="POST" class="space-y-5">
                     @csrf
+                    @if($errors->any())
+                    <div class="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl text-sm flex items-start gap-2.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="shrink-0 mt-0.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        <div>
+                            <p class="font-semibold mb-1">Terjadi kesalahan:</p>
+                            <ul class="list-disc list-inside space-y-0.5">
+                                @foreach($errors->all() as $err)
+                                <li>{{ $err }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                    @endif
                     <div class="grid sm:grid-cols-2 gap-5">
                         <div>
                             <label class="block text-sm font-semibold text-[#1a1a2e] mb-2">Nama Lengkap</label>
-                            <input type="text" name="name" placeholder="Masukkan nama Anda" required class="w-full px-4 py-3.5 border border-[#e2e8f0] rounded-xl text-sm outline-none focus:border-blue-600 focus:shadow-[0_0_0_3px_rgba(37,99,235,0.1)] transition-all">
+                            <input type="text" name="name" value="{{ old('name') }}" placeholder="Masukkan nama Anda" required class="w-full px-4 py-3.5 border rounded-xl text-sm outline-none focus:border-blue-600 focus:shadow-[0_0_0_3px_rgba(37,99,235,0.1)] transition-all {{ $errors->has('name') ? 'border-red-300 bg-red-50' : 'border-[#e2e8f0]' }}">
+                            @error('name') <p class="text-xs text-red-500 mt-1.5">{{ $message }}</p> @enderror
                         </div>
                         <div>
                             <label class="block text-sm font-semibold text-[#1a1a2e] mb-2">Email</label>
-                            <input type="email" name="email" placeholder="Masukkan email Anda" required class="w-full px-4 py-3.5 border border-[#e2e8f0] rounded-xl text-sm outline-none focus:border-blue-600 focus:shadow-[0_0_0_3px_rgba(37,99,235,0.1)] transition-all">
+                            <input type="email" name="email" value="{{ old('email') }}" placeholder="Masukkan email Anda" required class="w-full px-4 py-3.5 border rounded-xl text-sm outline-none focus:border-blue-600 focus:shadow-[0_0_0_3px_rgba(37,99,235,0.1)] transition-all {{ $errors->has('email') ? 'border-red-300 bg-red-50' : 'border-[#e2e8f0]' }}">
+                            @error('email') <p class="text-xs text-red-500 mt-1.5">{{ $message }}</p> @enderror
                         </div>
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-[#1a1a2e] mb-2">No. WhatsApp</label>
-                        <input type="tel" name="phone" placeholder="Contoh: 081234567890" class="w-full px-4 py-3.5 border border-[#e2e8f0] rounded-xl text-sm outline-none focus:border-blue-600 focus:shadow-[0_0_0_3px_rgba(37,99,235,0.1)] transition-all">
+                        <input type="tel" name="phone" value="{{ old('phone') }}" placeholder="Contoh: 081234567890" class="w-full px-4 py-3.5 border rounded-xl text-sm outline-none focus:border-blue-600 focus:shadow-[0_0_0_3px_rgba(37,99,235,0.1)] transition-all {{ $errors->has('phone') ? 'border-red-300 bg-red-50' : 'border-[#e2e8f0]' }}">
+                        @error('phone') <p class="text-xs text-red-500 mt-1.5">{{ $message }}</p> @enderror
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-[#1a1a2e] mb-2">Kebutuhan Website</label>
-                        <select name="service" class="w-full px-4 py-3.5 border border-[#e2e8f0] rounded-xl text-sm outline-none focus:border-blue-600 focus:shadow-[0_0_0_3px_rgba(37,99,235,0.1)] transition-all bg-white">
+                        <select name="service" class="w-full px-4 py-3.5 border rounded-xl text-sm outline-none focus:border-blue-600 focus:shadow-[0_0_0_3px_rgba(37,99,235,0.1)] transition-all bg-white {{ $errors->has('service') ? 'border-red-300 bg-red-50' : 'border-[#e2e8f0]' }}">
                             <option value="">Pilih layanan...</option>
-                            <option>Company Profile</option>
-                            <option>Katalog Produk</option>
-                            <option>Website UMKM</option>
-                            <option>Sistem Management</option>
-                            <option>Custom Website</option>
-                            <option>Landing Page</option>
+                            <option value="Company Profile" {{ old('service') == 'Company Profile' ? 'selected' : '' }}>Company Profile</option>
+                            <option value="Katalog Produk" {{ old('service') == 'Katalog Produk' ? 'selected' : '' }}>Katalog Produk</option>
+                            <option value="Website UMKM" {{ old('service') == 'Website UMKM' ? 'selected' : '' }}>Website UMKM</option>
+                            <option value="Sistem Management" {{ old('service') == 'Sistem Management' ? 'selected' : '' }}>Sistem Management</option>
+                            <option value="Custom Website" {{ old('service') == 'Custom Website' ? 'selected' : '' }}>Custom Website</option>
+                            <option value="Landing Page" {{ old('service') == 'Landing Page' ? 'selected' : '' }}>Landing Page</option>
                         </select>
+                        @error('service') <p class="text-xs text-red-500 mt-1.5">{{ $message }}</p> @enderror
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-[#1a1a2e] mb-2">Pesan</label>
-                        <textarea name="message" rows="4" placeholder="Ceritakan kebutuhan website Anda..." required class="w-full px-4 py-3.5 border border-[#e2e8f0] rounded-xl text-sm outline-none focus:border-blue-600 focus:shadow-[0_0_0_3px_rgba(37,99,235,0.1)] transition-all resize-none"></textarea>
+                        <textarea name="message" rows="4" placeholder="Ceritakan kebutuhan website Anda..." required class="w-full px-4 py-3.5 border rounded-xl text-sm outline-none focus:border-blue-600 focus:shadow-[0_0_0_3px_rgba(37,99,235,0.1)] transition-all resize-none {{ $errors->has('message') ? 'border-red-300 bg-red-50' : 'border-[#e2e8f0]' }}">{{ old('message') }}</textarea>
+                        @error('message') <p class="text-xs text-red-500 mt-1.5">{{ $message }}</p> @enderror
                     </div>
                     <button type="submit" class="btn-primary w-full sm:w-auto px-8 py-3.5 text-base justify-center">Kirim Pesan <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
                 </form>
