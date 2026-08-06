@@ -253,17 +253,36 @@
 </section>
 
             <!-- Tentang -->
-@if($aboutSection)
-<section class="py-16 sm:py-24 bg-gray-50" id="tentang">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="max-w-4xl mx-auto" data-aos="fade-up">
-            <span class="inline-block text-blue-600 font-bold text-sm tracking-[2px] uppercase mb-3">TENTANG KAMI</span>
-            <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0f172a] leading-tight mb-6">{!! $aboutSection->title !!}</h2>
-            <div class="text-[#475569] leading-relaxed space-y-4 prose-content">{!! $aboutSection->description !!}</div>
-        </div>
-    </div>
-</section>
-@endif
+            @if($aboutSection)
+            <section class="py-16 sm:py-24 bg-gray-50" id="tentang">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="grid lg:grid-cols-2 gap-12 items-center">
+                        <div data-aos="fade-right">
+                            <span class="inline-block text-blue-600 font-bold text-sm tracking-[2px] uppercase mb-3">TENTANG KAMI</span>
+                            <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0f172a] leading-tight mb-6">{{ $aboutSection->title }}</h2>
+                            <p class="text-[#475569] leading-relaxed mb-8">{!! Illuminate\Support\Str::limit(strip_tags($aboutSection->description), 260) !!}</p>
+                            <a href="{{ route('about') }}" class="btn-primary px-6 py-3 text-base inline-flex items-center justify-center gap-2 no-underline">
+                                Selengkapnya
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                            </a>
+                        </div>
+                        <div data-aos="fade-left" class="flex justify-center lg:justify-end">
+                            @if($aboutSection->image)
+                            <img src="{{ asset($aboutSection->image) }}" alt="Tentang INOWEB" class="rounded-2xl w-full h-auto object-contain shadow-xl border border-gray-100" loading="lazy">
+                            @else
+                            <div class="w-full max-w-md rounded-2xl border border-gray-100 shadow-xl bg-gradient-to-br from-slate-100 to-slate-200 flex flex-col items-center justify-center px-10 py-20 text-center">
+                                <div class="w-16 h-16 bg-blue-600/10 rounded-2xl flex items-center justify-center text-blue-600 mb-5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                                </div>
+                                <p class="font-bold text-[#0f172a] text-lg mb-1">Tentang INOWEB</p>
+                                <p class="text-sm text-[#64748b]">Gambar akan tampil di sini setelah di-upload pada Admin &rsaquo; Pengaturan &rsaquo; About Section.</p>
+                            </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </section>
+            @endif
 
 <!-- Layanan -->
 <section class="py-16 sm:py-24 bg-white" id="layanan">

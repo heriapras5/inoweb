@@ -9,11 +9,11 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        User::firstOrCreate(
+        User::updateOrCreate(
             ['email' => 'superadmin@inoweb.my.id'],
             [
                 'name' => 'Super Admin',
-                'password' => bcrypt('admin123'),
+                'password' => bcrypt('@Segoku123'),
                 'is_admin' => true,
             ]
         );
