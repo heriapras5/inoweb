@@ -21,12 +21,13 @@ class FrontendController extends Controller
         $categories = $this->frontendService->getProjectCategories();
         $services = $this->frontendService->getServices();
         $faqs = $this->frontendService->getFaqs();
-        return view('frontend.home', compact('heroSections', 'aboutSection', 'projects', 'services', 'faqs', 'categories'));
+        $testimonials = $this->frontendService->getTestimonials();
+        return view('frontend.home', compact('heroSections', 'aboutSection', 'projects', 'services', 'faqs', 'categories', 'testimonials'));
     }
 
     public function portfolio()
     {
-        $projects = $this->frontendService->getProjects();
+        $projects = $this->frontendService->getProjectsPaginated(12);
         $categories = $this->frontendService->getProjectCategories();
         return view('frontend.portfolio', compact('projects', 'categories'));
     }
@@ -87,14 +88,5 @@ class FrontendController extends Controller
         ]);
         $this->frontendService->submitContact($validated);
         return back()->with('success', 'Pesan berhasil dikirim. Kami akan menghubungi Anda segera.');
-    }
-
-    public function subscribeNewsletter(Request $request)
-    {
-        $validated = $request->validate([
-            'email' => 'required|email|unique:newsletter,email',
-        ]);
-        $this->frontendService->subscribeNewsletter($validated['email']);
-        return back()->with('success', 'Berlangganan newsletter berhasil!');
     }
 }

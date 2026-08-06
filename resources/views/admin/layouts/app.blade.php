@@ -75,7 +75,6 @@
 </head>
 <body x-data="{
     sidebarOpen: window.innerWidth >= 1024,
-    showDeleteModal: false,
     deleteTarget: '',
     notif: {!! json_encode(
         session('success') ? ['msg' => session('success'), 'type' => 'success'] 
@@ -121,28 +120,9 @@
         <button @click="notif = null" class="ml-1 text-white/80 hover:text-white">&times;</button>
     </div>
 
-    <!-- Delete Confirmation Modal -->
-    <div x-show="showDeleteModal" x-cloak
-         class="fixed inset-0 z-[60] flex items-center justify-center p-4"
-         @click.away="showDeleteModal = false">
-        <div class="fixed inset-0 bg-black/40" @click="showDeleteModal = false"></div>
-        <div class="relative bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl">
-            <div class="text-center">
-                <div class="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center text-red-500 mx-auto mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                </div>
-                <h4 class="text-lg font-bold text-[#1e293b] mb-2">Konfirmasi Hapus</h4>
-                <p class="text-sm text-[#64748b] mb-6">Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan.</p>
-                <div class="flex gap-3 justify-center">
-                    <button @click="showDeleteModal = false" class="px-5 py-2.5 rounded-xl text-sm border border-gray-300 hover:bg-gray-50 transition-colors">Batal</button>
-                    <form :action="deleteTarget" method="POST" class="inline">
-                        @csrf @method('DELETE')
-                        <button type="submit" class="px-5 py-2.5 rounded-xl text-sm font-medium bg-red-500 text-white hover:bg-red-600 transition-colors">Ya, Hapus</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+    <form id="delete-form" :action="deleteTarget" method="POST" class="hidden">
+        @csrf @method('DELETE')
+    </form>
 
     <!-- Mobile Overlay -->
     <div x-show="sidebarOpen" x-cloak @click="sidebarOpen = false" class="sidebar-overlay lg:hidden"></div>

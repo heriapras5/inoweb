@@ -29,7 +29,7 @@
             </div>
             @if($aboutSection->image)
             <div data-aos="fade-left" class="flex justify-center lg:justify-start">
-                <img src="{{ $aboutSection->image ? asset($aboutSection->image) : '' }}" alt="Tentang INOWEB" class="rounded-2xl w-full max-h-96 object-cover object-center shadow-xl border border-gray-100">
+                <img src="{{ $aboutSection->image ? asset($aboutSection->image) : '' }}" alt="Tentang INOWEB" class="rounded-2xl w-full h-auto object-contain shadow-xl border border-gray-100">
             </div>
             @endif
         </div>
@@ -79,7 +79,7 @@
         <div class="text-center" data-aos="zoom-in">
             <h2 class="text-3xl sm:text-4xl font-extrabold text-white leading-tight mb-4">Tertarik Bekerja Sama?</h2>
             <p class="text-white/70 text-lg max-w-2xl mx-auto mb-8">Konsultasikan kebutuhan website Anda dengan tim INOWEB. Gratis!</p>
-            <a href="https://wa.me/{{ setting('whatsapp_number', '6283114445775') }}" target="_blank" class="flex sm:inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-full font-semibold text-base no-underline hover:bg-blue-700 transition-all hover:-translate-y-0.5">
+            <a href="https://wa.me/{{ setting('whatsapp_number', '6285736186308') }}" target="_blank" rel="noopener" class="flex sm:inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-full font-semibold text-base no-underline hover:bg-blue-700 transition-all hover:-translate-y-0.5">
                 Hubungi via WhatsApp
             </a>
         </div>

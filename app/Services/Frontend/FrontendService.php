@@ -8,7 +8,6 @@ use App\Repositories\Contracts\FaqRepositoryInterface;
 use App\Repositories\Contracts\TestimonialRepositoryInterface;
 use App\Repositories\Contracts\CategoryRepositoryInterface;
 use App\Repositories\Contracts\MessageRepositoryInterface;
-use App\Repositories\Contracts\NewsletterRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -22,7 +21,6 @@ class FrontendService
         protected TestimonialRepositoryInterface $testimonialRepo,
         protected CategoryRepositoryInterface $categoryRepo,
         protected MessageRepositoryInterface $messageRepo,
-        protected NewsletterRepositoryInterface $newsletterRepo,
     ) {}
 
     public function getProjects(int $limit = 0): Collection
@@ -32,6 +30,11 @@ class FrontendService
             $q->limit($limit);
         }
         return $q->all();
+    }
+
+    public function getProjectsPaginated(int $perPage = 12): LengthAwarePaginator
+    {
+        return $this->projectRepo->active()->orderBy('created_at', 'desc')->paginate($perPage);
     }
 
     public function getProjectBySlug(string $slug)
@@ -97,10 +100,5 @@ class FrontendService
     public function submitContact(array $data)
     {
         return $this->messageRepo->create($data);
-    }
-
-    public function subscribeNewsletter(string $email)
-    {
-        return $this->newsletterRepo->create(['email' => $email]);
     }
 }

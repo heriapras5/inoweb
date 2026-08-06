@@ -2,13 +2,19 @@ import './bootstrap';
 import Alpine from 'alpinejs';
 import collapse from '@alpinejs/collapse';
 import { Fancybox } from '@fancyapps/ui';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 Alpine.plugin(collapse);
 window.Alpine = Alpine;
 
-if (window.AOS) {
-    AOS.init({ duration: 500, easing: 'ease-out', once: true, offset: 60, disable: 'mobile' });
-}
+AOS.init({ 
+    duration: 500,
+    easing: 'ease-out',
+    once: true,
+    offset: 60,
+    disable: window.innerWidth < 768,
+});
 
 document.addEventListener('DOMContentLoaded', () => {
     // Fancybox
@@ -30,6 +36,79 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     });
+
+    // Testimonial auto-scroll carousel (seamless, smooth)
+    const tTrack = document.getElementById('testimonial-track');
+    if (tTrack) {
+        const GAP = 16;        // gap-4
+        const AUTOPLAY = 4000; // ms per langkah
+        let tTimer = null;
+        let originalCount = 0;
+        let clonedN = 0;
+
+        const cardW = () => {
+            const c = tTrack.querySelector('.testimonial-card');
+            return c ? c.offsetWidth : 0;
+        };
+        const stepW = () => cardW() + GAP;
+        const overflow = () => tTrack.scrollWidth > tTrack.clientWidth + 1;
+
+        // Bangun loop tanpa henti: duplikasi kartu awal ke ujung list
+        const setupLoop = () => {
+            if (tTrack.dataset.looped) return;
+            const cards = Array.from(tTrack.querySelectorAll('.testimonial-card'));
+            originalCount = cards.length;
+            if (!originalCount) return;
+            const w = cardW();
+            const visible = Math.max(1, Math.round(tTrack.clientWidth / w));
+            clonedN = Math.min(visible, originalCount);
+            cards.slice(0, clonedN).forEach((el) => {
+                const clone = el.cloneNode(true);
+                clone.setAttribute('aria-hidden', 'true');
+                tTrack.appendChild(clone);
+            });
+            tTrack.dataset.looped = '1';
+        };
+
+        const stop = () => {
+            if (tTimer) { clearInterval(tTimer); tTimer = null; }
+        };
+
+        const start = () => {
+            stop();
+            if (!overflow() || document.hidden || tTrack.matches(':hover')) return;
+            tTimer = setInterval(() => {
+                if (document.hidden || tTrack.matches(':hover')) return;
+                const step = stepW();
+                if (!step) return;
+                const maxT = tTrack.scrollWidth - tTrack.clientWidth;
+                const wrapAt = maxT - step * clonedN;
+                if (tTrack.scrollLeft >= wrapAt - 2) {
+                    // kembali instan (tanpa animasi) ke posisi setara agar tidak ada "rewind" panjang
+                    tTrack.scrollLeft = Math.max(0, tTrack.scrollLeft - step * originalCount);
+                } else {
+                    tTrack.scrollTo({ left: tTrack.scrollLeft + step, behavior: 'smooth' });
+                }
+            }, AUTOPLAY);
+        };
+
+        const resume = () => setTimeout(start, 3000);
+
+        tTrack.addEventListener('mouseenter', stop);
+        tTrack.addEventListener('mouseleave', resume);
+        tTrack.addEventListener('touchstart', stop, { passive: true });
+        tTrack.addEventListener('touchend', resume);
+        document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+
+        window.addEventListener('resize', () => {
+            stop();
+            if (tTrack.scrollLeft > 0) tTrack.scrollTo({ left: 0, behavior: 'auto' });
+            start();
+        });
+
+        setupLoop();
+        start();
+    }
 });
 
 Alpine.start();

@@ -4,7 +4,7 @@
 <!-- Hero -->
 <section class="relative overflow-hidden pt-24 sm:pt-32 pb-16 sm:pb-20 lg:min-h-screen lg:flex lg:items-center" style="background: linear-gradient(180deg, #0a192f 0%, #0f2744 50%, #0a192f 100%);">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full">
-        @php $waNum = setting('whatsapp_number', '6283114445775'); @endphp
+        @php $waNum = setting('whatsapp_number', '6285736186308'); @endphp
         <div class="grid lg:grid-cols-2 gap-12 items-center"
              x-data="{
                  active: 0,
@@ -15,7 +15,10 @@
                  init() { if (this.slides.length > 1) this.interval = setInterval(() => this.next(), 4000) }
              }"
              @mouseenter="if (slides.length > 1) clearInterval(interval)"
-             @mouseleave="if (slides.length > 1) interval = setInterval(() => next(), 4000)">
+             @mouseleave="if (slides.length > 1) interval = setInterval(() => next(), 4000)"
+             @focusin="if (slides.length > 1) clearInterval(interval)"
+             @focusout="if (slides.length > 1) interval = setInterval(() => next(), 4000)"
+             role="region" aria-roledescription="carousel" aria-label="Promo utama INOWEB">
 
             <!-- Left: Text content -->
             <div data-aos="fade-right">
@@ -23,13 +26,13 @@
                     <template x-for="(slide, i) in slides" :key="i">
                         <div x-show="active === i" x-transition.opacity.duration.300>
                             <div class="hero-badge mb-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                                 INOVASI &bull; PROFESIONAL &bull; TERPERCAYA
                             </div>
                             <h1 class="text-4xl sm:text-5xl lg:text-[3.2rem] font-extrabold text-white leading-tight mb-5" x-text="slide.title"></h1>
                             <p class="text-white/70 text-base sm:text-lg leading-relaxed mb-8 max-w-lg" x-text="slide.description"></p>
                             <div class="flex flex-col sm:flex-row gap-3 mb-8">
-                                <a :href="slide.button_url || 'https://wa.me/{{ $waNum }}?text=Halo,%20saya%20ingin%20konsultasi%20tentang%20pembuatan%20website'" target="_blank" class="btn-primary px-6 py-3 text-base inline-flex items-center justify-center gap-2">
+                                <a :href="slide.button_url || 'https://wa.me/{{ $waNum }}?text=Halo,%20saya%20ingin%20konsultasi%20tentang%20pembuatan%20website'" target="_blank" rel="noopener" class="btn-primary px-6 py-3 text-base inline-flex items-center justify-center gap-2">
                                     <span x-text="slide.button_text || 'Konsultasi Gratis'"></span>
                                 </a>
                                 <a href="{{ route('portfolio') }}" class="btn-outline-light px-6 py-3 text-base inline-flex items-center justify-center gap-2">
@@ -43,10 +46,10 @@
                 <template x-if="!slides.length">
                     <div>
                         <div class="hero-badge mb-4">INOVASI &bull; PROFESIONAL &bull; TERPERCAYA</div>
-                        <h1 class="text-4xl sm:text-5xl lg:text-[3.2rem] font-extrabold text-white leading-tight mb-5">Solusi Website Profesional<br>Untuk Bisnis Anda</h1>
+                        <h2 class="text-4xl sm:text-5xl lg:text-[3.2rem] font-extrabold text-white leading-tight mb-5">Solusi Website Profesional<br>Untuk Bisnis Anda</h2>
                         <p class="text-white/70 text-base sm:text-lg leading-relaxed mb-8 max-w-lg">INOWEB hadir untuk membantu bisnis, UMKM, dan perusahaan memiliki website modern, cepat, dan sesuai kebutuhan Anda.</p>
                         <div class="flex flex-col sm:flex-row gap-3 mb-8">
-                            <a href="https://wa.me/{{ $waNum }}?text=Halo,%20saya%20ingin%20konsultasi%20tentang%20pembuatan%20website" target="_blank" class="btn-primary px-6 py-3 text-base inline-flex items-center justify-center gap-2">
+                            <a href="https://wa.me/{{ $waNum }}?text=Halo,%20saya%20ingin%20konsultasi%20tentang%20pembuatan%20website" target="_blank" rel="noopener" class="btn-primary px-6 py-3 text-base inline-flex items-center justify-center gap-2">
                                 Konsultasi Gratis
                             </a>
                             <a href="{{ route('portfolio') }}" class="btn-outline-light px-6 py-3 text-base inline-flex items-center justify-center gap-2">
@@ -60,19 +63,19 @@
                 <!-- Feature badges -->
                 <div class="grid grid-cols-2 gap-3 mt-4">
                     <div class="flex items-center gap-2.5">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
                         <span class="text-white/80 text-xs sm:text-sm">Desain Modern &amp; Elegan</span>
                     </div>
                     <div class="flex items-center gap-2.5">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
                         <span class="text-white/80 text-xs sm:text-sm">Responsif di Semua Perangkat</span>
                     </div>
                     <div class="flex items-center gap-2.5">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                         <span class="text-white/80 text-xs sm:text-sm">SEO Friendly &amp; Cepat di Google</span>
                     </div>
                     <div class="flex items-center gap-2.5">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                         <span class="text-white/80 text-xs sm:text-sm">Garansi &amp; Dukungan Penuh</span>
                     </div>
                 </div>
@@ -95,19 +98,21 @@
                         <div class="imac-base"></div>
                         <!-- Navigation arrows -->
                         <div class="flex items-center justify-center gap-4 mt-6">
-                            <button @click="prev()" class="hero-arrow" :disabled="slides.length <= 1">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                            <button @click="prev()" :disabled="slides.length <= 1" aria-label="Slide sebelumnya" class="hero-arrow">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
                             </button>
                             <template x-if="slides.length > 1">
                                 <div class="flex items-center gap-2">
                                     <template x-for="(slide, i) in slides" :key="i">
                                         <button @click="active = i"
+                                                :aria-label="'Ke slide ' + (i + 1)"
+                                                :aria-current="active === i ? 'true' : 'false'"
                                                 :class="active === i ? 'hero-dot active' : 'hero-dot'"></button>
                                     </template>
                                 </div>
                             </template>
-                            <button @click="next()" class="hero-arrow" :disabled="slides.length <= 1">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                            <button @click="next()" :disabled="slides.length <= 1" aria-label="Slide berikutnya" class="hero-arrow">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
                             </button>
                         </div>
                     </div>
@@ -151,7 +156,7 @@
             @foreach($projects as $index => $project)
             <div class="portfolio-card" data-aos="fade-up" data-aos-delay="{{ $index * 100 }}" data-category="{{ $project->category->slug ?? '' }}">
                 <div class="portfolio-img">
-                    <img src="{{ $project->coverImage()?->image ? asset($project->coverImage()->image) : '' }}" alt="{{ $project->name }}" loading="lazy">
+                    <img src="{{ $project->coverImage()?->image ? asset($project->coverImage()->image) : '' }}" alt="{{ $project->name }}" loading="lazy" decoding="async">
                     <div class="absolute top-4 left-4"><span class="portfolio-badge {{ $project->badge_class }}">{{ $project->category->name }}</span></div>
                 </div>
                 <div class="p-5">
@@ -161,10 +166,6 @@
                         <a href="{{ route('portfolio.detail', $project->slug) }}" class="inline-flex items-center gap-1.5 text-blue-600 text-sm font-semibold hover:gap-2 transition-all">
                             Lihat Detail
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                        </a>
-                        <a href="{{ $project->url ?: '#' }}" target="_blank" class="inline-flex items-center gap-1.5 text-emerald-600 text-sm font-semibold hover:gap-2 transition-all">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                            Demo
                         </a>
                     </div>
                 </div>
@@ -187,28 +188,28 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 text-center" data-aos="fade-up" data-aos-delay="0">
                 <div class="w-14 h-14 bg-blue-600/20 rounded-2xl flex items-center justify-center text-blue-400 mx-auto mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
                 </div>
                 <h5 class="text-base font-bold text-white mb-2">Desain Modern & Elegan</h5>
                 <p class="text-sm text-white/60 leading-relaxed">Tampilan profesional yang menarik dan sesuai tren terkini.</p>
             </div>
             <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 text-center" data-aos="fade-up" data-aos-delay="100">
                 <div class="w-14 h-14 bg-blue-600/20 rounded-2xl flex items-center justify-center text-blue-400 mx-auto mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
                 </div>
                 <h5 class="text-base font-bold text-white mb-2">Performa Optimal</h5>
                 <p class="text-sm text-white/60 leading-relaxed">Website cepat, ringan, dan ramah mesin pencari.</p>
             </div>
             <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 text-center" data-aos="fade-up" data-aos-delay="200">
                 <div class="w-14 h-14 bg-blue-600/20 rounded-2xl flex items-center justify-center text-blue-400 mx-auto mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                 </div>
                 <h5 class="text-base font-bold text-white mb-2">Aman & Terpercaya</h5>
                 <p class="text-sm text-white/60 leading-relaxed">Keamanan data dan website Anda adalah prioritas kami.</p>
             </div>
             <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 text-center" data-aos="fade-up" data-aos-delay="300">
                 <div class="w-14 h-14 bg-blue-600/20 rounded-2xl flex items-center justify-center text-blue-400 mx-auto mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                 </div>
                 <h5 class="text-base font-bold text-white mb-2">Dukungan Penuh</h5>
                 <p class="text-sm text-white/60 leading-relaxed">Tim support kami siap membantu Anda kapan saja.</p>
@@ -229,12 +230,15 @@
             @foreach($faqs->take(4) as $i => $faq)
             <div x-data="{ open: false }" class="border border-[#e2e8f0] rounded-2xl overflow-hidden bg-white" data-aos="fade-up" data-aos-delay="{{ $i * 50 }}">
                 <button @click="open = !open"
+                        :aria-expanded="open"
+                        :id="'faq-btn-{{ $faq->id }}'"
+                        aria-controls="faq-panel-{{ $faq->id }}"
                         class="w-full flex items-center justify-between p-5 sm:p-6 text-left bg-white hover:bg-gray-50 transition-colors"
                         :class="{ 'border-b border-[#e2e8f0]': open }">
                     <span class="font-semibold text-[#0f172a] text-sm sm:text-base pr-4">{{ $faq->question }}</span>
-                    <svg :class="{ 'rotate-180': open }" class="w-5 h-5 text-blue-600 shrink-0 transition-transform duration-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                    <svg :class="{ 'rotate-180': open }" class="w-5 h-5 text-blue-600 shrink-0 transition-transform duration-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
                 </button>
-                <div x-show="open" x-collapse.duration.300ms>
+                <div x-show="open" x-collapse.duration.300ms id="faq-panel-{{ $faq->id }}" role="region" :aria-labelledby="'faq-btn-{{ $faq->id }}'">
                     <div class="p-5 sm:p-6 text-[#475569] text-sm leading-relaxed">{{ $faq->answer }}</div>
                 </div>
             </div>
@@ -250,46 +254,12 @@
 
             <!-- Tentang -->
 @if($aboutSection)
-@php
-    $hasVision = (bool) $aboutSection->vision;
-    $hasMission = $aboutSection->mission && count($aboutSection->mission);
-    $bothVisionMisi = $hasVision && $hasMission;
-@endphp
 <section class="py-16 sm:py-24 bg-gray-50" id="tentang">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="max-w-4xl mx-auto" data-aos="fade-up">
             <span class="inline-block text-blue-600 font-bold text-sm tracking-[2px] uppercase mb-3">TENTANG KAMI</span>
             <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0f172a] leading-tight mb-6">{!! $aboutSection->title !!}</h2>
-            <div class="text-[#475569] leading-relaxed space-y-4 prose-content mb-10">{!! $aboutSection->description !!}</div>
-            @if($hasVision || $hasMission)
-            <div class="{{ $bothVisionMisi ? 'grid sm:grid-cols-2 gap-6' : 'flex flex-col items-center' }}">
-                @if($hasVision)
-                <div class="bg-white rounded-2xl p-8 border border-[#e2e8f0] text-center {{ !$bothVisionMisi ? 'max-w-md w-full' : '' }}">
-                    <div class="w-14 h-14 bg-blue-600/10 rounded-2xl flex items-center justify-center text-blue-600 text-2xl mb-5 mx-auto">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                    </div>
-                    <h3 class="text-lg font-bold text-[#0f172a] mb-3">Visi</h3>
-                    <div class="text-sm text-[#475569] leading-relaxed prose-content">{!! $aboutSection->vision !!}</div>
-                </div>
-                @endif
-                @if($hasMission)
-                <div class="bg-white rounded-2xl p-8 border border-[#e2e8f0] {{ !$bothVisionMisi ? 'max-w-md w-full' : '' }}">
-                    <div class="w-14 h-14 bg-blue-600/10 rounded-2xl flex items-center justify-center text-blue-600 text-2xl mb-5 mx-auto">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-                    </div>
-                    <h3 class="text-lg font-bold text-[#0f172a] mb-3 text-center">Misi</h3>
-                    <ul class="space-y-2.5">
-                        @foreach($aboutSection->mission as $item)
-                        <li class="flex items-start gap-2.5 text-sm text-[#475569]">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
-                            {{ $item }}
-                        </li>
-                        @endforeach
-                    </ul>
-                </div>
-                @endif
-            </div>
-            @endif
+            <div class="text-[#475569] leading-relaxed space-y-4 prose-content">{!! $aboutSection->description !!}</div>
         </div>
     </div>
 </section>
@@ -314,6 +284,46 @@
     </div>
 </section>
 
+{{-- Testimoni (sementara disembunyikan)
+@if($testimonials->count())
+<section class="py-16 sm:py-24 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12" data-aos="fade-up">
+            <span class="inline-block text-blue-600 font-bold text-sm tracking-[2px] uppercase mb-3">TESTIMONI</span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0f172a] leading-tight">Apa Kata <span class="text-blue-600">Klien Kami</span></h2>
+            <p class="text-[#64748b] text-base leading-relaxed mt-3 max-w-2xl mx-auto">Kepercayaan klien adalah bukti nyata kualitas layanan kami.</p>
+        </div>
+        <div class="testimonial-carousel" data-aos="fade-up">
+            <div id="testimonial-track" class="flex overflow-x-auto snap-x snap-mandatory gap-4 scrollbar-hide pb-2">
+                @foreach($testimonials as $i => $testimonial)
+                <figure class="testimonial-card w-1/2 lg:w-1/3 shrink-0 snap-start">
+                    <div class="testimonial-stars" aria-label="Rating {{ $testimonial->rating }} dari 5">
+                        @for($s = 1; $s <= 5; $s++)
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="{{ $s <= $testimonial->rating ? 'currentColor' : 'none' }}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="{{ $s <= $testimonial->rating ? 'text-[#fbbf24]' : 'text-[#cbd5e1]' }}" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        @endfor
+                    </div>
+                    <blockquote class="testimonial-text">{{ $testimonial->quote }}</blockquote>
+                    <figcaption class="flex items-center gap-3">
+                        @if($testimonial->avatar)
+                        <div class="author-avatar"><img src="{{ asset($testimonial->avatar) }}" alt="{{ $testimonial->name }}" loading="lazy"></div>
+                        @else
+                        <div class="author-avatar flex items-center justify-center bg-blue-600 text-white font-bold text-sm">{{ mb_strtoupper(mb_substr($testimonial->name, 0, 1)) }}</div>
+                        @endif
+                        <div>
+                            <p class="font-bold text-[#0f172a] text-sm leading-tight">{{ $testimonial->name }}</p>
+                            @if($testimonial->role)
+                            <p class="text-xs text-[#64748b] leading-tight">{{ $testimonial->role }}</p>
+                            @endif
+                        </div>
+                    </figcaption>
+                </figure>
+                @endforeach
+            </div>
+        </div>
+    </div>
+</section>
+@endif
+--}}
 <!-- CTA -->
 <section class="bg-gradient-blue py-16 sm:py-20 relative overflow-hidden cta-section">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -323,26 +333,26 @@
                 <p class="text-white/70 text-base leading-relaxed mb-6">Konsultasikan kebutuhan Anda sekarang juga dan dapatkan solusi terbaik dari tim profesional INOWEB.</p>
                 <div class="grid grid-cols-2 gap-3 mb-8">
                     <div class="flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
                         <span class="text-white/80 text-sm">Konsultasi Gratis</span>
                     </div>
                     <div class="flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
                         <span class="text-white/80 text-sm">Harga Terjangkau</span>
                     </div>
                     <div class="flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
                         <span class="text-white/80 text-sm">Proses Cepat</span>
                     </div>
                     <div class="flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
                         <span class="text-white/80 text-sm">Hasil Berkualitas</span>
                     </div>
                 </div>
             </div>
             <div class="sm:text-right" data-aos="fade-left" data-aos-delay="400">
                 <div class="flex flex-col sm:flex-row gap-3 sm:justify-end">
-                    <a href="https://wa.me/{{ $waNum }}?text=Halo,%20saya%20tertarik%20dengan%20layanan%20INOWEB" target="_blank" class="flex sm:inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-full font-semibold text-base no-underline hover:bg-blue-700 transition-all hover:-translate-y-0.5 hover:shadow-lg">
+                    <a href="https://wa.me/{{ $waNum }}?text=Halo,%20saya%20tertarik%20dengan%20layanan%20INOWEB" target="_blank" rel="noopener" class="flex sm:inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-full font-semibold text-base no-underline hover:bg-blue-700 transition-all hover:-translate-y-0.5 hover:shadow-lg">
                         Konsultasi Gratis
                     </a>
                     <a href="{{ route('portfolio') }}" class="flex sm:inline-flex items-center justify-center gap-2 border-2 border-white/30 text-white px-8 py-4 rounded-full font-semibold text-base no-underline hover:bg-white/10 hover:border-white transition-all">
@@ -358,33 +368,29 @@
 <!-- Proses Kerja -->
 <section class="py-16 sm:py-24 bg-white" id="proses">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid lg:grid-cols-2 gap-8 items-center mb-16">
-            <div data-aos="fade-right">
-                <span class="inline-block text-blue-600 font-bold text-sm tracking-[2px] uppercase mb-3">PROSES KERJA KAMI</span>
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0f172a] leading-tight">Mudah, Terstruktur & Efisien</h2>
-            </div>
-            <div data-aos="fade-left">
-                <p class="text-[#64748b] text-base leading-relaxed lg:text-right mb-0">Kami memiliki proses kerja yang jelas untuk memastikan hasil terbaik sesuai kebutuhan Anda.</p>
-            </div>
+        <div class="max-w-3xl mb-16" data-aos="fade-up">
+            <span class="inline-block text-blue-600 font-bold text-sm tracking-[2px] uppercase mb-3">PROSES KERJA KAMI</span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0f172a] leading-tight mb-4">Mudah, Terstruktur &amp; Efisien</h2>
+            <p class="text-[#64748b] text-base leading-relaxed max-w-2xl mb-0">Kami memiliki proses kerja yang jelas untuk memastikan hasil terbaik sesuai kebutuhan Anda.</p>
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             <div class="process-card text-center" data-aos="fade-up">
-                <div class="process-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+                <div class="process-icon"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
                 <h5 class="text-base font-bold text-[#0f172a] mb-2">Konsultasi</h5>
                 <p class="text-sm text-[#64748b] leading-relaxed">Kami mendengarkan kebutuhan dan tujuan bisnis Anda.</p>
             </div>
             <div class="process-card text-center" data-aos="fade-up" data-aos-delay="100">
-                <div class="process-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+                <div class="process-icon"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
                 <h5 class="text-base font-bold text-[#0f172a] mb-2">Perencanaan</h5>
                 <p class="text-sm text-[#64748b] leading-relaxed">Menyusun strategi, konsep, dan solusi terbaik.</p>
             </div>
             <div class="process-card text-center" data-aos="fade-up" data-aos-delay="200">
-                <div class="process-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+                <div class="process-icon"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
                 <h5 class="text-base font-bold text-[#0f172a] mb-2">Desain & Development</h5>
                 <p class="text-sm text-[#64748b] leading-relaxed">Membuat desain menarik dan mengembangkan website.</p>
             </div>
             <div class="process-card text-center" data-aos="fade-up" data-aos-delay="300">
-                <div class="process-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="10" ry="5"/><path d="M2 17v5M2 12v5M22 17v5M22 12v5M12 22v-4"/></svg></div>
+                <div class="process-icon"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="10" ry="5"/><path d="M2 17v5M2 12v5M22 17v5M22 12v5M12 22v-4"/></svg></div>
                 <h5 class="text-base font-bold text-[#0f172a] mb-2">Testing & Revisi</h5>
                 <p class="text-sm text-[#64748b] leading-relaxed">Uji coba untuk memastikan semua berjalan sempurna.</p>
             </div>

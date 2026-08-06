@@ -10,7 +10,7 @@ class FaqSeeder extends Seeder
     public function run(): void
     {
         $faqs = [
-            ['question' => 'Berapa lama proses pembuatan website?', 'answer' => 'Lama pengerjaan tergantung kompleksitas website. Untuk website company profile standar membutuhkan waktu 2-3 minggu, sedangkan website dengan fitur khusus bisa 4-8 minggu. Kami selalu memberikan estimasi waktu yang jelas di awal.', 'sort_order' => 1],
+            ['question' => 'Berapa lama proses pembuatan website?', 'answer' => 'Lama pengerjaan tergantung kompleksitas website. Untuk website company profile standar membutuhkan waktu sekitar 1-2 minggu, sedangkan website dengan fitur khusus bisa memakan waktu 2-4 minggu. Kami selalu memberikan estimasi waktu yang jelas di awal.', 'sort_order' => 1],
             ['question' => 'Apakah website yang dibuat sudah termasuk domain dan hosting?', 'answer' => 'Ya, kami menyediakan paket lengkap termasuk domain dan hosting. Namun jika Anda sudah memiliki domain dan hosting sendiri, kami bisa membantu melakukan setup dan integrasi.', 'sort_order' => 2],
             ['question' => 'Apakah website saya akan responsive di hp?', 'answer' => 'Tentu! Semua website yang kami buat menggunakan pendekatan Mobile First, sehingga tampil sempurna di semua perangkat mulai dari smartphone, tablet, laptop, hingga desktop.', 'sort_order' => 3],
             ['question' => 'Apakah saya bisa mengelola konten website sendiri?', 'answer' => 'Ya, setiap website dilengkapi dengan CMS (Content Management System) yang mudah digunakan. Anda bisa mengupdate konten, menambah halaman, mengelola portfolio, dan lainnya tanpa perlu pengetahuan coding.', 'sort_order' => 4],

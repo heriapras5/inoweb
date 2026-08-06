@@ -3,10 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Message;
 use App\Models\PageView;
-use App\Models\Project;
-use App\Models\Testimonial;
 
 class AdminController extends Controller
 {
@@ -45,13 +42,12 @@ class AdminController extends Controller
             'week_change' => $weekChange,
             'month_change' => $monthChange,
             'year_change' => $yearChange,
-            'projects' => Project::count(),
-            'messages' => Message::count(),
-            'unread_messages' => Message::where('is_read', false)->count(),
-            'testimonials' => Testimonial::count(),
+            'last_week' => $lastWeek,
+            'last_month' => $lastMonth,
+            'last_year' => $lastYear,
         ];
 
-        // ─── Chart: 30 Hari (default) ───
+        // ─── Chart: 30 Hari ───
         $dailyData = collect();
         for ($i = 29; $i >= 0; $i--) {
             $date = now()->subDays($i);
@@ -92,27 +88,19 @@ class AdminController extends Controller
             ]);
         }
 
-        // ─── Top Pages ───
-        $topPages = PageView::selectRaw('page_url, COUNT(*) as total')
-            ->groupBy('page_url')
-            ->orderByDesc('total')
-            ->limit(5)
-            ->get();
-        $topPagesTotal = $topPages->sum('total');
-
         // ─── Device ───
         $deviceData = PageView::selectRaw('device_type, COUNT(*) as total')
             ->groupBy('device_type')
             ->orderByDesc('total')
             ->get();
 
-        // ─── Recent ───
-        $recentMessages = Message::latest()->take(5)->get();
-        $latestProjects = Project::with('category')->latest()->take(4)->get();
+        // ─── Rata-rata & Puncak Harian ───
+        $dailyAvg = $dailyData->count() > 0 ? round($dailyData->avg('value')) : 0;
+        $dailyPeak = $dailyData->sortByDesc('value')->first();
 
         return view('admin.dashboard', compact(
             'totals', 'dailyData', 'weeklyData', 'monthlyData', 'yearlyData',
-            'topPages', 'topPagesTotal', 'deviceData', 'recentMessages', 'latestProjects'
+            'deviceData', 'dailyAvg', 'dailyPeak'
         ));
     }
 }

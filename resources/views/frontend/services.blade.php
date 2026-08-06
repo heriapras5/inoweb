@@ -35,7 +35,7 @@
                     </li>
                     @endforeach
                 </ul>
-                <a href="https://wa.me/{{ setting('whatsapp_number', '6283114445775') }}?text=Halo,%20saya%20tertarik%20dengan%20layanan%20{{ urlencode($service->title) }}" target="_blank" class="text-blue-600 font-semibold text-sm no-underline inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg hover:bg-blue-50 transition-all mt-auto">Pesan via WhatsApp</a>
+                <a href="https://wa.me/{{ setting('whatsapp_number', '6285736186308') }}?text=Halo,%20saya%20tertarik%20dengan%20layanan%20{{ urlencode($service->title) }}" target="_blank" rel="noopener" class="text-blue-600 font-semibold text-sm no-underline inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg hover:bg-blue-50 transition-all mt-auto">Pesan via WhatsApp</a>
             </div>
             @endforeach
         </div>
@@ -47,7 +47,7 @@
         <div class="text-center" data-aos="zoom-in">
             <h2 class="text-3xl sm:text-4xl font-extrabold text-white leading-tight mb-4">Tidak menemukan layanan yang sesuai?</h2>
             <p class="text-white/70 text-lg max-w-2xl mx-auto mb-8">Kami juga melayani pembuatan website custom sesuai kebutuhan spesifik bisnis Anda. Konsultasikan gratis!</p>
-            <a href="https://wa.me/{{ setting('whatsapp_number', '6283114445775') }}" target="_blank" class="flex sm:inline-flex items-center gap-2 bg-white text-blue-600 px-8 py-4 rounded-full font-semibold text-base no-underline hover:bg-gray-100 transition-all hover:-translate-y-0.5">Hubungi via WhatsApp</a>
+            <a href="https://wa.me/{{ setting('whatsapp_number', '6285736186308') }}" target="_blank" rel="noopener" class="flex sm:inline-flex items-center gap-2 bg-white text-blue-600 px-8 py-4 rounded-full font-semibold text-base no-underline hover:bg-gray-100 transition-all hover:-translate-y-0.5">Hubungi via WhatsApp</a>
         </div>
     </div>
 </section>

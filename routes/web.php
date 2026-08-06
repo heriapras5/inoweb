@@ -27,7 +27,6 @@ Route::get('/kebijakan-privasi', [FrontendController::class, 'privacyPolicy'])->
 Route::get('/syarat-ketentuan', [FrontendController::class, 'terms'])->name('terms');
 
 Route::post('/kontak/kirim', [FrontendController::class, 'sendMessage'])->name('contact.send');
-Route::post('/newsletter', [FrontendController::class, 'subscribeNewsletter'])->name('newsletter.subscribe');
 
 // Auth
 Route::get('/admin', function () {

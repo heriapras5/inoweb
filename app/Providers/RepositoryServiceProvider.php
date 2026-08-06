@@ -5,14 +5,12 @@ namespace App\Providers;
 use App\Repositories\Contracts\CategoryRepositoryInterface;
 use App\Repositories\Contracts\FaqRepositoryInterface;
 use App\Repositories\Contracts\MessageRepositoryInterface;
-use App\Repositories\Contracts\NewsletterRepositoryInterface;
 use App\Repositories\Contracts\ProjectRepositoryInterface;
 use App\Repositories\Contracts\ServiceRepositoryInterface;
 use App\Repositories\Contracts\TestimonialRepositoryInterface;
 use App\Repositories\Eloquent\CategoryRepository;
 use App\Repositories\Eloquent\FaqRepository;
 use App\Repositories\Eloquent\MessageRepository;
-use App\Repositories\Eloquent\NewsletterRepository;
 use App\Repositories\Eloquent\ProjectRepository;
 use App\Repositories\Eloquent\ServiceRepository;
 use App\Repositories\Eloquent\TestimonialRepository;
@@ -28,7 +26,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(TestimonialRepositoryInterface::class, TestimonialRepository::class);
         $this->app->bind(CategoryRepositoryInterface::class, CategoryRepository::class);
         $this->app->bind(MessageRepositoryInterface::class, MessageRepository::class);
-        $this->app->bind(NewsletterRepositoryInterface::class, NewsletterRepository::class);
     }
 
     public function boot(): void {}

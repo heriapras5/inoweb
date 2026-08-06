@@ -25,12 +25,15 @@
             @foreach($faqs as $i => $faq)
             <div x-data="{ open: false }" class="border border-[#e2e8f0] rounded-2xl overflow-hidden" data-aos="fade-up" data-aos-delay="{{ $i * 50 }}">
                 <button @click="open = !open"
+                        :aria-expanded="open"
+                        :id="'faq-btn-{{ $faq->id }}'"
+                        aria-controls="faq-panel-{{ $faq->id }}"
                         class="w-full flex items-center justify-between p-6 text-left bg-white hover:bg-gray-50 transition-colors"
                         :class="{ 'border-b border-[#e2e8f0]': open }">
                     <span class="font-semibold text-[#1a1a2e] pr-4">{{ $faq->question }}</span>
-                    <svg :class="{ 'rotate-180': open }" class="w-5 h-5 text-blue-600 shrink-0 transition-transform duration-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                    <svg :class="{ 'rotate-180': open }" class="w-5 h-5 text-blue-600 shrink-0 transition-transform duration-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
                 </button>
-                <div x-show="open" x-collapse.duration.300ms>
+                <div x-show="open" x-collapse.duration.300ms id="faq-panel-{{ $faq->id }}" role="region" :aria-labelledby="'faq-btn-{{ $faq->id }}'">
                     <div class="p-6 text-[#475569] leading-relaxed">{{ $faq->answer }}</div>
                 </div>
             </div>
@@ -48,7 +51,7 @@
         <div class="absolute bottom-1/3 left-1/5 w-1 h-1 bg-white/20 rounded-full"></div>
     </div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center" data-aos="fade-up">
+        <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <div class="text-center lg:text-left">
                 <span class="inline-block text-[0.7rem] font-bold tracking-[0.2em] uppercase text-blue-300 mb-3">MASIH BINGUNG?</span>
                 <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white leading-tight mb-4">Konsultasi Gratis <span class="text-blue-300">via WhatsApp</span></h2>
@@ -69,7 +72,7 @@
                 </div>
             </div>
             <div class="flex flex-col items-center lg:items-end gap-4">
-                <a href="https://wa.me/{{ setting('whatsapp_number', '6283114445775') }}?text=Halo,%20saya%20ingin%20bertanya%20tentang%20layanan%20pembuatan%20website" target="_blank" class="inline-flex items-center gap-3 bg-white text-blue-600 px-8 py-4 rounded-full font-semibold text-base no-underline hover:bg-gray-100 transition-all hover:-translate-y-0.5 hover:shadow-xl shadow-lg">
+                <a href="https://wa.me/{{ setting('whatsapp_number', '6285736186308') }}?text=Halo,%20saya%20ingin%20bertanya%20tentang%20layanan%20pembuatan%20website" target="_blank" rel="noopener" class="inline-flex items-center gap-3 bg-white text-blue-600 px-8 py-4 rounded-full font-semibold text-base no-underline hover:bg-gray-100 transition-all hover:-translate-y-0.5 hover:shadow-xl shadow-lg">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                     Tanya via WhatsApp
                 </a>

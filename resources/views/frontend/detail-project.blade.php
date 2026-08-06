@@ -34,12 +34,12 @@
                     {{ $first }} <span class="text-gradient">{{ $last }}</span>
                 </h1>
                 <div class="flex flex-wrap gap-3">
-                    <a href="https://wa.me/{{ setting('whatsapp_number', '6283114445775') }}?text=Halo,%20saya%20tertarik%20dengan%20proyek%20{{ urlencode($project->name) }}" target="_blank" class="btn-primary px-6 py-3 text-base inline-flex items-center gap-2">
+                    <a href="https://wa.me/{{ setting('whatsapp_number', '6285736186308') }}?text=Halo,%20saya%20tertarik%20dengan%20proyek%20{{ urlencode($project->name) }}" target="_blank" rel="noopener" class="btn-primary px-6 py-3 text-base inline-flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                         Hubungi via WhatsApp
                     </a>
                     @if($project->url)
-                    <a href="{{ $project->url }}" target="_blank" class="btn-outline-light px-6 py-3 text-base inline-flex items-center gap-2">
+                    <a href="{{ $project->url }}" target="_blank" rel="noopener" class="btn-outline-light px-6 py-3 text-base inline-flex items-center gap-2">
                         Lihat Website
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                     </a>
@@ -49,7 +49,7 @@
             <div data-aos="fade-left" data-aos-delay="300">
                 @if($firstImage)
                 <div class="relative">
-                    <img src="{{ asset($firstImage->image) }}" alt="{{ $project->name }}" loading="lazy"
+                    <img src="{{ asset($firstImage->image) }}" alt="{{ $project->name }}" loading="lazy" decoding="async"
                          class="w-full rounded-2xl shadow-2xl border border-white/10 object-cover">
                 </div>
                 @else
@@ -183,10 +183,13 @@
 
 {{-- Galeri --}}
 @php
-    $_galleryImages = $project->images->where('type', 'gallery');
+    $_galleryImages = $project->images->where('type', 'gallery')->values();
     $_cover = $project->coverImage();
-    if ($_cover && $_cover->type === 'gallery') {
-        $_galleryImages = $_galleryImages->reject(fn($img) => $img->id === $_cover->id);
+    if ($_cover && $_cover->type === 'gallery' && $_galleryImages->count() > 1) {
+        $_galleryImages = $_galleryImages->reject(fn($img) => $img->id === $_cover->id)->values();
+    }
+    if ($_galleryImages->isEmpty()) {
+        $_galleryImages = $project->images;
     }
 @endphp
 @if($_galleryImages->count() > 0)
@@ -197,25 +200,29 @@
             <div class="w-12 h-1 bg-blue-600 mx-auto mt-3 rounded-full"></div>
             <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1a1a2e] mt-4">Tampilan {{ $project->name }}</h2>
         </div>
-        <div class="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-6" data-aos="fade-up" data-aos-delay="100">
-            @foreach($_galleryImages as $i => $img)
-            <a href="{{ asset($img->image) }}" data-fancybox="gallery-{{ $project->id }}"
-               data-caption="{{ $img->caption ?? 'Tampilan ' . $project->name }}"
-               class="group rounded-2xl overflow-hidden shadow-lg border border-gray-100 bg-white block relative">
-                <div class="aspect-video overflow-hidden">
-                    <img src="{{ asset($img->image) }}" alt="{{ $img->caption ?? 'Screenshot ' . $project->name }}" loading="lazy"
-                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                </div>
-                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300 flex items-center justify-center">
-                    <svg class="text-white opacity-0 group-hover:opacity-100 transition-all duration-300 scale-0 group-hover:scale-100" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-                </div>
-                @if($img->caption)
-                <div class="px-4 py-3 bg-white relative z-10">
-                    <p class="text-sm text-[#475569] font-medium">{{ $img->caption }}</p>
-                </div>
-                @endif
-            </a>
-            @endforeach
+        <div data-aos="fade-up" data-aos-delay="100">
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 [grid-auto-flow:dense] auto-rows-[160px] sm:auto-rows-[190px] lg:auto-rows-[210px]">
+                @foreach($_galleryImages as $i => $img)
+                <a href="{{ asset($img->image) }}" data-fancybox="gallery-{{ $project->id }}"
+                   data-caption="{{ $img->caption ?? 'Tampilan ' . $project->name }}"
+                   class="group relative block overflow-hidden rounded-2xl border border-gray-200/70 shadow-sm ring-1 ring-black/5 transition-all duration-300 hover:shadow-xl hover:ring-blue-200/60 {{ $i === 0 ? 'col-span-2 row-span-2' : '' }}">
+                    <img src="{{ asset($img->image) }}" alt="{{ $img->caption ?? 'Screenshot ' . $project->name }}" loading="lazy" decoding="async"
+                         class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/75 via-slate-900/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+                    <div class="absolute inset-0 flex items-center justify-center opacity-0 transition-all duration-300 group-hover:opacity-100">
+                        <span class="grid h-12 w-12 scale-75 place-items-center rounded-full bg-white/90 text-slate-900 shadow-lg transition-transform duration-300 group-hover:scale-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+                        </span>
+                    </div>
+                    <span class="absolute left-3 top-3 rounded-full bg-white/85 px-2.5 py-1 text-[11px] font-bold text-slate-800 shadow-sm backdrop-blur">{{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</span>
+                    @if($img->caption)
+                    <figcaption class="absolute inset-x-0 bottom-0 translate-y-2 p-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+                        <span class="block truncate text-sm font-semibold text-white drop-shadow">{{ $img->caption }}</span>
+                    </figcaption>
+                    @endif
+                </a>
+                @endforeach
+            </div>
         </div>
     </div>
 </section>
@@ -295,7 +302,7 @@
                 <p class="text-white/70 mt-2 max-w-xl">Kami siap membantu mewujudkan website profesional yang sesuai dengan kebutuhan bisnis Anda.</p>
             </div>
             <div class="shrink-0 flex flex-col items-center gap-2">
-                <a href="https://wa.me/{{ setting('whatsapp_number', '6283114445775') }}?text=Halo,%20saya%20tertarik%20dengan%20pembuatan%20website" target="_blank" class="inline-flex items-center gap-2 bg-white text-blue-600 px-8 py-3.5 rounded-full text-base font-semibold hover:bg-gray-100 hover:-translate-y-0.5 transition-all shadow-lg hover:shadow-xl">
+                <a href="https://wa.me/{{ setting('whatsapp_number', '6285736186308') }}?text=Halo,%20saya%20tertarik%20dengan%20pembuatan%20website" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-white text-blue-600 px-8 py-3.5 rounded-full text-base font-semibold hover:bg-gray-100 hover:-translate-y-0.5 transition-all shadow-lg hover:shadow-xl">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                     Konsultasi Gratis
                 </a>

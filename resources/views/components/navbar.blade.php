@@ -17,15 +17,15 @@
                     @if($logoImage)
                     <span class="text-base sm:text-lg font-bold text-[#0f172a] tracking-wide truncate block">{{ $logoSiteName }}</span>
                     @else
-                    <span class="text-base sm:text-lg font-bold text-[#0f172a] tracking-wide truncate block">{!! nl2br(e($logoSiteName)) !!}</span>
+                    <span class="text-base sm:text-lg font-bold text-[#0f172a] tracking-wide truncate block">{{ $logoSiteName }}</span>
                     @endif
                     <small class="max-sm:hidden block text-[0.65rem] tracking-[2px] text-blue-600 font-semibold leading-none truncate">{{ $siteTagline }}</small>
                 </div>
             </a>
 
-            <button @click="mobileOpen = !mobileOpen" class="lg:hidden shrink-0 min-w-[44px] min-h-[40px] flex items-center justify-center text-[#1e293b]">
-                <svg x-show="!mobileOpen" x-cloak xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-                <svg x-show="mobileOpen" x-cloak xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            <button @click="mobileOpen = !mobileOpen" class="lg:hidden shrink-0 min-w-[44px] min-h-[40px] flex items-center justify-center text-[#1e293b]" aria-label="Buka menu navigasi" :aria-expanded="mobileOpen">
+                <svg x-show="!mobileOpen" x-cloak aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                <svg x-show="mobileOpen" x-cloak aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
 
             <div class="hidden lg:flex items-center gap-1">
@@ -36,7 +36,7 @@
                     <a href="{{ route('faq') }}" class="nav-link {{ request()->routeIs('faq') ? 'active' : '' }}" {{ request()->routeIs('faq') ? 'aria-current="page"' : '' }}>FAQ</a>
                     <a href="{{ route('contact') }}" class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}" {{ request()->routeIs('contact') ? 'aria-current="page"' : '' }}>Kontak</a>
                 </div>
-                <a href="https://wa.me/{{ setting('whatsapp_number', '6283114445775') }}?text=Halo,%20saya%20ingin%20konsultasi%20tentang%20pembuatan%20website" target="_blank"
+                <a href="https://wa.me/{{ setting('whatsapp_number', '6285736186308') }}?text=Halo,%20saya%20ingin%20konsultasi%20tentang%20pembuatan%20website" target="_blank" rel="noopener"
                    class="ml-3 bg-blue-600 text-white px-5 py-2.5 rounded-full text-sm font-semibold no-underline transition-all duration-300 hover:bg-blue-700 hover:-translate-y-0.5 hover:shadow-[0_4px_20px_rgba(37,99,235,0.3)] inline-flex items-center gap-1.5">
                     Konsultasi Gratis
                 </a>
@@ -58,7 +58,7 @@
                     <a href="{{ route('faq') }}" class="block px-4 py-3 text-[#1e293b] no-underline font-medium rounded-lg hover:bg-gray-50 transition-colors" {{ request()->routeIs('faq') ? 'aria-current="page"' : '' }}>FAQ</a>
                     <a href="{{ route('contact') }}" class="block px-4 py-3 text-[#1e293b] no-underline font-medium rounded-lg hover:bg-gray-50 transition-colors" {{ request()->routeIs('contact') ? 'aria-current="page"' : '' }}>Kontak</a>
                     <div class="pt-2 px-4">
-                        <a href="https://wa.me/{{ setting('whatsapp_number', '6283114445775') }}?text=Halo,%20saya%20ingin%20konsultasi%20tentang%20pembuatan%20website" target="_blank" class="block w-full text-center bg-blue-600 text-white px-5 py-3 rounded-full text-sm font-semibold no-underline hover:bg-blue-700 transition-colors">Konsultasi Gratis</a>
+                        <a href="https://wa.me/{{ setting('whatsapp_number', '6285736186308') }}?text=Halo,%20saya%20ingin%20konsultasi%20tentang%20pembuatan%20website" target="_blank" rel="noopener" class="block w-full text-center bg-blue-600 text-white px-5 py-3 rounded-full text-sm font-semibold no-underline hover:bg-blue-700 transition-colors">Konsultasi Gratis</a>
                     </div>
                 </div>
             </div>

@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Repositories\Contracts\ProjectRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ProjectRepository extends BaseRepository implements ProjectRepositoryInterface
 {
@@ -18,6 +19,12 @@ class ProjectRepository extends BaseRepository implements ProjectRepositoryInter
     {
         $this->criteria[] = fn($q) => $q->with('images');
         return parent::all($columns);
+    }
+
+    public function paginate(int $perPage = 10, array $columns = ['*']): LengthAwarePaginator
+    {
+        $this->criteria[] = fn($q) => $q->with('images');
+        return parent::paginate($perPage, $columns);
     }
 
     public function findBySlug(string $slug): ?Model
