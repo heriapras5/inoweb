@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Dashboard') - Admin {{ setting('site_name', 'INOWEB') }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link rel="icon" type="image/svg+xml" href="{{ url('/favicon.svg') }}">
-    <link rel="shortcut icon" href="{{ url('/favicon.svg') }}">
+    @php $faviconVersion = md5(setting('favicon') ?: setting('logo_image')); @endphp
+    <link rel="icon" type="image/png" href="{{ url('/favicon.png') }}?v={{ $faviconVersion }}">
+    <link rel="shortcut icon" href="{{ url('/favicon.png') }}?v={{ $faviconVersion }}">
     @if(setting('logo_image'))
     <link rel="apple-touch-icon" href="{{ asset(setting('logo_image')) }}">
     @else
-    <link rel="apple-touch-icon" href="{{ url('/favicon.svg') }}">
+    <link rel="apple-touch-icon" href="{{ url('/favicon.png') }}?v={{ $faviconVersion }}">
     @endif
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>

@@ -79,27 +79,68 @@ class FrontendController extends Controller
 
     public function favicon()
     {
+        $size = 64;
         $logo = setting('favicon') ?: setting('logo_image');
 
+        $img = imagecreatetruecolor($size, $size);
+        imagesavealpha($img, true);
+        imagealphablending($img, false);
+        $transparent = imagecolorallocatealpha($img, 0, 0, 0, 127);
+        imagefilledrectangle($img, 0, 0, $size, $size, $transparent);
+
+        $source = null;
         if ($logo) {
-            $src = asset($logo);
-            $svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">'
-                . '<defs><clipPath id="c"><circle cx="32" cy="32" r="32"/></clipPath></defs>'
-                . '<circle cx="32" cy="32" r="32" fill="#2563eb"/>'
-                . '<image href="' . e($src) . '" width="64" height="64" preserveAspectRatio="xMidYMid slice" clip-path="url(#c)"/>'
-                . '</svg>';
-        } else {
-            $svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">'
-                . '<circle cx="16" cy="16" r="16" fill="#2563eb"/>'
-                . '<rect x="6" y="7" width="20" height="14" rx="2.5" fill="#ffffff"/>'
-                . '<rect x="12" y="21" width="8" height="3" fill="#ffffff"/>'
-                . '<rect x="14" y="24" width="4" height="3" fill="#ffffff"/>'
-                . '</svg>';
+            $fullPath = public_path(ltrim($logo, '/'));
+            if (is_file($fullPath)) {
+                $source = @imagecreatefromstring((string) file_get_contents($fullPath));
+            }
         }
 
-        return response($svg, 200, [
-            'Content-Type' => 'image/svg+xml',
-            'Cache-Control' => 'public, max-age=86400',
+        imagealphablending($img, true);
+
+        if ($source) {
+            $sw = imagesx($source);
+            $sh = imagesy($source);
+            $scale = max($size / $sw, $size / $sh);
+            $nw = (int) round($sw * $scale);
+            $nh = (int) round($sh * $scale);
+            $tmp = imagecreatetruecolor($nw, $nh);
+            imagesavealpha($tmp, true);
+            imagealphablending($tmp, true);
+            imagecopyresampled($tmp, $source, 0, 0, 0, 0, $nw, $nh, $sw, $sh);
+            $sx = (int) (($nw - $size) / 2);
+            $sy = (int) (($nh - $size) / 2);
+            imagecopy($img, $tmp, 0, 0, $sx, $sy, $size, $size);
+            imagedestroy($tmp);
+            imagedestroy($source);
+        } else {
+            $blue = imagecolorallocate($img, 37, 99, 235);
+            $white = imagecolorallocate($img, 255, 255, 255);
+            imagefilledellipse($img, $size / 2, $size / 2, $size, $size, $blue);
+            imagefilledrectangle($img, 11, 13, 53, 38, $white);
+            imagefilledrectangle($img, 22, 41, 42, 45, $white);
+            imagefilledrectangle($img, 28, 45, 36, 49, $white);
+        }
+
+        imagealphablending($img, false);
+        $cx = $cy = ($size - 1) / 2;
+        $r = $size / 2;
+        for ($y = 0; $y < $size; $y++) {
+            for ($x = 0; $x < $size; $x++) {
+                if ((($x - $cx) * ($x - $cx)) + (($y - $cy) * ($y - $cy)) > ($r * $r)) {
+                    imagesetpixel($img, $x, $y, $transparent);
+                }
+            }
+        }
+
+        ob_start();
+        imagepng($img);
+        $png = ob_get_clean();
+        imagedestroy($img);
+
+        return response($png, 200, [
+            'Content-Type' => 'image/png',
+            'Cache-Control' => 'public, max-age=31536000, immutable',
         ]);
     }
 

@@ -26,12 +26,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    <link rel="icon" type="image/svg+xml" href="{{ url('/favicon.svg') }}">
-    <link rel="shortcut icon" href="{{ url('/favicon.svg') }}">
+    @php $faviconVersion = md5(setting('favicon') ?: setting('logo_image')); @endphp
+    <link rel="icon" type="image/png" href="{{ url('/favicon.png') }}?v={{ $faviconVersion }}">
+    <link rel="shortcut icon" href="{{ url('/favicon.png') }}?v={{ $faviconVersion }}">
     @if(setting('logo_image'))
     <link rel="apple-touch-icon" href="{{ asset(setting('logo_image')) }}">
     @else
-    <link rel="apple-touch-icon" href="{{ url('/favicon.svg') }}">
+    <link rel="apple-touch-icon" href="{{ url('/favicon.png') }}?v={{ $faviconVersion }}">
     @endif
 
     <style>[x-cloak] { display: none !important; }</style>
