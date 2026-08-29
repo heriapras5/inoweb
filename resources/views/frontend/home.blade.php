@@ -92,7 +92,7 @@
             <div class="block lg:block relative py-10 lg:py-10" data-aos="fade-left" data-aos-delay="200">
                 <div class="hero-3d relative"
                      x-data="{
-                         items: @json($heroProjects),
+                         items: @js($heroProjects),
                          active: 0,
                          timer: null,
                          init() { if (this.items.length > 1) this.timer = setInterval(() => this.next(), 4500); },
