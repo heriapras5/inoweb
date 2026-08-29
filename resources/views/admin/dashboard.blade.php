@@ -1,8 +1,5 @@
 @extends('admin.layouts.app')
 @section('title', 'Dashboard')
-@push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-@endpush
 @section('content')
 
 <div class="mb-8">
@@ -53,138 +50,138 @@ $icons = [
     @endforeach
 </div>
 
+<div class="flex items-center justify-between mb-4">
+    <div>
+        <h3 class="text-base font-bold text-[#1e293b]">Ringkasan Konten</h3>
+        <p class="text-[11px] text-[#94a3b8] mt-0.5">Kelola konten utama website Anda dengan cepat.</p>
+    </div>
+    <a href="{{ route('admin.settings.index') }}" class="text-xs font-semibold text-blue-600 hover:text-blue-700 no-underline">Atur Website →</a>
+</div>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-6">
+    @foreach($contentSummary as $s)
+    <a href="{{ $s['route'] }}" class="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 p-4 flex items-center gap-3 no-underline">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-br {{ $s['colors']['bg'] }} flex items-center justify-center text-white shrink-0">
+            @if($s['icon'] === 'folder')
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            @elseif($s['icon'] === 'tag')
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 0 1 0 2.828l-7 7a2 2 0 0 1-2.828 0l-7-7A1.994 1.994 0 0 1 3 12V7a4 4 0 0 1 4-4z"/></svg>
+            @elseif($s['icon'] === 'grid')
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            @elseif($s['icon'] === 'help')
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            @elseif($s['icon'] === 'message')
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            @elseif($s['icon'] === 'mail')
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            @endif
+        </div>
+        <div class="min-w-0">
+            <div class="text-xl font-extrabold text-[#0f172a] leading-none">{{ number_format($s['count']) }}</div>
+            <div class="text-[11px] font-medium text-[#64748b] truncate">{{ $s['label'] }}</div>
+        </div>
+    </a>
+    @endforeach
+</div>
+
 <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-6">
-    <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+    <div class="flex items-center justify-between gap-4 mb-6">
         <div>
             <h3 class="text-base font-bold text-[#1e293b]">Trafik Pengunjung</h3>
             <p class="text-[11px] text-[#94a3b8] mt-0.5" id="chartSubtitle">Rata-rata <span class="font-semibold text-[#64748b]">{{ number_format($dailyAvg) }}</span> kunjungan/hari &mdash; Puncak <span class="font-semibold text-[#64748b]">{{ number_format($dailyPeak['value'] ?? 0) }}</span> <span class="text-[#94a3b8]">({{ $dailyPeak['label'] ?? '-' }})</span></p>
         </div>
-        <div class="flex gap-1.5 bg-gray-100 p-1 rounded-xl" id="periodTabs">
-            <button data-period="daily" class="period-tab text-xs font-semibold px-3.5 py-1.5 rounded-lg bg-white text-blue-600 shadow-sm transition-all">Harian</button>
-            <button data-period="weekly" class="period-tab text-xs font-semibold px-3.5 py-1.5 rounded-lg text-[#64748b] hover:text-[#1e293b] transition-colors">Mingguan</button>
-            <button data-period="monthly" class="period-tab text-xs font-semibold px-3.5 py-1.5 rounded-lg text-[#64748b] hover:text-[#1e293b] transition-colors">Bulanan</button>
-            <button data-period="yearly" class="period-tab text-xs font-semibold px-3.5 py-1.5 rounded-lg text-[#64748b] hover:text-[#1e293b] transition-colors">Tahunan</button>
-        </div>
     </div>
-    <div class="relative" style="height: 300px;">
-        <canvas id="visitorChart"></canvas>
+    <div class="relative w-full overflow-hidden" id="visitorChartContainer" style="height: 300px;">
+        <canvas id="visitorChart" class="w-full h-full block"></canvas>
     </div>
+</div>
+
+<div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-6">
+    <div class="flex items-center justify-between mb-1">
+        <h3 class="text-base font-bold text-[#1e293b]">Pesan Masuk Terbaru</h3>
+        @if($unreadMessages > 0)
+        <span class="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">{{ $unreadMessages }} belum dibaca</span>
+        @endif
+    </div>
+    <p class="text-[11px] text-[#94a3b8] mb-5">Dari total {{ number_format($totalMessages) }} pesan.</p>
+    @if($latestMessages->isEmpty())
+    <div class="text-sm text-[#94a3b8] text-center py-10">Belum ada pesan masuk.</div>
+    @else
+    <div class="divide-y divide-gray-50">
+        @foreach($latestMessages as $msg)
+        <a href="{{ route('admin.messages.index') }}" class="flex items-start gap-3 py-3 no-underline group">
+            <div class="w-9 h-9 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm shrink-0">
+                {{ strtoupper(substr($msg->name, 0, 1)) }}
+            </div>
+            <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between gap-2">
+                    <span class="text-sm font-semibold text-[#1e293b] truncate">{{ $msg->name }}</span>
+                    <span class="text-[10px] text-[#94a3b8] shrink-0">{{ $msg->created_at->diffForHumans() }}</span>
+                </div>
+                <p class="text-xs text-[#64748b] line-clamp-1">{{ $msg->message }}</p>
+            </div>
+        </a>
+        @endforeach
+    </div>
+    <a href="{{ route('admin.messages.index') }}" class="mt-3 text-xs font-semibold text-blue-600 hover:text-blue-700 no-underline">Lihat semua pesan →</a>
+    @endif
 </div>
 
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const periods = {
-        daily: {
+    const canvas = document.getElementById('visitorChart');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    const visitorChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
             labels: {!! $dailyData->pluck('label')->toJson() !!},
-            values: {!! $dailyData->pluck('value')->toJson() !!},
-            label: 'Harian',
-            unit: 'hari',
-            maxTicks: 10
+            datasets: [{
+                label: 'Harian',
+                data: {!! $dailyData->pluck('value')->toJson() !!},
+                backgroundColor: 'rgba(59,130,246,0.7)',
+                borderColor: 'rgba(59,130,246,0.95)',
+                borderWidth: 1,
+                borderRadius: 3,
+                borderSkipped: false,
+            }]
         },
-        weekly: {
-            labels: {!! $weeklyData->pluck('label')->toJson() !!},
-            values: {!! $weeklyData->pluck('value')->toJson() !!},
-            label: 'Mingguan',
-            unit: 'minggu',
-            maxTicks: 6
-        },
-        monthly: {
-            labels: {!! $monthlyData->pluck('label')->toJson() !!},
-            values: {!! $monthlyData->pluck('value')->toJson() !!},
-            label: 'Bulanan',
-            unit: 'bulan',
-            maxTicks: 6
-        },
-        yearly: {
-            labels: {!! $yearlyData->pluck('label')->toJson() !!},
-            values: {!! $yearlyData->pluck('value')->toJson() !!},
-            label: 'Tahunan',
-            unit: 'tahun',
-            maxTicks: 5
-        }
-    };
-
-    let activePeriod = 'daily';
-    let visitorChart = null;
-    const subtitleEl = document.getElementById('chartSubtitle');
-
-    function updateSubtitle(data) {
-        const total = data.values.reduce((a, b) => a + b, 0);
-        const avg = Math.round(total / data.values.length);
-        const peak = Math.max(...data.values);
-        const peakIdx = data.values.indexOf(peak);
-        const peakLabel = data.labels[peakIdx];
-        subtitleEl.innerHTML = 'Rata-rata <span class="font-semibold text-[#64748b]">' + avg + '</span> kunjungan/' + data.unit + ' &mdash; Puncak <span class="font-semibold text-[#64748b]">' + peak + '</span> <span class="text-[#94a3b8]">(' + peakLabel + ')</span>';
-    }
-
-    function renderPeriodChart(period) {
-        const data = periods[period];
-        const canvas = document.getElementById('visitorChart');
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        if (visitorChart) visitorChart.destroy();
-        updateSubtitle(data);
-
-        visitorChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: data.labels,
-                datasets: [{
-                    label: data.label,
-                    data: data.values,
-                    backgroundColor: 'rgba(59,130,246,0.7)',
-                    borderColor: 'rgba(59,130,246,0.95)',
-                    borderWidth: 1,
-                    borderRadius: 3,
-                    borderSkipped: false,
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        backgroundColor: '#1e293b',
-                        titleFont: { size: 11 },
-                        bodyFont: { size: 12 },
-                        padding: 10,
-                        cornerRadius: 8,
-                        callbacks: {
-                            label: ctx => ctx.parsed.y + ' kunjungan'
-                        }
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: { color: '#f1f5f9', drawBorder: false },
-                        ticks: { font: { size: 10, family: 'Inter' }, color: '#94a3b8' }
-                    },
-                    x: {
-                        grid: { display: false },
-                        ticks: { maxTicksLimit: data.maxTicks, font: { size: 9, family: 'Inter' }, color: '#94a3b8' }
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: '#1e293b',
+                    titleFont: { size: 11 },
+                    bodyFont: { size: 12 },
+                    padding: 10,
+                    cornerRadius: 8,
+                    callbacks: {
+                        label: ctx => ctx.parsed.y + ' kunjungan'
                     }
                 }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: { color: '#f1f5f9', drawBorder: false },
+                    ticks: { font: { size: 10, family: 'Inter' }, color: '#94a3b8' }
+                },
+                x: {
+                    grid: { display: false },
+                    ticks: { maxTicksLimit: 10, font: { size: 9, family: 'Inter' }, color: '#94a3b8' }
+                }
             }
-        });
-    }
-
-    renderPeriodChart(activePeriod);
-
-    document.querySelectorAll('.period-tab').forEach(btn => {
-        btn.addEventListener('click', function() {
-            document.querySelectorAll('.period-tab').forEach(b => {
-                b.classList.remove('bg-white', 'text-blue-600', 'shadow-sm');
-                b.classList.add('text-[#64748b]');
-            });
-            this.classList.add('bg-white', 'text-blue-600', 'shadow-sm');
-            this.classList.remove('text-[#64748b]');
-            activePeriod = this.dataset.period;
-            renderPeriodChart(activePeriod);
-        });
+        }
     });
+
+    const chartContainer = document.getElementById('visitorChartContainer');
+    if (chartContainer && typeof ResizeObserver !== 'undefined') {
+        new ResizeObserver(() => visitorChart.resize()).observe(chartContainer);
+    }
 });
 </script>
 @endpush

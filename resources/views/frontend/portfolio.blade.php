@@ -2,7 +2,7 @@
 
 @section('title', 'Portofolio - INOWEB')
 
-@section('meta_description', 'Lihat berbagai proyek website profesional yang telah kami rancang dan kembangkan untuk berbagai kebutuhan bisnis.')
+@section('meta_description', 'Lihat berbagai portofolio website profesional yang telah kami rancang dan kembangkan untuk berbagai kebutuhan bisnis.')
 
 @section('content')
 <!-- Page Hero -->
@@ -13,7 +13,7 @@
             <ol class="flex items-center gap-2">
                 <li><a href="{{ url('/') }}" class="text-white/60 no-underline hover:text-white transition-colors">Beranda</a></li>
                 <li class="text-white/40">/</li>
-                <li class="text-blue-400 font-medium">Projek</li>
+                <li class="text-blue-400 font-medium">Portofolio</li>
             </ol>
         </nav>
         <div data-aos="fade-up">
@@ -28,7 +28,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="filter-section flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6" data-aos="fade-up">
             <div>
-                <span class="text-[0.7rem] font-bold tracking-[0.2em] uppercase text-blue-600">PROJEK KAMI</span>
+                <span class="text-[0.7rem] font-bold tracking-[0.2em] uppercase text-blue-600">PORTOFOLIO KAMI</span>
                 <h2 class="text-xl sm:text-2xl font-extrabold text-[#1a1a2e] mt-1">Jelajahi Portofolio Website Kami</h2>
             </div>
             <div class="flex gap-2 overflow-x-auto flex-nowrap max-lg:pb-2 -mx-2 px-2 max-lg:w-full scrollbar-hide">

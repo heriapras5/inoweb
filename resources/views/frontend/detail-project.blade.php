@@ -1,7 +1,7 @@
 @extends('layouts.frontend')
 
 @section('title', $project->name . ' - INOWEB')
-@section('meta_description', $project->description ? strip_tags($project->description) : 'Detail proyek website ' . $project->name)
+@section('meta_description', $project->description ? strip_tags($project->description) : 'Detail portofolio website ' . $project->name)
 
 @section('content')
 @php $firstImage = $project->coverImage(); @endphp
@@ -14,7 +14,7 @@
             <ol class="flex items-center gap-2">
                 <li><a href="{{ url('/') }}" class="text-white/60 no-underline hover:text-white transition-colors">Beranda</a></li>
                 <li class="text-white/40">/</li>
-                <li><a href="{{ route('portfolio') }}" class="text-white/60 no-underline hover:text-white transition-colors">Projek</a></li>
+                <li><a href="{{ route('portfolio') }}" class="text-white/60 no-underline hover:text-white transition-colors">Portofolio</a></li>
                 <li class="text-white/40">/</li>
                 <li class="text-blue-400 font-medium truncate max-w-[200px]">{{ $project->name }}</li>
             </ol>
@@ -34,7 +34,7 @@
                     {{ $first }} <span class="text-gradient">{{ $last }}</span>
                 </h1>
                 <div class="flex flex-wrap gap-3">
-                    <a href="https://wa.me/{{ setting('whatsapp_number', '6285736186308') }}?text=Halo,%20saya%20tertarik%20dengan%20proyek%20{{ urlencode($project->name) }}" target="_blank" rel="noopener" class="btn-primary px-6 py-3 text-base inline-flex items-center gap-2">
+                    <a href="https://wa.me/{{ setting('whatsapp_number', '6285736186308') }}?text=Halo,%20saya%20tertarik%20dengan%20portofolio%20{{ urlencode($project->name) }}" target="_blank" rel="noopener" class="btn-primary px-6 py-3 text-base inline-flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                         Hubungi via WhatsApp
                     </a>
@@ -141,7 +141,7 @@
 <section class="py-16 sm:py-20 bg-white">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div data-aos="fade-up">
-            <span class="section-badge">DETAIL PROJEK</span>
+            <span class="section-badge">DETAIL PORTOFOLIO</span>
             <div class="w-12 h-1 bg-blue-600 mt-3 mb-8 rounded-full"></div>
             <div class="prose-content">
                 {!! $project->description !!}
@@ -244,7 +244,7 @@
 <section class="py-10 sm:py-14 bg-white border-t border-gray-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div data-aos="fade-up">
-            <p class="text-center text-sm text-[#94a3b8] mb-4">Proyek {{ $pagIndex + 1 }} dari {{ $pagTotal }}</p>
+            <p class="text-center text-sm text-[#94a3b8] mb-4">Portofolio {{ $pagIndex + 1 }} dari {{ $pagTotal }}</p>
             <div class="flex items-center justify-center gap-2">
                 @if($pagPrev)
                 <a href="{{ route('portfolio.detail', $pagPrev->slug) }}" class="pagination-link" aria-label="Sebelumnya">

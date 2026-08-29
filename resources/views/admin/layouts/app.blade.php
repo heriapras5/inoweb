@@ -4,16 +4,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Dashboard') - Admin {{ setting('site_name', 'INOWEB') }}</title>
-    @vite('resources/css/app.css')
-    @php $favicon = setting('favicon'); @endphp
-    @if($favicon)
-    <link rel="icon" type="image/x-icon" href="{{ asset($favicon) }}">
-    <link rel="shortcut icon" href="{{ asset($favicon) }}">
-    <link rel="apple-touch-icon" href="{{ asset($favicon) }}">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="icon" type="image/svg+xml" href="{{ url('/favicon.svg') }}">
+    <link rel="shortcut icon" href="{{ url('/favicon.svg') }}">
+    @if(setting('logo_image'))
+    <link rel="apple-touch-icon" href="{{ asset(setting('logo_image')) }}">
     @else
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='4' y='6' width='24' height='18' rx='3' fill='%232563eb'/><rect x='12' y='24' width='8' height='3' fill='%232563eb'/><rect x='14' y='27' width='4' height='3' fill='%232563eb'/></svg>">
+    <link rel="apple-touch-icon" href="{{ url('/favicon.svg') }}">
     @endif
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script>
@@ -65,16 +63,35 @@
         .content-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
         .content-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
+        .admin-sidebar { transition: transform 0.3s ease, width 0.25s ease, opacity 0.2s ease; }
+
+        /* Mobile: off-canvas, hidden by default */
         @media (max-width: 1023px) {
-            .sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 40; }
-            .sidebar-mobile { position: fixed; top: 0; left: 0; width: 280px; height: 100%; z-index: 50; transform: translateX(-100%); transition: transform 0.3s ease; pointer-events: none; }
-            .sidebar-mobile.open { transform: translateX(0); pointer-events: auto; }
+            .admin-sidebar {
+                position: fixed; top: 0; left: 0; width: 288px; height: 100%;
+                z-index: 50; transform: translateX(-100%);
+                pointer-events: none;
+            }
+            body.sidebar-toggled .admin-sidebar { transform: translateX(0); pointer-events: auto; }
+            .sidebar-overlay {
+                position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 40;
+                display: none;
+            }
+            body.sidebar-toggled .sidebar-overlay { display: block; }
+        }
+
+        /* Desktop: always open at 288px; collapse when toggled */
+        @media (min-width: 1024px) {
+            .admin-sidebar { width: 288px; min-width: 288px; overflow: visible; }
+            body.sidebar-toggled .admin-sidebar {
+                width: 0; min-width: 0; overflow: hidden; opacity: 0; pointer-events: none;
+            }
+            .sidebar-overlay { display: none !important; }
         }
     </style>
     @stack('styles')
 </head>
 <body x-data="{
-    sidebarOpen: window.innerWidth >= 1024,
     deleteTarget: '',
     notif: {!! json_encode(
         session('success') ? ['msg' => session('success'), 'type' => 'success'] 
@@ -125,15 +142,11 @@
     </form>
 
     <!-- Mobile Overlay -->
-    <div x-show="sidebarOpen" x-cloak @click="sidebarOpen = false" class="sidebar-overlay lg:hidden"></div>
+    <div onclick="document.body.classList.remove('sidebar-toggled')" class="sidebar-overlay" id="adminOverlay"></div>
 
     <div class="flex h-full min-h-0">
         <!-- ========== SIDEBAR ========== -->
-        <aside :class="[
-            sidebarOpen ? 'open' : '',
-            sidebarOpen ? 'lg:w-[260px] lg:min-w-[260px] lg:shrink-0 lg:overflow-visible lg:opacity-100' : 'lg:w-0 lg:min-w-0 lg:overflow-hidden lg:opacity-0 lg:pointer-events-none'
-        ]"
-               class="sidebar-mobile lg:translate-x-0 lg:static bg-[#0a192f] text-white flex flex-col h-full lg:transition-all lg:duration-300 lg:ease-in-out">
+        <aside class="admin-sidebar bg-[#0a192f] text-white flex flex-col h-full shrink-0">
             <div class="shrink-0">
                 <!-- Logo -->
                 @php $logoImage = setting('logo_image'); $logoSvg = setting('logo_icon'); @endphp
@@ -227,7 +240,7 @@
             <!-- Header -->
             <header class="bg-white border-b border-gray-200/60 px-4 lg:px-6 py-3 flex items-center justify-between shrink-0 shadow-sm">
                 <div class="flex items-center gap-3 lg:gap-6 flex-1 min-w-0">
-                    <button @click="sidebarOpen = !sidebarOpen" class="text-[#64748b] hover:text-[#1e293b]">
+                    <button type="button" onclick="document.body.classList.toggle('sidebar-toggled')" class="text-[#64748b] hover:text-[#1e293b]">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
                     </button>
                     <div class="relative flex-1 max-w-md">

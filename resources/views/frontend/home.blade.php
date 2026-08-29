@@ -141,7 +141,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-10" data-aos="fade-up">
             <span class="inline-block text-blue-600 font-bold text-sm tracking-[2px] uppercase mb-3">PORTFOLIO</span>
-            <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0f172a] leading-tight">Projek Terbaru Kami</h2>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0f172a] leading-tight">Portofolio Terbaru Kami</h2>
         </div>
 
         <!-- Filter tabs -->
@@ -173,7 +173,7 @@
             @endforeach
         </div>
         <div class="text-center mt-10" data-aos="fade-up">
-            <a href="{{ route('portfolio') }}" class="btn-outline-dark px-6 py-3.5 text-base">Lihat Semua Projek <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+            <a href="{{ route('portfolio') }}" class="btn-outline-dark px-6 py-3.5 text-base">Lihat Semua Portofolio <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
         </div>
     </div>
 </section>

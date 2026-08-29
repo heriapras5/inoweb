@@ -3,10 +3,14 @@ import Alpine from 'alpinejs';
 import collapse from '@alpinejs/collapse';
 import { Fancybox } from '@fancyapps/ui';
 import AOS from 'aos';
+import Chart from 'chart.js/auto';
+import Swal from 'sweetalert2';
 import 'aos/dist/aos.css';
 
 Alpine.plugin(collapse);
 window.Alpine = Alpine;
+window.Chart = Chart;
+window.Swal = Swal;
 
 AOS.init({ 
     duration: 500,

@@ -38,7 +38,7 @@ class ProjectController extends Controller
             'gallery_images' => 'nullable|array',
             'gallery_images.*' => 'image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
-        $data['slug'] = \Str::slug($data['name']);
+        $data['slug'] = $this->generateUniqueSlug($data['name']);
         $data['status'] = true;
         $project = Project::create($data);
 
@@ -84,7 +84,7 @@ class ProjectController extends Controller
             'deleted_images' => 'nullable|array',
             'deleted_images.*' => 'integer|exists:project_images,id',
         ]);
-        $data['slug'] = \Str::slug($data['name']);
+        $data['slug'] = $this->generateUniqueSlug($data['name'], $project->id);
         $project->update($data);
 
         if ($request->has('deleted_images')) {
@@ -124,5 +124,16 @@ class ProjectController extends Controller
     {
         $project->delete();
         return redirect()->route('admin.projects.index')->with('success', 'Proyek berhasil dihapus.');
+    }
+
+    protected function generateUniqueSlug(string $name, ?int $ignoreId = null): string
+    {
+        $base = \Str::slug($name) ?: 'project';
+        $slug = $base;
+        $i = 2;
+        while (Project::where('slug', $slug)->where('id', '!=', $ignoreId)->exists()) {
+            $slug = $base . '-' . $i++;
+        }
+        return $slug;
     }
 }

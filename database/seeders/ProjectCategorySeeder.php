@@ -19,7 +19,11 @@ class ProjectCategorySeeder extends Seeder
         ];
 
         foreach ($categories as $cat) {
-            ProjectCategory::firstOrCreate(['slug' => $cat['slug']], $cat);
+            $row = ProjectCategory::withTrashed()->firstOrNew(['slug' => $cat['slug']]);
+            if ($row->trashed()) {
+                $row->restore();
+            }
+            $row->fill($cat)->save();
         }
     }
 }

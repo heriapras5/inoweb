@@ -11,14 +11,13 @@
         $logoImage = setting('logo_image');
         $logoSvg = setting('logo_icon');
         $siteTagline = setting('site_tagline', 'INOVASI WEBSITE');
-        $favicon = setting('favicon');
     @endphp
-    @if($favicon)
-    <link rel="icon" type="image/x-icon" href="{{ asset($favicon) }}">
-    <link rel="shortcut icon" href="{{ asset($favicon) }}">
-    <link rel="apple-touch-icon" href="{{ asset($favicon) }}">
+    <link rel="icon" type="image/svg+xml" href="{{ url('/favicon.svg') }}">
+    <link rel="shortcut icon" href="{{ url('/favicon.svg') }}">
+    @if(setting('logo_image'))
+    <link rel="apple-touch-icon" href="{{ asset(setting('logo_image')) }}">
     @else
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='4' y='6' width='24' height='18' rx='3' fill='%232563eb'/><rect x='12' y='24' width='8' height='3' fill='%232563eb'/><rect x='14' y='27' width='4' height='3' fill='%232563eb'/></svg>">
+    <link rel="apple-touch-icon" href="{{ url('/favicon.svg') }}">
     @endif
     <style>
         body {

@@ -24,7 +24,7 @@
         <div class="grid lg:grid-cols-2 gap-16">
             <div data-aos="fade-right">
                 <span class="inline-block text-blue-600 font-bold text-sm tracking-[2px] uppercase mb-3">KIRIM PESAN</span>
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-[#1a1a2e] leading-tight mb-6">Diskusikan <span class="text-blue-600">Proyek</span> Anda</h2>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-[#1a1a2e] leading-tight mb-6">Diskusikan <span class="text-blue-600">Portofolio</span> Anda</h2>
                 <form action="{{ route('contact.send') }}" method="POST" class="space-y-5">
                     @csrf
                     @if(session('success'))

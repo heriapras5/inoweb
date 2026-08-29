@@ -315,8 +315,13 @@ class ProjectSeeder extends Seeder
             $results = $data['results'];
             unset($data['testimonial'], $data['features'], $data['technologies'], $data['images'], $data['results']);
 
-            $project = Project::firstOrCreate(['slug' => $data['slug']], $data);
-            if (!$project->wasRecentlyCreated) continue;
+            $project = Project::withTrashed()->firstOrNew(['slug' => $data['slug']]);
+            $isNew = ! $project->exists;
+            if ($project->trashed()) {
+                $project->restore();
+            }
+            $project->fill($data)->save();
+            if (! $isNew) continue;
 
             ProjectTestimonial::create(array_merge($testimonialData, ['project_id' => $project->id]));
 

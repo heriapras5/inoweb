@@ -61,7 +61,11 @@ class ServiceSeeder extends Seeder
         ];
 
         foreach ($services as $service) {
-            Service::firstOrCreate(['slug' => $service['slug']], $service);
+            $row = Service::withTrashed()->firstOrNew(['slug' => $service['slug']]);
+            if ($row->trashed()) {
+                $row->restore();
+            }
+            $row->fill($service)->save();
         }
     }
 }

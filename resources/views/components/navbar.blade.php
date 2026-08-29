@@ -31,7 +31,7 @@
             <div class="hidden lg:flex items-center gap-1">
                 <div class="flex items-center gap-1">
                     <a href="{{ url('/') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" {{ request()->routeIs('home') ? 'aria-current="page"' : '' }}>Beranda</a>
-                    <a href="{{ route('portfolio') }}" class="nav-link {{ request()->routeIs('portfolio*') ? 'active' : '' }}" {{ request()->routeIs('portfolio*') ? 'aria-current="page"' : '' }}>Projek</a>
+                    <a href="{{ route('portfolio') }}" class="nav-link {{ request()->routeIs('portfolio*') ? 'active' : '' }}" {{ request()->routeIs('portfolio*') ? 'aria-current="page"' : '' }}>Portofolio</a>
                     <a href="{{ route('about') }}" class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}" {{ request()->routeIs('about') ? 'aria-current="page"' : '' }}>Tentang</a>
                     <a href="{{ route('faq') }}" class="nav-link {{ request()->routeIs('faq') ? 'active' : '' }}" {{ request()->routeIs('faq') ? 'aria-current="page"' : '' }}>FAQ</a>
                     <a href="{{ route('contact') }}" class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}" {{ request()->routeIs('contact') ? 'aria-current="page"' : '' }}>Kontak</a>
@@ -53,7 +53,7 @@
                  @click.outside="mobileOpen = false">
                 <div class="flex flex-col gap-1">
                     <a href="{{ url('/') }}" class="block px-4 py-3 text-[#1e293b] no-underline font-medium rounded-lg hover:bg-gray-50 transition-colors" {{ request()->routeIs('home') ? 'aria-current="page"' : '' }}>Beranda</a>
-                    <a href="{{ route('portfolio') }}" class="block px-4 py-3 text-[#1e293b] no-underline font-medium rounded-lg hover:bg-gray-50 transition-colors" {{ request()->routeIs('portfolio*') ? 'aria-current="page"' : '' }}>Projek</a>
+                    <a href="{{ route('portfolio') }}" class="block px-4 py-3 text-[#1e293b] no-underline font-medium rounded-lg hover:bg-gray-50 transition-colors" {{ request()->routeIs('portfolio*') ? 'aria-current="page"' : '' }}>Portofolio</a>
                     <a href="{{ route('about') }}" class="block px-4 py-3 text-[#1e293b] no-underline font-medium rounded-lg hover:bg-gray-50 transition-colors" {{ request()->routeIs('about') ? 'aria-current="page"' : '' }}>Tentang</a>
                     <a href="{{ route('faq') }}" class="block px-4 py-3 text-[#1e293b] no-underline font-medium rounded-lg hover:bg-gray-50 transition-colors" {{ request()->routeIs('faq') ? 'aria-current="page"' : '' }}>FAQ</a>
                     <a href="{{ route('contact') }}" class="block px-4 py-3 text-[#1e293b] no-underline font-medium rounded-lg hover:bg-gray-50 transition-colors" {{ request()->routeIs('contact') ? 'aria-current="page"' : '' }}>Kontak</a>

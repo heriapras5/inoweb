@@ -25,7 +25,7 @@
 
             <div>
                 <h2 class="text-2xl font-bold text-[#1a1a2e] mb-4">1. Layanan</h2>
-                <p>INOWEB menyediakan jasa pembuatan website profesional. Lingkup pekerjaan akan disepakati bersama sebelum proyek dimulai dan dituangkan dalam proposal atau kontrak kerja.</p>
+                <p>INOWEB menyediakan jasa pembuatan website profesional. Lingkup pekerjaan akan disepakati bersama sebelum portofolio dimulai dan dituangkan dalam proposal atau kontrak kerja.</p>
             </div>
 
             <div>
@@ -37,7 +37,7 @@
                 <h2 class="text-2xl font-bold text-[#1a1a2e] mb-4">3. Pembayaran</h2>
                 <p>Sistem pembayaran dilakukan secara bertahap sesuai kesepakatan. Umumnya terdiri dari:</p>
                 <ul class="list-disc pl-6 space-y-2 mt-2">
-                    <li>DP (Down Payment) di awal proyek</li>
+                    <li>DP (Down Payment) di awal portofolio</li>
                     <li>Pembayaran progress di tengah pengerjaan</li>
                     <li>Pelunasan saat website selesai dan siap launching</li>
                 </ul>
@@ -45,7 +45,7 @@
 
             <div>
                 <h2 class="text-2xl font-bold text-[#1a1a2e] mb-4">4. Revisi</h2>
-                <p>Jumlah revisi desain akan disepakati di awal proyek. Revisi di luar kesepakatan akan dikenakan biaya tambahan. Revisi konten bersifat tak terbatas selama masa pengerjaan.</p>
+                <p>Jumlah revisi desain akan disepakati di awal portofolio. Revisi di luar kesepakatan akan dikenakan biaya tambahan. Revisi konten bersifat tak terbatas selama masa pengerjaan.</p>
             </div>
 
             <div>
@@ -55,7 +55,7 @@
 
             <div>
                 <h2 class="text-2xl font-bold text-[#1a1a2e] mb-4">6. Pembatalan</h2>
-                <p>Jika proyek dibatalkan oleh klien setelah pekerjaan dimulai, DP yang sudah dibayarkan tidak dapat dikembalikan. Pembatalan dari pihak INOWEB akan memberikan pengembalian dana penuh.</p>
+                <p>Jika portofolio dibatalkan oleh klien setelah pekerjaan dimulai, DP yang sudah dibayarkan tidak dapat dikembalikan. Pembatalan dari pihak INOWEB akan memberikan pengembalian dana penuh.</p>
             </div>
 
             <div>
@@ -70,7 +70,7 @@
 
             <div>
                 <h2 class="text-2xl font-bold text-[#1a1a2e] mb-4">9. Kerahasiaan</h2>
-                <p>INOWEB menjaga kerahasiaan data dan informasi klien selama dan setelah proyek selesai. Data tidak akan digunakan untuk kepentingan di luar proyek tanpa izin klien.</p>
+                <p>INOWEB menjaga kerahasiaan data dan informasi klien selama dan setelah portofolio selesai. Data tidak akan digunakan untuk kepentingan di luar portofolio tanpa izin klien.</p>
             </div>
 
             <div>
