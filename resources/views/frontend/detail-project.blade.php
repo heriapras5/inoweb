@@ -144,7 +144,7 @@
             <span class="section-badge">DETAIL PORTOFOLIO</span>
             <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1a1a2e] leading-tight">Deskripsi <span class="text-gradient">Portofolio</span></h2>
             <div class="section-accent"></div>
-            <div class="prose-content">
+            <div class="prose-content bg-gray-50/60 rounded-2xl p-6 sm:p-8 border border-gray-100">
                 {!! cleanRichText($project->description) !!}
             </div>
         </div>
@@ -202,11 +202,11 @@
             <div class="section-accent mx-auto"></div>
         </div>
         <div data-aos="fade-up" data-aos-delay="100">
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 [grid-auto-flow:dense] auto-rows-[160px] sm:auto-rows-[190px] lg:auto-rows-[210px]">
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
                 @foreach($_galleryImages as $i => $img)
                 <a href="{{ asset($img->image) }}" data-fancybox="gallery-{{ $project->id }}"
                    data-caption="{{ $img->caption ?? 'Tampilan ' . $project->name }}"
-                   class="group relative block overflow-hidden rounded-2xl border border-gray-200/70 shadow-sm ring-1 ring-black/5 transition-all duration-300 hover:shadow-xl hover:ring-blue-200/60 {{ $i === 0 ? 'col-span-2 row-span-2' : '' }}">
+                   class="group relative block aspect-[4/3] overflow-hidden rounded-2xl border border-gray-200/70 shadow-sm ring-1 ring-black/5 transition-all duration-300 hover:shadow-xl hover:ring-blue-200/60">
                     <img src="{{ asset($img->image) }}" alt="{{ $img->caption ?? 'Screenshot ' . $project->name }}" loading="lazy" decoding="async"
                          class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110">
                     <div class="absolute inset-0 bg-gradient-to-t from-slate-900/75 via-slate-900/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>

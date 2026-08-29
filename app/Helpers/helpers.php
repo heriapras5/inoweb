@@ -35,9 +35,15 @@ if (!function_exists('cleanRichText')) {
         if (!$html) {
             return '';
         }
-        $html = preg_replace('/\s+(?:style|dir)="[^"]*"/i', '', $html);
-        $html = preg_replace("/\s+(?:style|dir)='[^']*'/i", '', $html);
-        return $html;
+        $html = preg_replace('/\s+(?:style|dir|id|class|data-[a-z0-9-]+|on[a-z]+)="[^"]*"/i', '', $html);
+        $html = preg_replace("/\s+(?:style|dir|id|class|data-[a-z0-9-]+|on[a-z]+)='[^']*'/i", '', $html);
+
+        for ($i = 0; $i < 3; $i++) {
+            $html = preg_replace('/<(p|div|span|b|strong|h1|h2|h3|h4|ul|ol)[^>]*>\s*(?:<br\s*\/?>\s*)*<\/\1>/i', '', $html);
+        }
+        $html = preg_replace('/(<br\s*\/?>\s*){2,}/i', '<br>', $html);
+
+        return trim($html);
     }
 }
 

@@ -3,12 +3,12 @@
 @section('content')
 <!-- Hero -->
 <section class="relative overflow-hidden pt-24 sm:pt-32 pb-16 sm:pb-20 lg:min-h-screen lg:flex lg:items-center" style="background: linear-gradient(180deg, #eff6ff 0%, #f8fafc 50%, #ffffff 100%);">
-    <div class="absolute -top-24 -left-24 w-96 h-96 rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(37,99,235,0.14) 0%, rgba(37,99,235,0) 70%);"></div>
-    <div class="absolute top-1/3 right-0 w-80 h-80 rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(96,165,250,0.14) 0%, rgba(96,165,250,0) 70%);"></div>
-    <div class="absolute bottom-0 left-1/3 w-72 h-72 rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(37,99,235,0.08) 0%, rgba(37,99,235,0) 70%);"></div>
+    <div class="absolute -top-24 -left-24 w-96 h-96 rounded-full pointer-events-none hidden sm:block" style="background: radial-gradient(circle, rgba(37,99,235,0.14) 0%, rgba(37,99,235,0) 70%);"></div>
+    <div class="absolute top-1/3 right-0 w-80 h-80 rounded-full pointer-events-none hidden sm:block" style="background: radial-gradient(circle, rgba(96,165,250,0.14) 0%, rgba(96,165,250,0) 70%);"></div>
+    <div class="absolute bottom-0 left-1/3 w-72 h-72 rounded-full pointer-events-none hidden sm:block" style="background: radial-gradient(circle, rgba(37,99,235,0.08) 0%, rgba(37,99,235,0) 70%);"></div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full">
         @php $waNum = setting('whatsapp_number', '6285736186308'); @endphp
-        <div class="grid lg:grid-cols-2 gap-12 items-center"
+        <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center"
              x-data="{
                  active: 0,
                  slides: {{ $heroSections->map(fn($s) => ['title' => $s->title, 'description' => $s->description, 'image' => $s->image ? asset($s->image) : null, 'button_text' => $s->button_text, 'button_url' => $s->button_url])->toJson() }},
@@ -92,7 +92,7 @@
                     'slug' => $p->slug,
                 ])->all();
             @endphp
-            <div class="block lg:block relative py-10 lg:py-10" data-aos="fade-left" data-aos-delay="200">
+            <div class="block lg:block relative py-10 lg:py-10" data-aos="fade-up">
                 <div class="hero-3d relative" data-parallax data-parallax-speed="0.06"
                      x-data="{
                          items: @js($heroProjects),
@@ -100,12 +100,13 @@
                          timer: null,
                          tiltX: 0,
                          tiltY: 0,
-                         rx: 4,
-                         ry: -12,
+                         rx: window.innerWidth >= 1024 ? 4 : 0,
+                         ry: window.innerWidth >= 1024 ? -12 : 0,
                          init() { if (this.items.length > 1) this.timer = setInterval(() => this.next(), 4500); },
                          next() { if (this.items.length) this.active = (this.active + 1) % this.items.length; },
                          prev() { if (this.items.length) this.active = (this.active - 1 + this.items.length) % this.items.length; },
                          tilt(e) {
+                             if (window.innerWidth < 1024) return;
                              if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
                              const rect = this.$refs.stage.getBoundingClientRect();
                              const px = (e.clientX - rect.left) / rect.width - 0.5;
@@ -334,14 +335,14 @@
 <!-- Layanan -->
 <section class="py-16 sm:py-24 bg-white" id="layanan">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-12" data-aos="fade-up">
+        <div class="text-center mb-12">
             <span class="inline-block text-blue-600 font-bold text-sm tracking-[2px] uppercase mb-3">LAYANAN KAMI</span>
             <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0f172a] leading-tight">Solusi Website <span class="text-gradient">Profesional</span></h2>
             <div class="section-accent mx-auto"></div>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($services as $i => $service)
-            <div class="service-card text-left sm:text-center" data-aos="fade-up" data-aos-delay="{{ $i * 80 }}">
+            <div class="service-card text-left sm:text-center" data-aos="fade-up" data-aos-delay="{{ $i * 40 }}">
                 <div class="service-icon sm:mx-auto">{!! $service->icon !!}</div>
                 <h5 class="text-base sm:text-lg font-bold text-[#0f172a] mb-1.5 sm:mb-2">{{ $service->title }}</h5>
                 <p class="text-xs sm:text-sm text-[#64748b] leading-relaxed">{{ $service->description }}</p>
@@ -394,8 +395,8 @@
 <!-- CTA -->
 <section class="bg-gradient-blue py-16 sm:py-20 relative overflow-hidden cta-section">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="grid lg:grid-cols-2 gap-8 items-center" data-aos="zoom-in">
-            <div data-aos="fade-right" data-aos-delay="200">
+        <div class="grid lg:grid-cols-2 gap-8 items-center">
+            <div>
                 <h2 class="text-3xl sm:text-4xl font-extrabold text-white leading-tight mb-4">Siap Mewujudkan Website<br>Impian Anda?</h2>
                 <p class="text-white/80 text-base leading-relaxed mb-6">Konsultasikan kebutuhan Anda sekarang juga dan dapatkan solusi terbaik dari tim profesional INOWEB.</p>
                 <div class="grid grid-cols-2 gap-3 mb-8">
@@ -417,7 +418,7 @@
                     </div>
                 </div>
             </div>
-            <div class="sm:text-right" data-aos="fade-left" data-aos-delay="200">
+            <div class="sm:text-right">
                 <div class="flex flex-col sm:flex-row gap-3 sm:justify-end">
                     <a href="https://wa.me/{{ $waNum }}?text=Halo,%20saya%20tertarik%20dengan%20layanan%20INOWEB" target="_blank" rel="noopener" class="flex sm:inline-flex items-center justify-center gap-2 bg-white text-blue-600 px-8 py-4 rounded-full font-semibold text-base no-underline hover:bg-blue-50 transition-all hover:-translate-y-0.5 hover:shadow-xl shadow-lg">
                         Konsultasi Gratis

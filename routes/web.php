@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\Admin\MessageController;
 use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Admin\SeoController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\HeroSectionController;
 use App\Http\Controllers\AuthController;
@@ -56,5 +57,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('messages', MessageController::class)->except(['create', 'store', 'edit', 'update']);
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::put('/settings', [SettingsController::class, 'update'])->name('settings.update');
+    Route::get('/seo', [SeoController::class, 'index'])->name('seo.index');
+    Route::put('/seo', [SeoController::class, 'update'])->name('seo.update');
     Route::resource('users', UserController::class);
 });

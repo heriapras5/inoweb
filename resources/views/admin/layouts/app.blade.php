@@ -93,7 +93,6 @@
     @stack('styles')
 </head>
 <body x-data="{
-    deleteTarget: '',
     notif: {!! json_encode(
         session('success') ? ['msg' => session('success'), 'type' => 'success'] 
         : (session('error') ? ['msg' => session('error'), 'type' => 'error'] 
@@ -138,10 +137,6 @@
         <button @click="notif = null" class="ml-1 text-white/80 hover:text-white">&times;</button>
     </div>
 
-    <form id="delete-form" :action="deleteTarget" method="POST" class="hidden">
-        @csrf @method('DELETE')
-    </form>
-
     <!-- Mobile Overlay -->
     <div onclick="document.body.classList.remove('sidebar-toggled')" class="sidebar-overlay" id="adminOverlay"></div>
 
@@ -184,6 +179,7 @@
                     { label: 'FAQ', route: '{{ route('admin.faqs.index') }}', icon: 'help', active: '{{ request()->routeIs('admin.faqs*') ? 'true' : 'false' }}' },
                     { label: 'Testimoni', route: '{{ route('admin.testimonials.index') }}', icon: 'message', active: '{{ request()->routeIs('admin.testimonials*') ? 'true' : 'false' }}' },
                     { label: 'Pesan Masuk', route: '{{ route('admin.messages.index') }}', icon: 'mail', active: '{{ request()->routeIs('admin.messages*') ? 'true' : 'false' }}', badge: {{ $unreadCount }} },
+                    { label: 'SEO', route: '{{ route('admin.seo.index') }}', icon: 'seo', active: '{{ request()->routeIs('admin.seo*') ? 'true' : 'false' }}' },
                 ]" x-key="item.label">
                     <a :href="item.route"
                            class="sidebar-link flex items-center gap-3 px-3 py-2.5 text-sm text-white/70 hover:text-white"
@@ -211,6 +207,9 @@
                             </template>
                             <template x-if="item.icon === 'mail'">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                            </template>
+                            <template x-if="item.icon === 'seo'">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
                             </template>
                             <span x-text="item.label" class="flex-1"></span>
                             <template x-if="item.badge && item.badge > 0">

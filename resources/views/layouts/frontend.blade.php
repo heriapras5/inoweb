@@ -3,13 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', setting('site_name', 'INOWEB') . ' - ' . setting('site_tagline', 'Inovasi Website'))</title>
-    <meta name="description" content="@yield('meta_description', setting('site_description', 'INOWEB - Inovasi Website. Solusi website modern, cepat, dan mudah dikelola untuk bisnis Anda.'))">
+    <title>@yield('title', (setting('seo_title') ?: setting('site_name', 'INOWEB')) . ' - ' . setting('site_tagline', 'Inovasi Website'))</title>
+    <meta name="description" content="@yield('meta_description', setting('seo_description') ?: setting('site_description', 'INOWEB - Inovasi Website. Solusi website modern, cepat, dan mudah dikelola untuk bisnis Anda.'))">
+    @if(setting('seo_keywords'))
+    <meta name="keywords" content="{{ setting('seo_keywords') }}">
+    @endif
+    @if(setting('seo_author'))
+    <meta name="author" content="{{ setting('seo_author') }}">
+    @endif
+    <meta name="robots" content="{{ setting('seo_robots', 'index,follow') }}">
+    <link rel="canonical" href="{{ setting('seo_canonical') ?: url()->current() }}">
 
     @php
-        $ogImage = setting('og_image') ? url(setting('og_image')) : url(setting('logo_image', '/images/og-default.png'));
-        $ogTitle = trim(strip_tags((string) View::yieldContent('title', setting('site_name', 'INOWEB') . ' - ' . setting('site_tagline', 'Inovasi Website'))));
-        $ogDesc = trim(strip_tags((string) View::yieldContent('meta_description', setting('site_description', 'INOWEB - Inovasi Website.'))));
+        $ogImage = setting('seo_og_image') ? url(setting('seo_og_image')) : (setting('og_image') ? url(setting('og_image')) : url(setting('logo_image', '/images/og-default.png')));
+        $ogTitle = trim(strip_tags((string) View::yieldContent('title', (setting('seo_title') ?: setting('site_name', 'INOWEB')) . ' - ' . setting('site_tagline', 'Inovasi Website'))));
+        $ogDesc = trim(strip_tags((string) View::yieldContent('meta_description', setting('seo_description') ?: setting('site_description', 'INOWEB - Inovasi Website.'))));
     @endphp
     <meta property="og:site_name" content="{{ setting('site_name', 'INOWEB') }}">
     <meta property="og:title" content="{{ $ogTitle }}">
@@ -73,6 +81,25 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
+
+    @if(setting('seo_google_analytics'))
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ setting('seo_google_analytics') }}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '{{ setting('seo_google_analytics') }}');
+    </script>
+    @endif
+
+    @if(setting('seo_facebook_pixel'))
+    <script>
+        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '{{ setting('seo_facebook_pixel') }}');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id={{ setting('seo_facebook_pixel') }}&ev=PageView&noscript=1"/></noscript>
+    @endif
 </head>
 <body class="font-sans text-[#1a1a2e] overflow-x-hidden">
 
@@ -82,7 +109,7 @@
 
     <x-navbar />
 
-    <main id="main-content" class="w-full">
+    <main id="main-content" class="w-full animate-page-enter">
         @yield('content')
     </main>
 

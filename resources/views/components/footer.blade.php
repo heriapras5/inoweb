@@ -14,8 +14,8 @@
                     </div>
                     @endif
                     <div class="text-left">
-                        <span class="text-base sm:text-lg font-bold text-[#0f172a] tracking-wide">{{ $logoSiteName }}</span>
-                        <span class="inline-block mt-1 px-2.5 py-1 rounded-full bg-blue-600/10 text-blue-700 text-[0.65rem] font-semibold tracking-[1.5px] uppercase leading-none">{{ $siteTagline }}</span>
+                        <span class="block text-base sm:text-lg font-bold text-[#0f172a] tracking-wide leading-tight">{{ $logoSiteName }}</span>
+                        <span class="block w-fit mt-1.5 px-2.5 py-1 rounded-full bg-blue-600/10 text-blue-700 text-[0.65rem] font-semibold tracking-[1.5px] uppercase leading-none">{{ $siteTagline }}</span>
                     </div>
                 </div>
                 <p class="text-[#64748b] text-sm leading-relaxed mb-4 max-w-xs lg:max-w-none">

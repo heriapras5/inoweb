@@ -44,7 +44,7 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-12">
             @foreach($projects as $index => $project)
-            <a href="{{ route('portfolio.detail', $project->slug) }}" class="portfolio-card block cursor-pointer no-underline" data-aos="fade-up" data-aos-delay="{{ $index * 100 }}" data-category="{{ $project->categories->pluck('slug')->implode(' ') }}">
+            <a href="{{ route('portfolio.detail', $project->slug) }}" class="portfolio-card block cursor-pointer no-underline" data-aos="fade-up" data-aos-delay="{{ $index * 30 }}" data-category="{{ $project->categories->pluck('slug')->implode(' ') }}">
                 <div class="portfolio-img relative">
                     <img src="{{ $project->coverImage() ? asset($project->coverImage()->image) : '' }}" alt="{{ $project->name }}" loading="lazy" decoding="async">
                     <span class="portfolio-card-badge {{ $project->badge_class }}">{{ $project->categories->first()?->name }}</span>
