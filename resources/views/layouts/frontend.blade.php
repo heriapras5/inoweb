@@ -109,7 +109,7 @@
                 x-transition:leave="transition ease-in duration-150"
                 x-transition:leave-start="opacity-100 translate-y-0"
                 x-transition:leave-end="opacity-0 translate-y-2"
-                class="fixed bottom-24 right-6 z-50 w-11 h-11 rounded-full bg-[#0a192f]/90 backdrop-blur border border-white/15 text-white flex items-center justify-center shadow-lg hover:bg-blue-600 hover:-translate-y-0.5 transition-all cursor-pointer">
+                class="fixed bottom-24 right-6 z-50 w-11 h-11 rounded-full bg-white/95 backdrop-blur border border-gray-200 text-[#1e293b] flex items-center justify-center shadow-lg hover:bg-blue-600 hover:text-white hover:-translate-y-0.5 transition-all cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
         </button>
     </div>

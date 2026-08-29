@@ -9,13 +9,13 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <nav class="flex mb-6 text-sm" data-aos="fade-up">
             <ol class="flex items-center gap-2">
-                <li><a href="{{ url('/') }}" class="text-white/60 no-underline hover:text-white transition-colors">Beranda</a></li>
-                <li class="text-white/40">/</li>
-                <li class="text-blue-400 font-medium">FAQ</li>
+                <li><a href="{{ url('/') }}" class="text-[#64748b] no-underline hover:text-blue-600 transition-colors">Beranda</a></li>
+                <li class="text-[#cbd5e1]">/</li>
+                <li class="text-blue-600 font-medium">FAQ</li>
             </ol>
         </nav>
-        <h1 class="text-4xl sm:text-5xl font-extrabold text-white mb-4" data-aos="fade-up" data-aos-delay="100">Pertanyaan <span class="text-gradient">Umum</span></h1>
-        <p class="text-[#8892b0] text-lg max-w-xl" data-aos="fade-up" data-aos-delay="200">Temukan jawaban dari pertanyaan yang sering diajukan seputar layanan INOWEB.</p>
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-[#0f172a] mb-4" data-aos="fade-up" data-aos-delay="100">Pertanyaan <span class="text-gradient">Umum</span></h1>
+        <p class="text-[#64748b] text-lg max-w-xl" data-aos="fade-up" data-aos-delay="200">Temukan jawaban dari pertanyaan yang sering diajukan seputar layanan INOWEB.</p>
     </div>
 </section>
 
@@ -44,39 +44,39 @@
 
 <section class="bg-gradient-blue py-16 sm:py-20 relative overflow-hidden cta-section">
     <div class="absolute inset-0 pointer-events-none">
-        <div class="absolute w-72 h-72 rounded-full bg-white/5 -top-20 -right-20"></div>
-        <div class="absolute w-48 h-48 rounded-full bg-white/5 -bottom-16 -left-16"></div>
-        <div class="absolute top-1/4 left-1/3 w-2 h-2 bg-white/20 rounded-full"></div>
-        <div class="absolute top-1/2 right-1/4 w-1.5 h-1.5 bg-white/20 rounded-full"></div>
-        <div class="absolute bottom-1/3 left-1/5 w-1 h-1 bg-white/20 rounded-full"></div>
+        <div class="absolute w-72 h-72 rounded-full bg-blue-600/5 -top-20 -right-20"></div>
+        <div class="absolute w-48 h-48 rounded-full bg-blue-600/5 -bottom-16 -left-16"></div>
+        <div class="absolute top-1/4 left-1/3 w-2 h-2 bg-blue-600/20 rounded-full"></div>
+        <div class="absolute top-1/2 right-1/4 w-1.5 h-1.5 bg-blue-600/20 rounded-full"></div>
+        <div class="absolute bottom-1/3 left-1/5 w-1 h-1 bg-blue-600/20 rounded-full"></div>
     </div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <div class="text-center lg:text-left">
-                <span class="inline-block text-[0.7rem] font-bold tracking-[0.2em] uppercase text-blue-300 mb-3">MASIH BINGUNG?</span>
-                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white leading-tight mb-4">Konsultasi Gratis <span class="text-blue-300">via WhatsApp</span></h2>
-                <p class="text-white/70 text-base max-w-lg">Tim kami siap menjawab semua pertanyaan Anda tentang pembuatan website. Respon cepat, tanpa komitmen.</p>
+                <span class="inline-block text-[0.7rem] font-bold tracking-[0.2em] uppercase text-blue-600 mb-3">MASIH BINGUNG?</span>
+                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#0f172a] leading-tight mb-4">Konsultasi Gratis <span class="text-blue-600">via WhatsApp</span></h2>
+                <p class="text-[#475569] text-base max-w-lg">Tim kami siap menjawab semua pertanyaan Anda tentang pembuatan website. Respon cepat, tanpa komitmen.</p>
                 <div class="flex flex-wrap gap-3 mt-6 justify-center lg:justify-start">
-                    <div class="flex items-center gap-2 text-white/60 text-sm">
+                    <div class="flex items-center gap-2 text-[#64748b] text-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                         Gratis Konsultasi
                     </div>
-                    <div class="flex items-center gap-2 text-white/60 text-sm">
+                    <div class="flex items-center gap-2 text-[#64748b] text-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                         Respon Cepat
                     </div>
-                    <div class="flex items-center gap-2 text-white/60 text-sm">
+                    <div class="flex items-center gap-2 text-[#64748b] text-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                         Tanpa Komitmen
                     </div>
                 </div>
             </div>
             <div class="flex flex-col items-center lg:items-end gap-4">
-                <a href="https://wa.me/{{ setting('whatsapp_number', '6285736186308') }}?text=Halo,%20saya%20ingin%20bertanya%20tentang%20layanan%20pembuatan%20website" target="_blank" rel="noopener" class="inline-flex items-center gap-3 bg-white text-blue-600 px-8 py-4 rounded-full font-semibold text-base no-underline hover:bg-gray-100 transition-all hover:-translate-y-0.5 hover:shadow-xl shadow-lg">
+                <a href="https://wa.me/{{ setting('whatsapp_number', '6285736186308') }}?text=Halo,%20saya%20ingin%20bertanya%20tentang%20layanan%20pembuatan%20website" target="_blank" rel="noopener" class="inline-flex items-center gap-3 bg-blue-600 text-white px-8 py-4 rounded-full font-semibold text-base no-underline hover:bg-blue-700 transition-all hover:-translate-y-0.5 hover:shadow-xl shadow-lg">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                     Tanya via WhatsApp
                 </a>
-                <p class="text-white/40 text-xs">Klik tombol di atas untuk chat langsung</p>
+                <p class="text-[#94a3b8] text-xs">Klik tombol di atas untuk chat langsung</p>
             </div>
         </div>
     </div>

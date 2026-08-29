@@ -11,14 +11,14 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <nav class="flex mb-6 text-sm" aria-label="Breadcrumb" data-aos="fade-up">
             <ol class="flex items-center gap-2">
-                <li><a href="{{ url('/') }}" class="text-white/60 no-underline hover:text-white transition-colors">Beranda</a></li>
-                <li class="text-white/40">/</li>
-                <li class="text-blue-400 font-medium">Portofolio</li>
+                <li><a href="{{ url('/') }}" class="text-[#64748b] no-underline hover:text-blue-600 transition-colors">Beranda</a></li>
+                <li class="text-[#cbd5e1]">/</li>
+                <li class="text-blue-600 font-medium">Portofolio</li>
             </ol>
         </nav>
         <div data-aos="fade-up">
-            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-4">Portofolio <span class="text-gradient">Website</span></h1>
-            <p class="text-[#8892b0] text-base sm:text-lg leading-relaxed max-w-2xl">Berbagai solusi website profesional yang telah kami rancang untuk membantu bisnis, UMKM, dan perusahaan berkembang secara digital.</p>
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0f172a] leading-tight mb-4">Portofolio <span class="text-gradient">Website</span></h1>
+            <p class="text-[#64748b] text-base sm:text-lg leading-relaxed max-w-2xl">Berbagai solusi website profesional yang telah kami rancang untuk membantu bisnis, UMKM, dan perusahaan berkembang secara digital.</p>
         </div>
     </div>
 </section>
@@ -77,14 +77,14 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
             </div>
             <div class="flex-1 text-center lg:text-left">
-                <h2 class="text-2xl sm:text-3xl font-extrabold text-white leading-tight">Punya kebutuhan website seperti ini?</h2>
-                <p class="text-white/70 text-base mt-2 max-w-xl">Kami siap membantu mewujudkan website profesional yang sesuai dengan kebutuhan bisnis Anda.</p>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-[#0f172a] leading-tight">Punya kebutuhan website seperti ini?</h2>
+                <p class="text-[#475569] text-base mt-2 max-w-xl">Kami siap membantu mewujudkan website profesional yang sesuai dengan kebutuhan bisnis Anda.</p>
             </div>
             <div class="shrink-0 flex flex-col items-center gap-2">
-                <a href="https://wa.me/{{ setting('whatsapp_number', '6285736186308') }}?text=Halo,%20saya%20tertarik%20dengan%20layanan%20INOWEB" target="_blank" rel="noopener" class="inline-flex items-center justify-center bg-white text-blue-600 px-8 py-3.5 rounded-full font-semibold text-base no-underline hover:bg-gray-100 transition-all hover:-translate-y-0.5 hover:shadow-lg">
+                <a href="https://wa.me/{{ setting('whatsapp_number', '6285736186308') }}?text=Halo,%20saya%20tertarik%20dengan%20layanan%20INOWEB" target="_blank" rel="noopener" class="inline-flex items-center justify-center bg-blue-600 text-white px-8 py-3.5 rounded-full font-semibold text-base no-underline hover:bg-blue-700 transition-all hover:-translate-y-0.5 hover:shadow-lg">
                     Konsultasi Gratis via WhatsApp
                 </a>
-                <span class="text-xs text-white/50">Gratis konsultasi &bull; Respon cepat &bull; Tanpa komitmen</span>
+                <span class="text-xs text-[#94a3b8]">Gratis konsultasi &bull; Respon cepat &bull; Tanpa komitmen</span>
             </div>
         </div>
     </div>

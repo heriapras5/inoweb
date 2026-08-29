@@ -39,10 +39,10 @@ body { overflow-x: hidden; position: relative; width: 100%; }
 
 /* ─── Gradient Background ─── */
 .bg-gradient-hero {
-    background: linear-gradient(160deg, #020c1b 0%, #0a192f 40%, #0f2744 100%);
+    background: linear-gradient(160deg, #eff6ff 0%, #f8fafc 45%, #ffffff 100%);
 }
 .bg-gradient-blue {
-    background: linear-gradient(135deg, #0a192f 0%, #112240 50%, #1a365d 100%);
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 60%, #bfdbfe 100%);
 }
 
 /* ─── Text Gradient ─── */
@@ -81,7 +81,7 @@ body { overflow-x: hidden; position: relative; width: 100%; }
 
 /* ─── Footer ─── */
 .footer-title {
-    color: #fff;
+    color: #0f172a;
     font-weight: 700;
     font-size: 1rem;
     margin-bottom: 1.25rem;
@@ -103,7 +103,7 @@ body { overflow-x: hidden; position: relative; width: 100%; }
 .footer-links { list-style: none; padding: 0; margin: 0; }
 .footer-links li { margin-bottom: 0.625rem; }
 .footer-links a {
-    color: rgba(255,255,255,0.6);
+    color: #64748b;
     text-decoration: none;
     font-size: 0.9rem;
     transition: all 0.2s ease;
@@ -111,7 +111,7 @@ body { overflow-x: hidden; position: relative; width: 100%; }
 .footer-links a:hover { color: #2563eb; padding-left: 5px; }
 .footer-contact { list-style: none; padding: 0; margin: 0; }
 .footer-contact li {
-    color: rgba(255,255,255,0.6);
+    color: #64748b;
     font-size: 0.85rem;
     margin-bottom: 0.75rem;
     display: flex;
@@ -121,17 +121,17 @@ body { overflow-x: hidden; position: relative; width: 100%; }
 .footer-social {
     width: 40px;
     height: 40px;
-    background: rgba(255,255,255,0.08);
+    background: rgba(37,99,235,0.08);
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: rgba(255,255,255,0.6);
+    color: #475569;
     transition: all 0.3s ease;
     text-decoration: none;
 }
 .footer-social:hover { background: #2563eb; color: #fff; transform: translateY(-3px); }
-.footer-bottom-link { color: rgba(255,255,255,0.4); text-decoration: none; transition: all 0.2s ease; }
+.footer-bottom-link { color: #94a3b8; text-decoration: none; transition: all 0.2s ease; }
 .footer-bottom-link:hover { color: #2563eb; }
 
 /* ─── Buttons ─── */
@@ -192,9 +192,9 @@ body { overflow-x: hidden; position: relative; width: 100%; }
 .hero-badge {
     display: inline-flex;
     align-items: center;
-    background: rgba(37,99,235,0.15);
-    border: 1px solid rgba(37,99,235,0.3);
-    color: #60a5fa;
+    background: rgba(37,99,235,0.08);
+    border: 1px solid rgba(37,99,235,0.25);
+    color: #2563eb;
     padding: 8px 20px;
     border-radius: 50px;
     font-size: 0.8rem;
@@ -322,24 +322,24 @@ body { overflow-x: hidden; position: relative; width: 100%; }
     bottom: 0;
     right: 0;
     width: 90%;
-    background: #1e293b;
+    background: #ffffff;
     border-radius: 12px;
-    border: 2px solid #334155;
+    border: 2px solid #e2e8f0;
     overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    box-shadow: 0 20px 60px rgba(15,23,42,0.15);
     transition: all 0.3s ease;
 }
-.portfolio-device:hover { transform: translateY(-4px) !important; box-shadow: 0 24px 70px rgba(0,0,0,0.6); }
+.portfolio-device:hover { transform: translateY(-4px) !important; box-shadow: 0 24px 70px rgba(15,23,42,0.2); }
 .portfolio-device-bar {
     display: flex;
     align-items: center;
     padding: 8px 12px;
-    background: #1e293b;
+    background: #f1f5f9;
 }
 .portfolio-device-screen {
     aspect-ratio: 16/10;
     overflow: hidden;
-    background: #0a192f;
+    background: #f8fafc;
 }
 .portfolio-device-screen img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
@@ -498,15 +498,15 @@ body { overflow-x: hidden; position: relative; width: 100%; }
 
 /* ─── Browser Mockup ─── */
 .mockup-browser {
-    background: #1e293b;
+    background: #ffffff;
     border-radius: 14px;
-    border: 2px solid #334155;
+    border: 2px solid #e2e8f0;
     padding: 8px;
-    box-shadow: 0 24px 70px rgba(0,0,0,0.5);
+    box-shadow: 0 24px 70px rgba(15,23,42,0.15);
     overflow: hidden;
 }
 .mockup-browser-bar {
-    background: #1e293b;
+    background: #f1f5f9;
     padding: 8px 12px;
     display: flex;
     align-items: center;
@@ -517,7 +517,7 @@ body { overflow-x: hidden; position: relative; width: 100%; }
 .mockup-browser-screen {
     border-radius: 0 0 8px 8px;
     overflow: hidden;
-    background: #0a192f;
+    background: #f8fafc;
     aspect-ratio: 16/9.5;
     position: relative;
 }
@@ -609,12 +609,12 @@ body { overflow-x: hidden; position: relative; width: 100%; }
 /* ─── CTA Icon ─── */
 .cta-icon {
     width: 64px; height: 64px;
-    background: rgba(255,255,255,0.15);
+    background: rgba(37,99,235,0.1);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #fff;
+    color: #2563eb;
     font-size: 1.5rem;
     flex-shrink: 0;
 }
@@ -759,16 +759,16 @@ body { overflow-x: hidden; position: relative; width: 100%; }
 
 /* ─── iMac Monitor ─── */
 .imac-body {
-    background: #1e293b;
+    background: #ffffff;
     border-radius: 14px;
-    border: 2px solid #334155;
+    border: 2px solid #e2e8f0;
     padding: 10px;
-    box-shadow: 0 24px 70px rgba(0,0,0,0.5);
+    box-shadow: 0 24px 70px rgba(15,23,42,0.15);
 }
 .imac-screen {
     border-radius: 8px;
     overflow: hidden;
-    background: #0a192f;
+    background: #f8fafc;
     aspect-ratio: 16/10;
     position: relative;
 }
@@ -780,14 +780,14 @@ body { overflow-x: hidden; position: relative; width: 100%; }
 .imac-stand {
     width: 90px;
     height: 18px;
-    background: linear-gradient(180deg, #334155, #1e293b);
+    background: linear-gradient(180deg, #e2e8f0, #cbd5e1);
     margin: -2px auto 0;
     border-radius: 0 0 5px 5px;
 }
 .imac-base {
     width: 130px;
     height: 6px;
-    background: #475569;
+    background: #cbd5e1;
     margin: 0 auto;
     border-radius: 0 0 3px 3px;
 }
@@ -797,9 +797,9 @@ body { overflow-x: hidden; position: relative; width: 100%; }
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.2);
-    color: #fff;
+    background: #ffffff;
+    border: 1px solid #dbeafe;
+    color: #2563eb;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -807,7 +807,7 @@ body { overflow-x: hidden; position: relative; width: 100%; }
     transition: all 0.25s ease;
     flex-shrink: 0;
 }
-.hero-arrow:hover { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.4); }
+.hero-arrow:hover { background: #2563eb; border-color: #2563eb; color: #fff; }
 .hero-arrow:disabled { opacity: 0.3; cursor: default; }
 
 /* ─── Hero Dot ─── */
@@ -819,13 +819,142 @@ body { overflow-x: hidden; position: relative; width: 100%; }
     cursor: pointer;
     transition: all 0.3s ease;
     padding: 0;
-    background: rgba(255,255,255,0.35);
+    background: #cbd5e1;
 }
 .hero-dot.active {
     background: #2563eb;
     width: 28px;
     border-radius: 5px;
 }
+
+/* ─── Hero 3D ─── */
+.hero-3d {
+    position: relative;
+    perspective: 1400px;
+}
+.hero-3d-card {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+    transform-style: preserve-3d;
+    transform: rotateY(-9deg) rotateX(3deg);
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.hero-3d-card:hover { transform: rotateY(-3deg) rotateX(1deg); }
+.hero-3d-layer-back {
+    position: absolute;
+    inset: 0;
+    transform: translateZ(-70px);
+    border-radius: 24px;
+    background: linear-gradient(135deg, #dbeafe, #bfdbfe 60%, #93c5fd);
+    box-shadow: 0 40px 90px rgba(37,99,235,0.22);
+}
+.hero-3d-slot {
+    position: relative;
+    display: block;
+    aspect-ratio: 4/3;
+    border-radius: 22px;
+    overflow: hidden;
+    border: 1px solid rgba(148,163,184,0.3);
+    background: #f8fafc;
+    box-shadow: 0 30px 80px rgba(15,23,42,0.18), 0 12px 30px rgba(15,23,42,0.1);
+    transform: translateZ(40px);
+}
+.hero-3d-img {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transform: scale(1.12);
+    transition: opacity 0.7s ease, transform 7s ease;
+    z-index: 1;
+}
+.hero-3d-img.active { opacity: 1; transform: scale(1); }
+.hero-3d-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.hero-3d-placeholder {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #eff6ff, #dbeafe 55%, #bfdbfe);
+}
+.hero-3d-placeholder-shine {
+    position: absolute;
+    width: 180%;
+    height: 140%;
+    top: -60%;
+    left: -40%;
+    background: linear-gradient(120deg, rgba(255,255,255,0.9), rgba(255,255,255,0) 60%);
+    transform: rotate(12deg);
+    animation: hero-shine 7s ease-in-out infinite;
+}
+@keyframes hero-shine {
+    0%, 55% { transform: translateX(-120%) rotate(12deg); }
+    100% { transform: translateX(180%) rotate(12deg); }
+}
+.hero-3d-placeholder-brand {
+    position: relative;
+    text-align: center;
+    z-index: 2;
+}
+.hero-3d-placeholder-brand strong {
+    display: block;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #1e40af;
+    letter-spacing: 0.08em;
+}
+.hero-3d-placeholder-brand span {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    color: #2563eb;
+    margin-top: 4px;
+}
+.hero-3d-shine {
+    position: absolute;
+    inset: 0;
+    border-radius: 22px;
+    background: linear-gradient(120deg, rgba(255,255,255,0.5), transparent 40%, transparent 60%, rgba(255,255,255,0.28));
+    pointer-events: none;
+    z-index: 3;
+    mix-blend-mode: overlay;
+}
+.hero-3d-badge {
+    position: absolute;
+    left: 16px;
+    bottom: 16px;
+    z-index: 5;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.7);
+    padding: 8px 14px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #1e293b;
+    box-shadow: 0 8px 24px rgba(15,23,42,0.15);
+    transform: translateZ(70px);
+}
+.hero-3d-badge .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #2563eb;
+}
+.hero-3d-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(46px);
+    pointer-events: none;
+}
+.hero-3d-float { animation: float 6s ease-in-out infinite; }
 
 /* ─── RESPONSIVE ─── */
 @media (max-width: 1023.98px) {

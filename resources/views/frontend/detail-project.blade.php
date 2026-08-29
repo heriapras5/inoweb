@@ -12,19 +12,19 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <nav class="flex mb-6 text-sm" data-aos="fade-up">
             <ol class="flex items-center gap-2">
-                <li><a href="{{ url('/') }}" class="text-white/60 no-underline hover:text-white transition-colors">Beranda</a></li>
-                <li class="text-white/40">/</li>
-                <li><a href="{{ route('portfolio') }}" class="text-white/60 no-underline hover:text-white transition-colors">Portofolio</a></li>
-                <li class="text-white/40">/</li>
-                <li class="text-blue-400 font-medium truncate max-w-[200px]">{{ $project->name }}</li>
+                <li><a href="{{ url('/') }}" class="text-[#64748b] no-underline hover:text-blue-600 transition-colors">Beranda</a></li>
+                <li class="text-[#cbd5e1]">/</li>
+                <li><a href="{{ route('portfolio') }}" class="text-[#64748b] no-underline hover:text-blue-600 transition-colors">Portofolio</a></li>
+                <li class="text-[#cbd5e1]">/</li>
+                <li class="text-blue-600 font-medium truncate max-w-[200px]">{{ $project->name }}</li>
             </ol>
         </nav>
         <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <div data-aos="fade-right" data-aos-delay="100">
                 @if($project->category)
-                <span class="inline-block text-[0.7rem] font-bold tracking-[0.2em] uppercase text-blue-400 mb-3">{{ $project->category->name }}</span>
+                <span class="inline-block text-[0.7rem] font-bold tracking-[0.2em] uppercase text-blue-600 mb-3">{{ $project->category->name }}</span>
                 @endif
-                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-6">
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0f172a] leading-tight mb-6">
                     @php
                         $words = explode(' ', $project->name);
                         $mid = max(1, floor(count($words) / 2));
@@ -39,7 +39,7 @@
                         Hubungi via WhatsApp
                     </a>
                     @if($project->url)
-                    <a href="{{ $project->url }}" target="_blank" rel="noopener" class="btn-outline-light px-6 py-3 text-base inline-flex items-center gap-2">
+                    <a href="{{ $project->url }}" target="_blank" rel="noopener" class="btn-outline-dark px-6 py-3 text-base inline-flex items-center gap-2">
                         Lihat Website
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                     </a>
@@ -50,17 +50,17 @@
                 @if($firstImage)
                 <div class="relative">
                     <img src="{{ asset($firstImage->image) }}" alt="{{ $project->name }}" loading="lazy" decoding="async"
-                         class="w-full rounded-2xl shadow-2xl border border-white/10 object-cover">
+                         class="w-full rounded-2xl shadow-lg border border-gray-200 object-cover">
                 </div>
                 @else
-                <div class="w-full aspect-video rounded-2xl bg-gradient-to-b from-[#0f2744] to-[#0a192f] flex items-center justify-center border border-white/10 shadow-2xl">
+                <div class="w-full aspect-video rounded-2xl bg-gradient-to-b from-blue-50 to-slate-100 flex items-center justify-center border border-gray-100 shadow-2xl">
                     <div class="text-center p-8">
-                        <div class="w-16 h-16 mx-auto bg-blue-600/20 rounded-2xl flex items-center justify-center text-blue-500 mb-4">
+                        <div class="w-16 h-16 mx-auto bg-blue-600/10 rounded-2xl flex items-center justify-center text-blue-600 mb-4">
                             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
                         </div>
-                        <div class="h-3 bg-white/10 rounded-full w-3/4 mx-auto mb-2"></div>
-                        <div class="h-3 bg-white/10 rounded-full w-1/2 mx-auto mb-6"></div>
-                        <div class="w-[120px] h-9 bg-blue-600/30 rounded-lg mx-auto"></div>
+                        <div class="h-3 bg-slate-200 rounded-full w-3/4 mx-auto mb-2"></div>
+                        <div class="h-3 bg-slate-200 rounded-full w-1/2 mx-auto mb-6"></div>
+                        <div class="w-[120px] h-9 bg-blue-600 rounded-lg mx-auto"></div>
                     </div>
                 </div>
                 @endif
@@ -294,19 +294,19 @@
 <section class="py-16 sm:py-20 relative">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="bg-gradient-blue rounded-2xl p-8 sm:p-10 lg:p-14 flex flex-col lg:flex-row items-center gap-8 lg:gap-12 relative overflow-hidden" data-aos="fade-up">
-            <div class="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center text-white shrink-0">
+            <div class="w-14 h-14 bg-blue-600/10 rounded-2xl flex items-center justify-center text-blue-600 shrink-0">
                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
             </div>
             <div class="flex-1 text-center lg:text-left">
-                <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white">Punya kebutuhan website seperti ini?</h3>
-                <p class="text-white/70 mt-2 max-w-xl">Kami siap membantu mewujudkan website profesional yang sesuai dengan kebutuhan bisnis Anda.</p>
+                <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-[#0f172a]">Punya kebutuhan website seperti ini?</h3>
+                <p class="text-[#475569] mt-2 max-w-xl">Kami siap membantu mewujudkan website profesional yang sesuai dengan kebutuhan bisnis Anda.</p>
             </div>
             <div class="shrink-0 flex flex-col items-center gap-2">
-                <a href="https://wa.me/{{ setting('whatsapp_number', '6285736186308') }}?text=Halo,%20saya%20tertarik%20dengan%20pembuatan%20website" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-white text-blue-600 px-8 py-3.5 rounded-full text-base font-semibold hover:bg-gray-100 hover:-translate-y-0.5 transition-all shadow-lg hover:shadow-xl">
+                <a href="https://wa.me/{{ setting('whatsapp_number', '6285736186308') }}?text=Halo,%20saya%20tertarik%20dengan%20pembuatan%20website" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-3.5 rounded-full text-base font-semibold hover:bg-blue-700 hover:-translate-y-0.5 transition-all shadow-lg hover:shadow-xl">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                     Konsultasi Gratis
                 </a>
-                <span class="text-xs text-white/50">Gratis konsultasi &bull; Respon cepat &bull; Tanpa komitmen</span>
+                <span class="text-xs text-[#94a3b8]">Gratis konsultasi &bull; Respon cepat &bull; Tanpa komitmen</span>
             </div>
         </div>
     </div>

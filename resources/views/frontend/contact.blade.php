@@ -9,13 +9,13 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <nav class="flex mb-6 text-sm" data-aos="fade-up">
             <ol class="flex items-center gap-2">
-                <li><a href="{{ url('/') }}" class="text-white/60 no-underline hover:text-white transition-colors">Beranda</a></li>
-                <li class="text-white/40">/</li>
-                <li class="text-blue-400 font-medium">Kontak</li>
+                <li><a href="{{ url('/') }}" class="text-[#64748b] no-underline hover:text-blue-600 transition-colors">Beranda</a></li>
+                <li class="text-[#cbd5e1]">/</li>
+                <li class="text-blue-600 font-medium">Kontak</li>
             </ol>
         </nav>
-        <h1 class="text-4xl sm:text-5xl font-extrabold text-white mb-4" data-aos="fade-up" data-aos-delay="100">Hubungi <span class="text-gradient">Kami</span></h1>
-        <p class="text-[#8892b0] text-lg max-w-xl" data-aos="fade-up" data-aos-delay="200">Konsultasikan kebutuhan website Anda. Tim INOWEB siap membantu.</p>
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-[#0f172a] mb-4" data-aos="fade-up" data-aos-delay="100">Hubungi <span class="text-gradient">Kami</span></h1>
+        <p class="text-[#64748b] text-lg max-w-xl" data-aos="fade-up" data-aos-delay="200">Konsultasikan kebutuhan website Anda. Tim INOWEB siap membantu.</p>
     </div>
 </section>
 

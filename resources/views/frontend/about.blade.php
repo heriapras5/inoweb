@@ -9,13 +9,13 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <nav class="flex mb-6 text-sm" data-aos="fade-up">
             <ol class="flex items-center gap-2">
-                <li><a href="{{ url('/') }}" class="text-white/60 no-underline hover:text-white transition-colors">Beranda</a></li>
-                <li class="text-white/40">/</li>
-                <li class="text-blue-400 font-medium">Tentang</li>
+                <li><a href="{{ url('/') }}" class="text-[#64748b] no-underline hover:text-blue-600 transition-colors">Beranda</a></li>
+                <li class="text-[#cbd5e1]">/</li>
+                <li class="text-blue-600 font-medium">Tentang</li>
             </ol>
         </nav>
-        <h1 class="text-4xl sm:text-5xl font-extrabold text-white mb-4" data-aos="fade-up" data-aos-delay="100">Tentang <span class="text-gradient">Kami</span></h1>
-        <p class="text-[#8892b0] text-lg max-w-xl" data-aos="fade-up" data-aos-delay="200">{{ $aboutSection->subtitle ?: 'Kenali lebih dekat siapa kami dan apa yang kami lakukan untuk membantu bisnis Anda.' }}</p>
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-[#0f172a] mb-4" data-aos="fade-up" data-aos-delay="100">Tentang <span class="text-gradient">Kami</span></h1>
+        <p class="text-[#64748b] text-lg max-w-xl" data-aos="fade-up" data-aos-delay="200">{{ $aboutSection->subtitle ?: 'Kenali lebih dekat siapa kami dan apa yang kami lakukan untuk membantu bisnis Anda.' }}</p>
     </div>
 </section>
 
@@ -29,7 +29,7 @@
             </div>
             @if($aboutSection->image)
             <div data-aos="fade-left" class="flex justify-center lg:justify-start">
-                <img src="{{ $aboutSection->image ? asset($aboutSection->image) : '' }}" alt="Tentang INOWEB" class="rounded-2xl w-full h-auto object-contain shadow-xl border border-gray-100">
+                <img src="{{ $aboutSection->image ? asset($aboutSection->image) : '' }}" alt="Tentang INOWEB" class="rounded-2xl w-full max-w-md mx-auto lg:mx-0 h-auto object-contain shadow-sm ring-1 ring-slate-100">
             </div>
             @endif
         </div>
@@ -77,8 +77,8 @@
 <section class="bg-gradient-blue py-16 sm:py-20 relative overflow-hidden cta-section">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center" data-aos="zoom-in">
-            <h2 class="text-3xl sm:text-4xl font-extrabold text-white leading-tight mb-4">Tertarik Bekerja Sama?</h2>
-            <p class="text-white/70 text-lg max-w-2xl mx-auto mb-8">Konsultasikan kebutuhan website Anda dengan tim INOWEB. Gratis!</p>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0f172a] leading-tight mb-4">Tertarik Bekerja Sama?</h2>
+            <p class="text-[#475569] text-lg max-w-2xl mx-auto mb-8">Konsultasikan kebutuhan website Anda dengan tim INOWEB. Gratis!</p>
             <a href="https://wa.me/{{ setting('whatsapp_number', '6285736186308') }}" target="_blank" rel="noopener" class="flex sm:inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-full font-semibold text-base no-underline hover:bg-blue-700 transition-all hover:-translate-y-0.5">
                 Hubungi via WhatsApp
             </a>

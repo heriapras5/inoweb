@@ -113,6 +113,31 @@ document.addEventListener('DOMContentLoaded', () => {
         setupLoop();
         start();
     }
+
+    // Parallax (transform-based, lightweight)
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const parallaxEls = Array.from(document.querySelectorAll('[data-parallax]'));
+    let parallaxRaf = null;
+
+    if (parallaxEls.length && !prefersReducedMotion && window.innerWidth >= 768) {
+        const applyParallax = () => {
+            const vh = window.innerHeight;
+            parallaxEls.forEach((el) => {
+                const speed = parseFloat(el.dataset.parallaxSpeed || '0.1') || 0.1;
+                const rect = el.getBoundingClientRect();
+                const center = rect.top + rect.height / 2;
+                const offset = (center - vh / 2) * -speed;
+                el.style.transform = `translate3d(0, ${offset.toFixed(1)}px, 0)`;
+            });
+            parallaxRaf = null;
+        };
+        const scheduleParallax = () => {
+            if (!parallaxRaf) parallaxRaf = requestAnimationFrame(applyParallax);
+        };
+        window.addEventListener('scroll', scheduleParallax, { passive: true });
+        window.addEventListener('resize', scheduleParallax, { passive: true });
+        applyParallax();
+    }
 });
 
 Alpine.start();

@@ -2,7 +2,7 @@
 
 @section('content')
 <!-- Hero -->
-<section class="relative overflow-hidden pt-24 sm:pt-32 pb-16 sm:pb-20 lg:min-h-screen lg:flex lg:items-center" style="background: linear-gradient(180deg, #0a192f 0%, #0f2744 50%, #0a192f 100%);">
+<section class="relative overflow-hidden pt-24 sm:pt-32 pb-16 sm:pb-20 lg:min-h-screen lg:flex lg:items-center" style="background: linear-gradient(180deg, #eff6ff 0%, #f8fafc 50%, #ffffff 100%);">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full">
         @php $waNum = setting('whatsapp_number', '6285736186308'); @endphp
         <div class="grid lg:grid-cols-2 gap-12 items-center"
@@ -29,13 +29,13 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                                 INOVASI &bull; PROFESIONAL &bull; TERPERCAYA
                             </div>
-                            <h1 class="text-4xl sm:text-5xl lg:text-[3.2rem] font-extrabold text-white leading-tight mb-5" x-text="slide.title"></h1>
-                            <p class="text-white/70 text-base sm:text-lg leading-relaxed mb-8 max-w-lg" x-text="slide.description"></p>
+                            <h1 class="text-4xl sm:text-5xl lg:text-[3.2rem] font-extrabold text-[#0f172a] leading-tight mb-5" x-text="slide.title"></h1>
+                            <p class="text-[#475569] text-base sm:text-lg leading-relaxed mb-8 max-w-lg" x-text="slide.description"></p>
                             <div class="flex flex-col sm:flex-row gap-3 mb-8">
                                 <a :href="slide.button_url || 'https://wa.me/{{ $waNum }}?text=Halo,%20saya%20ingin%20konsultasi%20tentang%20pembuatan%20website'" target="_blank" rel="noopener" class="btn-primary px-6 py-3 text-base inline-flex items-center justify-center gap-2">
                                     <span x-text="slide.button_text || 'Konsultasi Gratis'"></span>
                                 </a>
-                                <a href="{{ route('portfolio') }}" class="btn-outline-light px-6 py-3 text-base inline-flex items-center justify-center gap-2">
+                                <a href="{{ route('portfolio') }}" class="btn-outline-dark px-6 py-3 text-base inline-flex items-center justify-center gap-2">
                                     Lihat Portofolio
                                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                                 </a>
@@ -46,13 +46,13 @@
                 <template x-if="!slides.length">
                     <div>
                         <div class="hero-badge mb-4">INOVASI &bull; PROFESIONAL &bull; TERPERCAYA</div>
-                        <h2 class="text-4xl sm:text-5xl lg:text-[3.2rem] font-extrabold text-white leading-tight mb-5">Solusi Website Profesional<br>Untuk Bisnis Anda</h2>
-                        <p class="text-white/70 text-base sm:text-lg leading-relaxed mb-8 max-w-lg">INOWEB hadir untuk membantu bisnis, UMKM, dan perusahaan memiliki website modern, cepat, dan sesuai kebutuhan Anda.</p>
+                        <h2 class="text-4xl sm:text-5xl lg:text-[3.2rem] font-extrabold text-[#0f172a] leading-tight mb-5">Solusi Website Profesional<br>Untuk Bisnis Anda</h2>
+                        <p class="text-[#475569] text-base sm:text-lg leading-relaxed mb-8 max-w-lg">INOWEB hadir untuk membantu bisnis, UMKM, dan perusahaan memiliki website modern, cepat, dan sesuai kebutuhan Anda.</p>
                         <div class="flex flex-col sm:flex-row gap-3 mb-8">
                             <a href="https://wa.me/{{ $waNum }}?text=Halo,%20saya%20ingin%20konsultasi%20tentang%20pembuatan%20website" target="_blank" rel="noopener" class="btn-primary px-6 py-3 text-base inline-flex items-center justify-center gap-2">
                                 Konsultasi Gratis
                             </a>
-                            <a href="{{ route('portfolio') }}" class="btn-outline-light px-6 py-3 text-base inline-flex items-center justify-center gap-2">
+                            <a href="{{ route('portfolio') }}" class="btn-outline-dark px-6 py-3 text-base inline-flex items-center justify-center gap-2">
                                 Lihat Portofolio
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                             </a>
@@ -63,72 +63,97 @@
                 <!-- Feature badges -->
                 <div class="grid grid-cols-2 gap-3 mt-4">
                     <div class="flex items-center gap-2.5">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
-                        <span class="text-white/80 text-xs sm:text-sm">Desain Modern &amp; Elegan</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                        <span class="text-[#475569] text-xs sm:text-sm">Desain Modern &amp; Elegan</span>
                     </div>
                     <div class="flex items-center gap-2.5">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                        <span class="text-white/80 text-xs sm:text-sm">Responsif di Semua Perangkat</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                        <span class="text-[#475569] text-xs sm:text-sm">Responsif di Semua Perangkat</span>
                     </div>
                     <div class="flex items-center gap-2.5">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                        <span class="text-white/80 text-xs sm:text-sm">SEO Friendly &amp; Cepat di Google</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        <span class="text-[#475569] text-xs sm:text-sm">SEO Friendly &amp; Cepat di Google</span>
                     </div>
                     <div class="flex items-center gap-2.5">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                        <span class="text-white/80 text-xs sm:text-sm">Garansi &amp; Dukungan Penuh</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        <span class="text-[#475569] text-xs sm:text-sm">Garansi &amp; Dukungan Penuh</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Right: iMac monitor with image slider -->
+            <!-- Right: Hero 3D (auto-slide project cover images) -->
+            @php
+                $heroProjects = $projects->filter(fn($p) => $p->coverImage())->values()->map(fn($p) => [
+                    'image' => asset($p->coverImage()->image),
+                    'title' => $p->name,
+                    'slug' => $p->slug,
+                ])->all();
+            @endphp
             <div class="block lg:block relative py-10 lg:py-10" data-aos="fade-left" data-aos-delay="200">
-                <template x-if="slides.length">
-                    <div>
-                        <div class="imac-body">
-                            <div class="imac-screen">
-                                <template x-for="(slide, i) in slides" :key="i">
-                                    <img :src="slide.image || '{{ asset('images/placeholder.svg') }}'" x-show="active === i" x-transition.opacity.duration.400
-                                         class="w-full h-full object-cover absolute inset-0"
-                                         :alt="slide.title">
+                <div class="hero-3d relative"
+                     x-data="{
+                         items: @json($heroProjects),
+                         active: 0,
+                         timer: null,
+                         init() { if (this.items.length > 1) this.timer = setInterval(() => this.next(), 4500); },
+                         next() { if (this.items.length) this.active = (this.active + 1) % this.items.length; },
+                         prev() { if (this.items.length) this.active = (this.active - 1 + this.items.length) % this.items.length; }
+                     }"
+                     @mouseenter="clearInterval(timer)"
+                     @mouseleave="if (items.length > 1) timer = setInterval(() => next(), 4500)"
+                     @touchstart="clearInterval(timer)"
+                     @touchend="if (items.length > 1) timer = setInterval(() => next(), 4500)">
+
+                    <div class="hero-3d-glow" data-parallax data-parallax-speed="0.25" style="width:300px;height:300px;background:rgba(37,99,235,0.16);top:-60px;left:-30px;"></div>
+                    <div class="hero-3d-glow" data-parallax data-parallax-speed="-0.2" style="width:260px;height:260px;background:rgba(96,165,250,0.18);bottom:-50px;right:-40px;"></div>
+                    <div class="hero-3d-glow" data-parallax data-parallax-speed="0.1" style="width:180px;height:180px;background:rgba(37,99,235,0.12);top:30%;left:-70px;"></div>
+
+                    <div class="hero-3d-float relative">
+                        <div class="hero-3d-card">
+                            <div class="hero-3d-layer-back"></div>
+                            <a :href="items.length ? '{{ url('/portfolio') }}/' + items[active].slug : '{{ route('portfolio') }}'"
+                               class="hero-3d-slot no-underline" aria-label="Lihat portofolio">
+                                <template x-for="(item, i) in items" :key="'img' + i">
+                                    <div class="hero-3d-img" :class="{ active: active === i }">
+                                        <img :src="item.image" :alt="item.title" loading="lazy" decoding="async">
+                                    </div>
+                                </template>
+                                <div class="hero-3d-placeholder" x-show="!items.length">
+                                    <div class="hero-3d-placeholder-shine"></div>
+                                    <div class="hero-3d-placeholder-brand">
+                                        <strong>{{ setting('site_name', 'INOWEB') }}</strong>
+                                        <span>PORTFOLIO</span>
+                                    </div>
+                                </div>
+                                <div class="hero-3d-shine"></div>
+                                <div class="hero-3d-badge" x-show="items.length">
+                                    <span class="dot"></span>
+                                    <span x-text="items[active].title"></span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Navigation arrows -->
+                    <div class="flex items-center justify-center gap-4 mt-8">
+                        <button @click="prev()" :disabled="items.length <= 1" aria-label="Slide sebelumnya" class="hero-arrow">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+                        </button>
+                        <template x-if="items.length > 1">
+                            <div class="flex items-center gap-2">
+                                <template x-for="(item, i) in items" :key="'dot' + i">
+                                    <button @click="active = i"
+                                            :aria-label="'Ke slide ' + (i + 1)"
+                                            :aria-current="active === i ? 'true' : 'false'"
+                                            :class="active === i ? 'hero-dot active' : 'hero-dot'"></button>
                                 </template>
                             </div>
-                        </div>
-                        <div class="imac-stand"></div>
-                        <div class="imac-base"></div>
-                        <!-- Navigation arrows -->
-                        <div class="flex items-center justify-center gap-4 mt-6">
-                            <button @click="prev()" :disabled="slides.length <= 1" aria-label="Slide sebelumnya" class="hero-arrow">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
-                            </button>
-                            <template x-if="slides.length > 1">
-                                <div class="flex items-center gap-2">
-                                    <template x-for="(slide, i) in slides" :key="i">
-                                        <button @click="active = i"
-                                                :aria-label="'Ke slide ' + (i + 1)"
-                                                :aria-current="active === i ? 'true' : 'false'"
-                                                :class="active === i ? 'hero-dot active' : 'hero-dot'"></button>
-                                    </template>
-                                </div>
-                            </template>
-                            <button @click="next()" :disabled="slides.length <= 1" aria-label="Slide berikutnya" class="hero-arrow">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
-                            </button>
-                        </div>
+                        </template>
+                        <button @click="next()" :disabled="items.length <= 1" aria-label="Slide berikutnya" class="hero-arrow">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+                        </button>
                     </div>
-                </template>
-                <template x-if="!slides.length">
-                    <div class="imac-body">
-                        <div class="imac-screen flex items-center justify-center">
-                            <div class="text-center p-8">
-                                <div class="w-20 h-5 bg-white/10 rounded-full mx-auto mb-3"></div>
-                                <div class="h-3 bg-white/10 rounded-full w-3/4 mx-auto mb-2"></div>
-                                <div class="h-3 bg-white/10 rounded-full w-1/2 mx-auto mb-3"></div>
-                                <div class="w-[120px] h-9 bg-blue-600 rounded-lg mx-auto mt-4"></div>
-                            </div>
-                        </div>
-                    </div>
-                </template>
+                </div>
             </div>
         </div>
     </div>
@@ -179,40 +204,40 @@
 </section>
 
 <!-- Komitmen -->
-<section class="py-16 sm:py-24 bg-[#0a192f]">
+<section class="py-16 sm:py-24 bg-white border-t border-gray-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12" data-aos="fade-up">
-            <span class="inline-block text-blue-400 font-bold text-sm tracking-[2px] uppercase mb-3">MENGAPA MEMILIH KAMI</span>
-            <h2 class="text-3xl sm:text-4xl font-extrabold text-white leading-tight">Komitmen Memilih INOWEB</h2>
+            <span class="inline-block text-blue-600 font-bold text-sm tracking-[2px] uppercase mb-3">MENGAPA MEMILIH KAMI</span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0f172a] leading-tight">Komitmen Memilih INOWEB</h2>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 text-center" data-aos="fade-up" data-aos-delay="0">
-                <div class="w-14 h-14 bg-blue-600/20 rounded-2xl flex items-center justify-center text-blue-400 mx-auto mb-4">
+            <div class="bg-slate-50 rounded-2xl p-6 border border-gray-100 text-center" data-aos="fade-up" data-aos-delay="0">
+                <div class="w-14 h-14 bg-blue-600/10 rounded-2xl flex items-center justify-center text-blue-600 mx-auto mb-4">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
                 </div>
-                <h5 class="text-base font-bold text-white mb-2">Desain Modern & Elegan</h5>
-                <p class="text-sm text-white/60 leading-relaxed">Tampilan profesional yang menarik dan sesuai tren terkini.</p>
+                <h5 class="text-base font-bold text-[#0f172a] mb-2">Desain Modern & Elegan</h5>
+                <p class="text-sm text-[#64748b] leading-relaxed">Tampilan profesional yang menarik dan sesuai tren terkini.</p>
             </div>
-            <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 text-center" data-aos="fade-up" data-aos-delay="100">
-                <div class="w-14 h-14 bg-blue-600/20 rounded-2xl flex items-center justify-center text-blue-400 mx-auto mb-4">
+            <div class="bg-slate-50 rounded-2xl p-6 border border-gray-100 text-center" data-aos="fade-up" data-aos-delay="100">
+                <div class="w-14 h-14 bg-blue-600/10 rounded-2xl flex items-center justify-center text-blue-600 mx-auto mb-4">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
                 </div>
-                <h5 class="text-base font-bold text-white mb-2">Performa Optimal</h5>
-                <p class="text-sm text-white/60 leading-relaxed">Website cepat, ringan, dan ramah mesin pencari.</p>
+                <h5 class="text-base font-bold text-[#0f172a] mb-2">Performa Optimal</h5>
+                <p class="text-sm text-[#64748b] leading-relaxed">Website cepat, ringan, dan ramah mesin pencari.</p>
             </div>
-            <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 text-center" data-aos="fade-up" data-aos-delay="200">
-                <div class="w-14 h-14 bg-blue-600/20 rounded-2xl flex items-center justify-center text-blue-400 mx-auto mb-4">
+            <div class="bg-slate-50 rounded-2xl p-6 border border-gray-100 text-center" data-aos="fade-up" data-aos-delay="200">
+                <div class="w-14 h-14 bg-blue-600/10 rounded-2xl flex items-center justify-center text-blue-600 mx-auto mb-4">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                 </div>
-                <h5 class="text-base font-bold text-white mb-2">Aman & Terpercaya</h5>
-                <p class="text-sm text-white/60 leading-relaxed">Keamanan data dan website Anda adalah prioritas kami.</p>
+                <h5 class="text-base font-bold text-[#0f172a] mb-2">Aman & Terpercaya</h5>
+                <p class="text-sm text-[#64748b] leading-relaxed">Keamanan data dan website Anda adalah prioritas kami.</p>
             </div>
-            <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 text-center" data-aos="fade-up" data-aos-delay="300">
-                <div class="w-14 h-14 bg-blue-600/20 rounded-2xl flex items-center justify-center text-blue-400 mx-auto mb-4">
+            <div class="bg-slate-50 rounded-2xl p-6 border border-gray-100 text-center" data-aos="fade-up" data-aos-delay="300">
+                <div class="w-14 h-14 bg-blue-600/10 rounded-2xl flex items-center justify-center text-blue-600 mx-auto mb-4">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                 </div>
-                <h5 class="text-base font-bold text-white mb-2">Dukungan Penuh</h5>
-                <p class="text-sm text-white/60 leading-relaxed">Tim support kami siap membantu Anda kapan saja.</p>
+                <h5 class="text-base font-bold text-[#0f172a] mb-2">Dukungan Penuh</h5>
+                <p class="text-sm text-[#64748b] leading-relaxed">Tim support kami siap membantu Anda kapan saja.</p>
             </div>
         </div>
     </div>
@@ -268,9 +293,9 @@
                         </div>
                         <div data-aos="fade-left" class="flex justify-center lg:justify-end">
                             @if($aboutSection->image)
-                            <img src="{{ asset($aboutSection->image) }}" alt="Tentang INOWEB" class="rounded-2xl w-full h-auto object-contain shadow-xl border border-gray-100" loading="lazy">
+                            <img src="{{ asset($aboutSection->image) }}" alt="Tentang INOWEB" class="rounded-2xl w-full max-w-md mx-auto lg:mx-0 h-auto object-contain shadow-sm ring-1 ring-slate-100" loading="lazy">
                             @else
-                            <div class="w-full max-w-md rounded-2xl border border-gray-100 shadow-xl bg-gradient-to-br from-slate-100 to-slate-200 flex flex-col items-center justify-center px-10 py-20 text-center">
+                            <div class="w-full max-w-md rounded-2xl border border-gray-100 shadow-sm bg-gradient-to-br from-slate-100 to-slate-200 flex flex-col items-center justify-center px-10 py-20 text-center">
                                 <div class="w-16 h-16 bg-blue-600/10 rounded-2xl flex items-center justify-center text-blue-600 mb-5">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
                                 </div>
@@ -348,24 +373,24 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="grid lg:grid-cols-2 gap-8 items-center" data-aos="zoom-in">
             <div data-aos="fade-right" data-aos-delay="200">
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-white leading-tight mb-4">Siap Mewujudkan Website<br>Impian Anda?</h2>
-                <p class="text-white/70 text-base leading-relaxed mb-6">Konsultasikan kebutuhan Anda sekarang juga dan dapatkan solusi terbaik dari tim profesional INOWEB.</p>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0f172a] leading-tight mb-4">Siap Mewujudkan Website<br>Impian Anda?</h2>
+                <p class="text-[#475569] text-base leading-relaxed mb-6">Konsultasikan kebutuhan Anda sekarang juga dan dapatkan solusi terbaik dari tim profesional INOWEB.</p>
                 <div class="grid grid-cols-2 gap-3 mb-8">
                     <div class="flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                        <span class="text-white/80 text-sm">Konsultasi Gratis</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span class="text-[#475569] text-sm">Konsultasi Gratis</span>
                     </div>
                     <div class="flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                        <span class="text-white/80 text-sm">Harga Terjangkau</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span class="text-[#475569] text-sm">Harga Terjangkau</span>
                     </div>
                     <div class="flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                        <span class="text-white/80 text-sm">Proses Cepat</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span class="text-[#475569] text-sm">Proses Cepat</span>
                     </div>
                     <div class="flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                        <span class="text-white/80 text-sm">Hasil Berkualitas</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span class="text-[#475569] text-sm">Hasil Berkualitas</span>
                     </div>
                 </div>
             </div>
@@ -374,7 +399,7 @@
                     <a href="https://wa.me/{{ $waNum }}?text=Halo,%20saya%20tertarik%20dengan%20layanan%20INOWEB" target="_blank" rel="noopener" class="flex sm:inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-full font-semibold text-base no-underline hover:bg-blue-700 transition-all hover:-translate-y-0.5 hover:shadow-lg">
                         Konsultasi Gratis
                     </a>
-                    <a href="{{ route('portfolio') }}" class="flex sm:inline-flex items-center justify-center gap-2 border-2 border-white/30 text-white px-8 py-4 rounded-full font-semibold text-base no-underline hover:bg-white/10 hover:border-white transition-all">
+                    <a href="{{ route('portfolio') }}" class="flex sm:inline-flex items-center justify-center gap-2 border-2 border-blue-600 text-blue-600 px-8 py-4 rounded-full font-semibold text-base no-underline hover:bg-blue-600 hover:text-white transition-all">
                         Lihat Portofolio
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                     </a>
