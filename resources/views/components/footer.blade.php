@@ -1,5 +1,6 @@
-<footer class="bg-white border-t border-gray-100 pt-16 sm:pt-20 pb-8">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<footer class="bg-white border-t border-gray-100 pt-16 sm:pt-20 pb-8 relative overflow-hidden">
+    <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-blue-600 via-sky-400 to-blue-600"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
             <!-- Brand -->
             <div class="col-span-2 lg:col-span-1 text-left">
@@ -14,7 +15,7 @@
                     @endif
                     <div class="text-left">
                         <span class="text-base sm:text-lg font-bold text-[#0f172a] tracking-wide">{{ $logoSiteName }}</span>
-                        <small class="block text-[0.6rem] tracking-[2px] text-blue-600 leading-none">{{ $siteTagline }}</small>
+                        <span class="inline-block mt-1 px-2.5 py-1 rounded-full bg-blue-600/10 text-blue-700 text-[0.65rem] font-semibold tracking-[1.5px] uppercase leading-none">{{ $siteTagline }}</span>
                     </div>
                 </div>
                 <p class="text-[#64748b] text-sm leading-relaxed mb-4 max-w-xs lg:max-w-none">
@@ -81,7 +82,7 @@
 
         <hr class="border-gray-200 my-8 sm:my-12">
         <div class="flex flex-col items-center gap-2 text-center">
-            <p class="text-[#94a3b8] text-sm">&copy; {{ date('Y') }} {{ setting('site_name', 'INOWEB') }} - {{ setting('site_tagline', 'Inovasi Website') }}. All Rights Reserved.</p>
+            <p class="text-[#475569] text-sm font-medium">&copy; {{ date('Y') }} <span class="text-blue-600 font-bold">{{ setting('site_name', 'INOWEB') }}</span> - {{ setting('site_tagline', 'Inovasi Website') }}. All Rights Reserved.</p>
         </div>
     </div>
 </footer>

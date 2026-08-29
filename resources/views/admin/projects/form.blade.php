@@ -26,14 +26,18 @@
                         @error('name')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-[#1a1a2e] mb-1.5">Kategori</label>
-                        <select name="category_id" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow">
-                            <option value="">-- Pilih --</option>
+                        <label class="block text-sm font-medium text-[#1a1a2e] mb-1.5">Kategori <span class="text-xs text-[#94a3b8] font-normal">(bisa pilih lebih dari satu)</span></label>
+                        <div class="flex flex-wrap gap-2">
                             @foreach($categories as $c)
-                            <option value="{{ $c->id }}" {{ old('category_id', $project->category_id) == $c->id ? 'selected' : '' }}>{{ $c->name }}</option>
+                            <label class="inline-flex items-center gap-1.5 px-3 py-2 bg-blue-50/60 text-blue-700 rounded-lg cursor-pointer hover:bg-blue-100 transition-colors text-sm font-medium">
+                                <input type="checkbox" name="categories[]" value="{{ $c->id }}"
+                                       {{ in_array($c->id, old('categories', $project->exists ? $project->categories->pluck('id')->all() : [])) ? 'checked' : '' }}
+                                       class="w-3.5 h-3.5 text-blue-600 rounded focus:ring-blue-500">
+                                {{ $c->name }}
+                            </label>
                             @endforeach
-                        </select>
-                        @error('category_id')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                        </div>
+                        @error('categories')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                     </div>
                 </div>
 

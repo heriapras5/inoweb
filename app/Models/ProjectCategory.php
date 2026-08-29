@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class ProjectCategory extends Model
 {
@@ -12,8 +12,8 @@ class ProjectCategory extends Model
 
     protected $fillable = ['name', 'slug', 'description', 'sort_order', 'status'];
 
-    public function projects(): HasMany
+    public function projects(): BelongsToMany
     {
-        return $this->hasMany(Project::class, 'category_id');
+        return $this->belongsToMany(Project::class, 'project_category');
     }
 }

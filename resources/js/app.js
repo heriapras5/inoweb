@@ -13,10 +13,10 @@ window.Chart = Chart;
 window.Swal = Swal;
 
 AOS.init({ 
-    duration: 500,
+    duration: 450,
     easing: 'ease-out',
     once: true,
-    offset: 60,
+    offset: 80,
     disable: window.innerWidth < 768,
 });
 
@@ -34,7 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
             this.classList.add('active');
             const filter = this.getAttribute('data-filter');
             document.querySelectorAll('.portfolio-card').forEach((card, i) => {
-                const match = filter === 'all' || card.getAttribute('data-category') === filter;
+                const cats = (card.getAttribute('data-category') || '').split(' ').filter(Boolean);
+                const match = filter === 'all' || cats.includes(filter);
                 card.style.display = match ? '' : 'none';
                 if (match) card.style.animation = `fadeIn 0.5s ease ${i * 0.05}s forwards`;
             });
@@ -123,8 +124,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const applyParallax = () => {
             const vh = window.innerHeight;
             parallaxEls.forEach((el) => {
-                const speed = parseFloat(el.dataset.parallaxSpeed || '0.1') || 0.1;
                 const rect = el.getBoundingClientRect();
+                // skip elements far outside the viewport to reduce work while scrolling fast
+                if (rect.bottom < -vh || rect.top > vh * 2) return;
+                const speed = parseFloat(el.dataset.parallaxSpeed || '0.1') || 0.1;
                 const center = rect.top + rect.height / 2;
                 const offset = (center - vh / 2) * -speed;
                 el.style.transform = `translate3d(0, ${offset.toFixed(1)}px, 0)`;

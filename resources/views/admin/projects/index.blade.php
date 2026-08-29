@@ -60,11 +60,15 @@
                     </td>
                     <td class="px-6 py-4 font-medium">{{ $p->name }}</td>
                     <td class="px-6 py-4">
-                        @if($p->category)
-                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold tracking-wide"
-                              style="background: {{ match($p->category->slug) { 'company' => '#eff6ff', 'catalog' => '#fefce8', 'umkm' => '#f0fdf4', 'sistem' => '#faf5ff', 'landing' => '#fff1f2', 'custom' => '#fff7ed', default => '#f1f5f9' } }}; color: {{ match($p->category->slug) { 'company' => '#1d4ed8', 'catalog' => '#a16207', 'umkm' => '#15803d', 'sistem' => '#7e22ce', 'landing' => '#e11d48', 'custom' => '#ea580c', default => '#475569' } }};">
-                            {{ $p->category->name }}
-                        </span>
+                        @if($p->categories->count())
+                        <div class="flex flex-wrap gap-1">
+                            @foreach($p->categories as $c)
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold tracking-wide"
+                                  style="background: {{ match($c->slug) { 'company' => '#eff6ff', 'catalog' => '#fefce8', 'umkm' => '#f0fdf4', 'sistem' => '#faf5ff', 'landing' => '#fff1f2', 'custom' => '#fff7ed', default => '#f1f5f9' } }}; color: {{ match($c->slug) { 'company' => '#1d4ed8', 'catalog' => '#a16207', 'umkm' => '#15803d', 'sistem' => '#7e22ce', 'landing' => '#e11d48', 'custom' => '#ea580c', default => '#475569' } }};">
+                                {{ $c->name }}
+                            </span>
+                            @endforeach
+                        </div>
                         @else
                         <span class="text-[#94a3b8]">—</span>
                         @endif

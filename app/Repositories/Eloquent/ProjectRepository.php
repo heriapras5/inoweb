@@ -17,32 +17,36 @@ class ProjectRepository extends BaseRepository implements ProjectRepositoryInter
 
     public function all(array $columns = ['*']): Collection
     {
-        $this->criteria[] = fn($q) => $q->with('images');
+        $this->criteria[] = fn($q) => $q->with(['images', 'categories']);
         return parent::all($columns);
     }
 
     public function paginate(int $perPage = 10, array $columns = ['*']): LengthAwarePaginator
     {
-        $this->criteria[] = fn($q) => $q->with('images');
+        $this->criteria[] = fn($q) => $q->with(['images', 'categories']);
         return parent::paginate($perPage, $columns);
     }
 
     public function findBySlug(string $slug): ?Model
     {
-        return $this->model->with(['images', 'features', 'technologies', 'results', 'testimonial', 'category'])->where('slug', $slug)->first();
+        return $this->model->with(['images', 'categories', 'features', 'technologies', 'results', 'testimonial'])->where('slug', $slug)->first();
     }
 
     public function findByCategory(int $categoryId): Collection
     {
-        return $this->model->where('category_id', $categoryId)->where('status', true)->get();
+        return $this->model
+            ->with('categories')
+            ->whereHas('categories', fn($q) => $q->where('id', $categoryId))
+            ->where('status', true)
+            ->get();
     }
 
     public function getRelated(int $projectId, int $categoryId, int $limit = 3): Collection
     {
         return $this->model
-            ->with('images')
+            ->with(['images', 'categories'])
             ->where('id', '!=', $projectId)
-            ->where('category_id', $categoryId)
+            ->whereHas('categories', fn($q) => $q->where('id', $categoryId))
             ->where('status', true)
             ->limit($limit)
             ->get();
@@ -71,7 +75,7 @@ class ProjectRepository extends BaseRepository implements ProjectRepositoryInter
         if ($index === false || $index >= count($ids) - 1) {
             return null;
         }
-        return $this->model->with(['images', 'category'])->find($ids[$index + 1]);
+        return $this->model->with(['images', 'categories'])->find($ids[$index + 1]);
     }
 
     public function getNextProject(int $currentId): ?Model
@@ -85,6 +89,6 @@ class ProjectRepository extends BaseRepository implements ProjectRepositoryInter
         if ($index === false || $index <= 0) {
             return null;
         }
-        return $this->model->with(['images', 'category'])->find($ids[$index - 1]);
+        return $this->model->with(['images', 'categories'])->find($ids[$index - 1]);
     }
 }

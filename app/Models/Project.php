@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Project extends Model
@@ -27,7 +28,7 @@ class Project extends Model
 
     public function getBadgeClassAttribute(): string
     {
-        return match($this->category?->slug) {
+        return match($this->categories->first()?->slug) {
             'company' => 'bg-blue-600/90 text-white',
             'catalog' => 'bg-yellow-500/90 text-[#1a1a2e]',
             'umkm' => 'bg-green-500/90 text-white',
@@ -41,6 +42,16 @@ class Project extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(ProjectCategory::class, 'category_id');
+    }
+
+    public function categories(): BelongsToMany
+    {
+        return $this->belongsToMany(ProjectCategory::class, 'project_category');
+    }
+
+    public function getFirstCategoryAttribute(): ?ProjectCategory
+    {
+        return $this->categories->first();
     }
 
     public function images(): HasMany

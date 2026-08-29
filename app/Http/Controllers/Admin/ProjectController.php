@@ -14,9 +14,9 @@ class ProjectController extends Controller
     {
         $search = $request->get('search');
         $categoryId = $request->get('category_id');
-        $projects = Project::with('category', 'images')
+        $projects = Project::with('categories', 'images')
             ->when($search, fn($q) => $q->where('name', 'like', "%{$search}%"))
-            ->when($categoryId, fn($q) => $q->where('category_id', $categoryId))
+            ->when($categoryId, fn($q) => $q->whereHas('categories', fn($cq) => $cq->where('id', $categoryId)))
             ->orderBy('created_at', 'desc')->paginate(10);
         $categories = ProjectCategory::orderBy('name')->get();
         return view('admin.projects.index', compact('projects', 'categories'));
@@ -33,7 +33,8 @@ class ProjectController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'category_id' => 'nullable|exists:project_categories,id',
+            'categories' => 'nullable|array',
+            'categories.*' => 'integer|exists:project_categories,id',
             'main_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'gallery_images' => 'nullable|array',
             'gallery_images.*' => 'image|mimes:jpeg,png,jpg,webp|max:2048',
@@ -41,9 +42,11 @@ class ProjectController extends Controller
         $data['slug'] = $this->generateUniqueSlug($data['name']);
         $data['status'] = true;
         $project = Project::create($data);
+        $project->categories()->sync($data['categories'] ?? []);
 
         if ($request->hasFile('main_image')) {
             $path = $request->file('main_image')->store('projects', 'public');
+            optimizeImage('storage/' . $path);
             $project->images()->create([
                 'image' => 'storage/' . $path,
                 'type' => 'cover',
@@ -54,6 +57,7 @@ class ProjectController extends Controller
         if ($request->hasFile('gallery_images')) {
             foreach ($request->file('gallery_images') as $i => $file) {
                 $path = $file->store('projects', 'public');
+                optimizeImage('storage/' . $path);
                 $project->images()->create([
                     'image' => 'storage/' . $path,
                     'type' => 'gallery',
@@ -77,7 +81,8 @@ class ProjectController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'category_id' => 'nullable|exists:project_categories,id',
+            'categories' => 'nullable|array',
+            'categories.*' => 'integer|exists:project_categories,id',
             'main_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'gallery_images' => 'nullable|array',
             'gallery_images.*' => 'image|mimes:jpeg,png,jpg,webp|max:2048',
@@ -86,6 +91,7 @@ class ProjectController extends Controller
         ]);
         $data['slug'] = $this->generateUniqueSlug($data['name'], $project->id);
         $project->update($data);
+        $project->categories()->sync($data['categories'] ?? []);
 
         if ($request->has('deleted_images')) {
             $images = ProjectImage::whereIn('id', $request->input('deleted_images'))->get();
@@ -98,6 +104,7 @@ class ProjectController extends Controller
         if ($request->hasFile('main_image')) {
             $project->images()->where('type', 'cover')->each(function($img) { deleteFile($img->image); $img->delete(); });
             $path = $request->file('main_image')->store('projects', 'public');
+            optimizeImage('storage/' . $path);
             $project->images()->create([
                 'image' => 'storage/' . $path,
                 'type' => 'cover',
@@ -109,6 +116,7 @@ class ProjectController extends Controller
             $maxSort = $project->images()->max('sort_order') ?? 0;
             foreach ($request->file('gallery_images') as $i => $file) {
                 $path = $file->store('projects', 'public');
+                optimizeImage('storage/' . $path);
                 $project->images()->create([
                     'image' => 'storage/' . $path,
                     'type' => 'gallery',

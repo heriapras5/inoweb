@@ -3,6 +3,9 @@
 @section('content')
 <!-- Hero -->
 <section class="relative overflow-hidden pt-24 sm:pt-32 pb-16 sm:pb-20 lg:min-h-screen lg:flex lg:items-center" style="background: linear-gradient(180deg, #eff6ff 0%, #f8fafc 50%, #ffffff 100%);">
+    <div class="absolute -top-24 -left-24 w-96 h-96 rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(37,99,235,0.14) 0%, rgba(37,99,235,0) 70%);"></div>
+    <div class="absolute top-1/3 right-0 w-80 h-80 rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(96,165,250,0.14) 0%, rgba(96,165,250,0) 70%);"></div>
+    <div class="absolute bottom-0 left-1/3 w-72 h-72 rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(37,99,235,0.08) 0%, rgba(37,99,235,0) 70%);"></div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full">
         @php $waNum = setting('whatsapp_number', '6285736186308'); @endphp
         <div class="grid lg:grid-cols-2 gap-12 items-center"
@@ -90,26 +93,41 @@
                 ])->all();
             @endphp
             <div class="block lg:block relative py-10 lg:py-10" data-aos="fade-left" data-aos-delay="200">
-                <div class="hero-3d relative"
+                <div class="hero-3d relative" data-parallax data-parallax-speed="0.06"
                      x-data="{
                          items: @js($heroProjects),
                          active: 0,
                          timer: null,
+                         tiltX: 0,
+                         tiltY: 0,
+                         rx: 4,
+                         ry: -12,
                          init() { if (this.items.length > 1) this.timer = setInterval(() => this.next(), 4500); },
                          next() { if (this.items.length) this.active = (this.active + 1) % this.items.length; },
-                         prev() { if (this.items.length) this.active = (this.active - 1 + this.items.length) % this.items.length; }
+                         prev() { if (this.items.length) this.active = (this.active - 1 + this.items.length) % this.items.length; },
+                         tilt(e) {
+                             if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+                             const rect = this.$refs.stage.getBoundingClientRect();
+                             const px = (e.clientX - rect.left) / rect.width - 0.5;
+                             const py = (e.clientY - rect.top) / rect.height - 0.5;
+                             this.tiltY = px * 14;
+                             this.tiltX = -py * 10;
+                         },
+                         resetTilt() { this.tiltX = 0; this.tiltY = 0; }
                      }"
                      @mouseenter="clearInterval(timer)"
-                     @mouseleave="if (items.length > 1) timer = setInterval(() => next(), 4500)"
+                     @mousemove="tilt($event)"
+                     @mouseleave="resetTilt(); if (items.length > 1) timer = setInterval(() => next(), 4500)"
                      @touchstart="clearInterval(timer)"
                      @touchend="if (items.length > 1) timer = setInterval(() => next(), 4500)">
 
-                    <div class="hero-3d-glow" data-parallax data-parallax-speed="0.25" style="width:300px;height:300px;background:rgba(37,99,235,0.16);top:-60px;left:-30px;"></div>
-                    <div class="hero-3d-glow" data-parallax data-parallax-speed="-0.2" style="width:260px;height:260px;background:rgba(96,165,250,0.18);bottom:-50px;right:-40px;"></div>
-                    <div class="hero-3d-glow" data-parallax data-parallax-speed="0.1" style="width:180px;height:180px;background:rgba(37,99,235,0.12);top:30%;left:-70px;"></div>
+                    <div class="hero-3d-glow" data-parallax data-parallax-speed="0.25" style="width:300px;height:300px;background:radial-gradient(circle, rgba(37,99,235,0.22) 0%, rgba(37,99,235,0) 70%);top:-60px;left:-30px;"></div>
+                    <div class="hero-3d-glow" data-parallax data-parallax-speed="-0.2" style="width:260px;height:260px;background:radial-gradient(circle, rgba(96,165,250,0.28) 0%, rgba(96,165,250,0) 70%);bottom:-50px;right:-40px;"></div>
+                    <div class="hero-3d-glow" data-parallax data-parallax-speed="0.1" style="width:180px;height:180px;background:radial-gradient(circle, rgba(37,99,235,0.18) 0%, rgba(37,99,235,0) 70%);top:30%;left:-70px;"></div>
 
                     <div class="hero-3d-float relative">
-                        <div class="hero-3d-card">
+                        <div class="hero-3d-card" x-ref="stage"
+                             :style="'transform: rotateY(' + (ry + tiltY) + 'deg) rotateX(' + (rx + tiltX) + 'deg)'">
                             <div class="hero-3d-layer-back"></div>
                             <a :href="items.length ? '{{ url('/portfolio') }}/' + items[active].slug : '{{ route('portfolio') }}'"
                                class="hero-3d-slot no-underline" aria-label="Lihat portofolio">
@@ -167,6 +185,7 @@
         <div class="text-center mb-10" data-aos="fade-up">
             <span class="inline-block text-blue-600 font-bold text-sm tracking-[2px] uppercase mb-3">PORTFOLIO</span>
             <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0f172a] leading-tight">Portofolio Terbaru Kami</h2>
+            <div class="section-accent mx-auto"></div>
         </div>
 
         <!-- Filter tabs -->
@@ -179,10 +198,10 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($projects as $index => $project)
-            <div class="portfolio-card" data-aos="fade-up" data-aos-delay="{{ $index * 100 }}" data-category="{{ $project->category->slug ?? '' }}">
+            <div class="portfolio-card" data-aos="fade-up" data-aos-delay="{{ $index * 100 }}" data-category="{{ $project->categories->pluck('slug')->implode(' ') }}">
                 <div class="portfolio-img">
                     <img src="{{ $project->coverImage()?->image ? asset($project->coverImage()->image) : '' }}" alt="{{ $project->name }}" loading="lazy" decoding="async">
-                    <div class="absolute top-4 left-4"><span class="portfolio-badge {{ $project->badge_class }}">{{ $project->category->name }}</span></div>
+                    <div class="absolute top-4 left-4"><span class="portfolio-badge {{ $project->badge_class }}">{{ $project->categories->first()?->name }}</span></div>
                 </div>
                 <div class="p-5">
                     <h5 class="text-base font-bold text-[#0f172a] mb-2">{{ $project->name }}</h5>
@@ -209,31 +228,32 @@
         <div class="text-center mb-12" data-aos="fade-up">
             <span class="inline-block text-blue-600 font-bold text-sm tracking-[2px] uppercase mb-3">MENGAPA MEMILIH KAMI</span>
             <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0f172a] leading-tight">Komitmen Memilih INOWEB</h2>
+            <div class="section-accent mx-auto"></div>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div class="bg-slate-50 rounded-2xl p-6 border border-gray-100 text-center" data-aos="fade-up" data-aos-delay="0">
-                <div class="w-14 h-14 bg-blue-600/10 rounded-2xl flex items-center justify-center text-blue-600 mx-auto mb-4">
+            <div class="bg-gradient-to-br from-white to-blue-50/60 rounded-2xl p-6 border border-gray-100 text-center hover:shadow-[0_16px_48px_rgba(37,99,235,0.14)] hover:-translate-y-1 transition-all duration-300" data-aos="fade-up" data-aos-delay="0">
+                <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-600/20 mx-auto mb-4">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
                 </div>
                 <h5 class="text-base font-bold text-[#0f172a] mb-2">Desain Modern & Elegan</h5>
                 <p class="text-sm text-[#64748b] leading-relaxed">Tampilan profesional yang menarik dan sesuai tren terkini.</p>
             </div>
-            <div class="bg-slate-50 rounded-2xl p-6 border border-gray-100 text-center" data-aos="fade-up" data-aos-delay="100">
-                <div class="w-14 h-14 bg-blue-600/10 rounded-2xl flex items-center justify-center text-blue-600 mx-auto mb-4">
+            <div class="bg-gradient-to-br from-white to-blue-50/60 rounded-2xl p-6 border border-gray-100 text-center hover:shadow-[0_16px_48px_rgba(37,99,235,0.14)] hover:-translate-y-1 transition-all duration-300" data-aos="fade-up" data-aos-delay="100">
+                <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-600/20 mx-auto mb-4">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
                 </div>
                 <h5 class="text-base font-bold text-[#0f172a] mb-2">Performa Optimal</h5>
                 <p class="text-sm text-[#64748b] leading-relaxed">Website cepat, ringan, dan ramah mesin pencari.</p>
             </div>
-            <div class="bg-slate-50 rounded-2xl p-6 border border-gray-100 text-center" data-aos="fade-up" data-aos-delay="200">
-                <div class="w-14 h-14 bg-blue-600/10 rounded-2xl flex items-center justify-center text-blue-600 mx-auto mb-4">
+            <div class="bg-gradient-to-br from-white to-blue-50/60 rounded-2xl p-6 border border-gray-100 text-center hover:shadow-[0_16px_48px_rgba(37,99,235,0.14)] hover:-translate-y-1 transition-all duration-300" data-aos="fade-up" data-aos-delay="200">
+                <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-600/20 mx-auto mb-4">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                 </div>
                 <h5 class="text-base font-bold text-[#0f172a] mb-2">Aman & Terpercaya</h5>
                 <p class="text-sm text-[#64748b] leading-relaxed">Keamanan data dan website Anda adalah prioritas kami.</p>
             </div>
-            <div class="bg-slate-50 rounded-2xl p-6 border border-gray-100 text-center" data-aos="fade-up" data-aos-delay="300">
-                <div class="w-14 h-14 bg-blue-600/10 rounded-2xl flex items-center justify-center text-blue-600 mx-auto mb-4">
+            <div class="bg-gradient-to-br from-white to-blue-50/60 rounded-2xl p-6 border border-gray-100 text-center hover:shadow-[0_16px_48px_rgba(37,99,235,0.14)] hover:-translate-y-1 transition-all duration-300" data-aos="fade-up" data-aos-delay="150">
+                <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-600/20 mx-auto mb-4">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                 </div>
                 <h5 class="text-base font-bold text-[#0f172a] mb-2">Dukungan Penuh</h5>
@@ -249,6 +269,7 @@
         <div class="text-center mb-12" data-aos="fade-up">
             <span class="inline-block text-blue-600 font-bold text-sm tracking-[2px] uppercase mb-3">FAQ</span>
             <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0f172a] leading-tight">Pertanyaan <span class="text-blue-600">Umum</span></h2>
+            <div class="section-accent mx-auto"></div>
             <p class="text-[#64748b] text-base leading-relaxed mt-3 max-w-2xl mx-auto">Temukan jawaban atas pertanyaan yang sering diajukan tentang layanan kami.</p>
         </div>
         <div class="space-y-4">
@@ -277,14 +298,15 @@
     </div>
 </section>
 
-            <!-- Tentang -->
-            @if($aboutSection)
+            <!-- Tentang (sementara disembunyikan) -->
+            @if(false && $aboutSection)
             <section class="py-16 sm:py-24 bg-gray-50" id="tentang">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="grid lg:grid-cols-2 gap-12 items-center">
                         <div data-aos="fade-right">
                             <span class="inline-block text-blue-600 font-bold text-sm tracking-[2px] uppercase mb-3">TENTANG KAMI</span>
-                            <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0f172a] leading-tight mb-6">{{ $aboutSection->title }}</h2>
+                            <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0f172a] leading-tight mb-2">{{ $aboutSection->title }}</h2>
+                            <div class="section-accent"></div>
                             <p class="text-[#475569] leading-relaxed mb-8">{!! Illuminate\Support\Str::limit(strip_tags($aboutSection->description), 260) !!}</p>
                             <a href="{{ route('about') }}" class="btn-primary px-6 py-3 text-base inline-flex items-center justify-center gap-2 no-underline">
                                 Selengkapnya
@@ -314,7 +336,8 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12" data-aos="fade-up">
             <span class="inline-block text-blue-600 font-bold text-sm tracking-[2px] uppercase mb-3">LAYANAN KAMI</span>
-            <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0f172a] leading-tight">Solusi Website Profesional<br>Untuk Berbagai Kebutuhan</h2>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0f172a] leading-tight">Solusi Website <span class="text-gradient">Profesional</span></h2>
+            <div class="section-accent mx-auto"></div>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($services as $i => $service)
@@ -373,33 +396,33 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="grid lg:grid-cols-2 gap-8 items-center" data-aos="zoom-in">
             <div data-aos="fade-right" data-aos-delay="200">
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0f172a] leading-tight mb-4">Siap Mewujudkan Website<br>Impian Anda?</h2>
-                <p class="text-[#475569] text-base leading-relaxed mb-6">Konsultasikan kebutuhan Anda sekarang juga dan dapatkan solusi terbaik dari tim profesional INOWEB.</p>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white leading-tight mb-4">Siap Mewujudkan Website<br>Impian Anda?</h2>
+                <p class="text-white/80 text-base leading-relaxed mb-6">Konsultasikan kebutuhan Anda sekarang juga dan dapatkan solusi terbaik dari tim profesional INOWEB.</p>
                 <div class="grid grid-cols-2 gap-3 mb-8">
                     <div class="flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                        <span class="text-[#475569] text-sm">Konsultasi Gratis</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#bfdbfe" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span class="text-white/85 text-sm">Konsultasi Gratis</span>
                     </div>
                     <div class="flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                        <span class="text-[#475569] text-sm">Harga Terjangkau</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#bfdbfe" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span class="text-white/85 text-sm">Harga Terjangkau</span>
                     </div>
                     <div class="flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                        <span class="text-[#475569] text-sm">Proses Cepat</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#bfdbfe" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span class="text-white/85 text-sm">Proses Cepat</span>
                     </div>
                     <div class="flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                        <span class="text-[#475569] text-sm">Hasil Berkualitas</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#bfdbfe" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span class="text-white/85 text-sm">Hasil Berkualitas</span>
                     </div>
                 </div>
             </div>
-            <div class="sm:text-right" data-aos="fade-left" data-aos-delay="400">
+            <div class="sm:text-right" data-aos="fade-left" data-aos-delay="200">
                 <div class="flex flex-col sm:flex-row gap-3 sm:justify-end">
-                    <a href="https://wa.me/{{ $waNum }}?text=Halo,%20saya%20tertarik%20dengan%20layanan%20INOWEB" target="_blank" rel="noopener" class="flex sm:inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-full font-semibold text-base no-underline hover:bg-blue-700 transition-all hover:-translate-y-0.5 hover:shadow-lg">
+                    <a href="https://wa.me/{{ $waNum }}?text=Halo,%20saya%20tertarik%20dengan%20layanan%20INOWEB" target="_blank" rel="noopener" class="flex sm:inline-flex items-center justify-center gap-2 bg-white text-blue-600 px-8 py-4 rounded-full font-semibold text-base no-underline hover:bg-blue-50 transition-all hover:-translate-y-0.5 hover:shadow-xl shadow-lg">
                         Konsultasi Gratis
                     </a>
-                    <a href="{{ route('portfolio') }}" class="flex sm:inline-flex items-center justify-center gap-2 border-2 border-blue-600 text-blue-600 px-8 py-4 rounded-full font-semibold text-base no-underline hover:bg-blue-600 hover:text-white transition-all">
+                    <a href="{{ route('portfolio') }}" class="flex sm:inline-flex items-center justify-center gap-2 border-2 border-white/60 text-white px-8 py-4 rounded-full font-semibold text-base no-underline hover:bg-white hover:text-blue-600 transition-all">
                         Lihat Portofolio
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                     </a>
@@ -414,7 +437,8 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="max-w-3xl mb-16" data-aos="fade-up">
             <span class="inline-block text-blue-600 font-bold text-sm tracking-[2px] uppercase mb-3">PROSES KERJA KAMI</span>
-            <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0f172a] leading-tight mb-4">Mudah, Terstruktur &amp; Efisien</h2>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0f172a] leading-tight mb-2">Mudah, Terstruktur &amp; Efisien</h2>
+            <div class="section-accent"></div>
             <p class="text-[#64748b] text-base leading-relaxed max-w-2xl mb-0">Kami memiliki proses kerja yang jelas untuk memastikan hasil terbaik sesuai kebutuhan Anda.</p>
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
@@ -433,7 +457,7 @@
                 <h5 class="text-base font-bold text-[#0f172a] mb-2">Desain & Development</h5>
                 <p class="text-sm text-[#64748b] leading-relaxed">Membuat desain menarik dan mengembangkan website.</p>
             </div>
-            <div class="process-card text-center" data-aos="fade-up" data-aos-delay="300">
+            <div class="process-card text-center" data-aos="fade-up" data-aos-delay="150">
                 <div class="process-icon"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="10" ry="5"/><path d="M2 17v5M2 12v5M22 17v5M22 12v5M12 22v-4"/></svg></div>
                 <h5 class="text-base font-bold text-[#0f172a] mb-2">Testing & Revisi</h5>
                 <p class="text-sm text-[#64748b] leading-relaxed">Uji coba untuk memastikan semua berjalan sempurna.</p>

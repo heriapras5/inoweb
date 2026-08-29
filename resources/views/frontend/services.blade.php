@@ -45,9 +45,9 @@
 <section class="bg-gradient-blue py-16 sm:py-20 relative overflow-hidden cta-section">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center" data-aos="zoom-in">
-            <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0f172a] leading-tight mb-4">Tidak menemukan layanan yang sesuai?</h2>
-            <p class="text-[#475569] text-lg max-w-2xl mx-auto mb-8">Kami juga melayani pembuatan website custom sesuai kebutuhan spesifik bisnis Anda. Konsultasikan gratis!</p>
-            <a href="https://wa.me/{{ setting('whatsapp_number', '6285736186308') }}" target="_blank" rel="noopener" class="flex sm:inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-full font-semibold text-base no-underline hover:bg-blue-700 transition-all hover:-translate-y-0.5">Hubungi via WhatsApp</a>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-white leading-tight mb-4">Tidak menemukan layanan yang sesuai?</h2>
+            <p class="text-white/80 text-lg max-w-2xl mx-auto mb-8">Kami juga melayani pembuatan website custom sesuai kebutuhan spesifik bisnis Anda. Konsultasikan gratis!</p>
+            <a href="https://wa.me/{{ setting('whatsapp_number', '6285736186308') }}" target="_blank" rel="noopener" class="flex sm:inline-flex items-center gap-2 bg-white text-blue-600 px-8 py-4 rounded-full font-semibold text-base no-underline hover:bg-blue-50 transition-all hover:-translate-y-0.5 hover:shadow-xl shadow-lg">Hubungi via WhatsApp</a>
         </div>
     </div>
 </section>
