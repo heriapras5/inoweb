@@ -1,6 +1,6 @@
 <nav x-data="{ scrolled: false, mobileOpen: false }"
      x-init="window.addEventListener('scroll', () => scrolled = window.scrollY > 50)"
-     :class="scrolled ? 'bg-white/95 backdrop-blur-[12px] shadow-[0_2px_20px_rgba(0,0,0,0.08)] py-2.5' : 'bg-white py-4'"
+     :class="scrolled ? 'bg-white/95 backdrop-blur-[6px] shadow-[0_2px_20px_rgba(0,0,0,0.08)] py-2.5' : 'bg-white py-4'"
      class="fixed top-0 left-0 w-full z-50 transition-transform duration-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between">

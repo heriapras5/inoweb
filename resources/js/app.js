@@ -5,6 +5,7 @@ import { Fancybox } from '@fancyapps/ui';
 import AOS from 'aos';
 import Chart from 'chart.js/auto';
 import Swal from 'sweetalert2';
+import Lenis from 'lenis';
 import 'aos/dist/aos.css';
 
 Alpine.plugin(collapse);
@@ -115,20 +116,29 @@ document.addEventListener('DOMContentLoaded', () => {
         start();
     }
 
-    // Parallax (transform-based, lightweight)
+    // Parallax (transform-based, lightweight — cached positions, no layout thrash)
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const parallaxEls = Array.from(document.querySelectorAll('[data-parallax]'));
     let parallaxRaf = null;
 
     if (parallaxEls.length && !prefersReducedMotion && window.innerWidth >= 768) {
-        const applyParallax = () => {
-            const vh = window.innerHeight;
+        const cachePositions = () => {
+            const st = window.scrollY;
             parallaxEls.forEach((el) => {
                 const rect = el.getBoundingClientRect();
-                // skip elements far outside the viewport to reduce work while scrolling fast
-                if (rect.bottom < -vh || rect.top > vh * 2) return;
+                el._initTop = rect.top + st;
+                el._initH = rect.height;
+                el.style.willChange = 'transform';
+            });
+        };
+        const applyParallax = () => {
+            const st = window.scrollY;
+            const vh = window.innerHeight;
+            parallaxEls.forEach((el) => {
+                const top = el._initTop - st;
+                if (top + el._initH < -vh || top > vh * 2) return;
                 const speed = parseFloat(el.dataset.parallaxSpeed || '0.1') || 0.1;
-                const center = rect.top + rect.height / 2;
+                const center = top + el._initH / 2;
                 const offset = (center - vh / 2) * -speed;
                 el.style.transform = `translate3d(0, ${offset.toFixed(1)}px, 0)`;
             });
@@ -137,9 +147,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const scheduleParallax = () => {
             if (!parallaxRaf) parallaxRaf = requestAnimationFrame(applyParallax);
         };
+        cachePositions();
         window.addEventListener('scroll', scheduleParallax, { passive: true });
-        window.addEventListener('resize', scheduleParallax, { passive: true });
+        window.addEventListener('resize', cachePositions, { passive: true });
         applyParallax();
+    }
+
+    // Lenis smooth scroll (public frontend only)
+    if (!window.location.pathname.startsWith('/admin')) {
+        const lenis = new Lenis({ duration: 1.1, smoothWheel: true, touchMultiplier: 0 });
+        const lenisRaf = (time) => { lenis.raf(time); requestAnimationFrame(lenisRaf); };
+        requestAnimationFrame(lenisRaf);
+        window.lenis = lenis;
     }
 });
 

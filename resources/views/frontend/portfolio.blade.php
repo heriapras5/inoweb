@@ -33,12 +33,9 @@
             </div>
             <div class="flex gap-2 overflow-x-auto flex-nowrap max-lg:pb-2 -mx-2 px-2 max-lg:w-full scrollbar-hide">
                 <button class="filter-tab active shrink-0" data-filter="all">Semua</button>
-                <button class="filter-tab shrink-0" data-filter="company">Company Profile</button>
-                <button class="filter-tab shrink-0" data-filter="catalog">Katalog Produk</button>
-                <button class="filter-tab shrink-0" data-filter="umkm">UMKM</button>
-                <button class="filter-tab shrink-0" data-filter="sistem">Sistem</button>
-                <button class="filter-tab shrink-0" data-filter="landing">Landing Page</button>
-                <button class="filter-tab shrink-0" data-filter="custom">Custom</button>
+                @foreach($categories as $cat)
+                <button class="filter-tab shrink-0" data-filter="{{ $cat->slug }}">{{ $cat->name }}</button>
+                @endforeach
             </div>
         </div>
 

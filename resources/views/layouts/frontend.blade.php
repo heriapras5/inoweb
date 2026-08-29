@@ -127,7 +127,7 @@
     <!-- Back to top -->
     <div x-data="{ show: false }" x-init="window.addEventListener('scroll', () => show = window.scrollY > 400, { passive: true })">
         <button type="button"
-                @click="window.scrollTo({ top: 0, behavior: 'smooth' })"
+                @click="window.lenis ? window.lenis.scrollTo(0) : window.scrollTo({ top: 0, behavior: 'smooth' })"
                 x-show="show" x-cloak
                 aria-label="Kembali ke atas"
                 x-transition:enter="transition ease-out duration-200"
