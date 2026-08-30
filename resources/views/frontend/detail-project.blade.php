@@ -24,7 +24,7 @@
                 @if($project->categories->isNotEmpty())
                 <span class="inline-block text-[0.7rem] font-bold tracking-[0.2em] uppercase text-blue-600 mb-3">{{ $project->categories->first()->name }}</span>
                 @endif
-                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0f172a] leading-tight mb-6">
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0f172a] leading-tight tracking-tight text-balance mb-6">
                     @php
                         $words = explode(' ', $project->name);
                         $mid = max(1, floor(count($words) / 2));

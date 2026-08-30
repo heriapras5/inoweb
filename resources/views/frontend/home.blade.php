@@ -42,8 +42,8 @@
                          }
                      }, 25);
                  },
-                 next() { if (this.slides.length > 1) { this.active = (this.active + 1) % this.slides.length; this.startType(); } },
-                 prev() { if (this.slides.length > 1) { this.active = (this.active - 1 + this.slides.length) % this.slides.length; this.startType(); } },
+                 next() { if (this.slides.length > 1) this.active = (this.active + 1) % this.slides.length; this.startType(); },
+                 prev() { if (this.slides.length > 1) this.active = (this.active - 1 + this.slides.length) % this.slides.length; this.startType(); },
                  init() { this.startType(); }
              }"
              @mouseenter="clearInterval(typeTimer); clearTimeout(deleteTimer)"

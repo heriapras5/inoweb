@@ -93,56 +93,26 @@
     <div class="deco-thin-line w-[300px] bottom-[20%] right-[10%]"></div>
     <div class="deco-ring w-[200px] h-[200px] bottom-24 right-16"></div>
 
-    <!-- Dynamic logo lockup -->
-    <div class="text-center mb-8 relative z-10">
-        <div class="inline-flex items-center gap-2.5 bg-white/5 backdrop-blur-sm rounded-2xl px-5 py-3 shadow-lg shadow-black/20 mb-2">
-            @if($logoImage)
-                <img src="{{ asset($logoImage) }}" alt="{{ $siteName }}" class="h-10 w-auto shrink-0 drop-shadow-[0_0_12px_rgba(255,255,255,0.3)]">
-            @elseif($logoSvg)
-                <div class="w-10 h-10 flex items-center justify-center shrink-0 drop-shadow-[0_0_10px_rgba(255,255,255,0.4)]">{!! $logoSvg !!}</div>
-            @else
-                <div class="w-10 h-10 flex items-center justify-center shrink-0 drop-shadow-[0_0_10px_rgba(255,255,255,0.4)]">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 44 44" fill="none">
-                        <rect width="44" height="44" rx="10" fill="white"/>
-                        <path d="M12 32V12h7.5a5.5 5.5 0 0 1 0 11H19m5-11 5 16M24 24h4.5" stroke="#0c1a3a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </div>
-            @endif
-            <div class="text-left">
-                <span class="text-xl sm:text-2xl font-bold text-white tracking-tight drop-shadow-lg leading-tight">
-                    @php
-                        $parts = preg_split('/(?=[A-Z])/', $siteName, 2);
-                    @endphp
-                    @if(count($parts) > 1)
-                        {{ $parts[0] }}<span class="font-light">{{ $parts[1] }}</span>
-                    @else
-                        {{ $siteName }}
-                    @endif
-                </span>
-                <div class="flex items-center gap-1.5 text-blue-200/80 text-[10px] sm:text-[11px] tracking-[0.25em] uppercase mt-0.5">
-                    <span class="w-1.5 h-1.5 rounded-full bg-blue-300/40 shrink-0"></span>
-                    {{ $siteTagline }}
-                    <span class="w-1.5 h-1.5 rounded-full bg-blue-300/40 shrink-0"></span>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Login card -->
-    <div class="w-full max-w-[380px] relative z-10" x-data="{ showPassword: false }">
+    <div class="w-full max-w-[400px] relative z-10" x-data="{ showPassword: false }">
         <div class="bg-white rounded-[16px] shadow-xl shadow-black/10 px-7 py-7">
-            <!-- Lock icon -->
-            <div class="flex justify-center mb-3">
-                <div class="w-11 h-11 rounded-full bg-[#e8eef8] flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                    </svg>
+            <!-- Logo & Brand -->
+            <div class="flex flex-col items-center text-center mb-6">
+                <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center shadow-lg shadow-blue-600/25 mb-3">
+                    @if($logoImage)
+                    <img src="{{ asset($logoImage) }}" alt="{{ $siteName }}" class="h-10 w-auto rounded-lg object-cover">
+                    @elseif($logoSvg)
+                    <div class="text-white flex items-center justify-center">{!! $logoSvg !!}</div>
+                    @else
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                    @endif
                 </div>
+                <h1 class="text-lg font-bold text-[#0f172a] tracking-tight">{{ $siteName }}</h1>
+                <p class="text-[10px] tracking-[0.25em] uppercase text-blue-600 font-semibold mt-1">{{ $siteTagline }}</p>
+                <div class="w-10 h-0.5 bg-gradient-to-r from-transparent via-blue-500 to-transparent rounded-full mt-4"></div>
             </div>
 
-            <h1 class="text-center text-xl font-bold text-[#0f172a] mb-0.5">Login Admin</h1>
-            <p class="text-center text-xs text-[#94a3b8] mb-5">Masuk untuk mengelola website {{ $siteName }}<br>dengan mudah dan aman.</p>
+            <p class="text-center text-xs text-[#94a3b8] mb-5">Masuk untuk mengelola website dengan mudah dan aman.</p>
 
             @if(session('success'))
             <div class="bg-emerald-50 border border-emerald-200 text-emerald-600 px-3.5 py-2.5 rounded-lg text-xs flex items-center gap-2 mb-4">
