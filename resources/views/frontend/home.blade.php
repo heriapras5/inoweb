@@ -53,17 +53,17 @@
              role="region" aria-roledescription="carousel" aria-label="Promo utama INOWEB">
 
             <!-- Left: Text content -->
-            <div data-aos="fade-right">
+            <div data-aos="fade-right" class="lg:order-1 text-center lg:text-left">
                 <template x-if="slides.length">
                     <template x-for="(slide, i) in slides" :key="i">
                         <div x-show="active === i" x-transition.opacity.duration.300>
-                            <div class="hero-badge mb-4">
+                            <div class="hero-badge mb-4 mx-auto lg:mx-0">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                                 INOVASI &bull; PROFESIONAL &bull; TERPERCAYA
                             </div>
                             <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0f172a] leading-tight tracking-tight mb-5 typewriter-cursor" x-text="typedTitle"></h1>
-                            <p class="text-[#475569] text-base sm:text-lg leading-relaxed mb-8 max-w-lg" x-text="slide.description"></p>
-                            <div class="flex flex-col sm:flex-row gap-3 mb-8">
+                            <p class="text-[#475569] text-base sm:text-lg leading-relaxed mb-8 max-w-lg mx-auto lg:mx-0" x-text="slide.description"></p>
+                            <div class="flex flex-col sm:flex-row gap-3 mb-8 justify-center lg:justify-start">
                                 <a :href="slide.button_url || 'https://wa.me/{{ $waNum }}?text=Halo,%20saya%20ingin%20konsultasi%20tentang%20pembuatan%20website'" target="_blank" rel="noopener" class="btn-primary px-6 py-3 text-base inline-flex items-center justify-center gap-2">
                                     <span x-text="slide.button_text || 'Konsultasi Gratis'"></span>
                                 </a>
@@ -77,10 +77,10 @@
                 </template>
                 <template x-if="!slides.length">
                     <div>
-                        <div class="hero-badge mb-4">INOVASI &bull; PROFESIONAL &bull; TERPERCAYA</div>
+                        <div class="hero-badge mb-4 mx-auto lg:mx-0">INOVASI &bull; PROFESIONAL &bull; TERPERCAYA</div>
                         <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0f172a] leading-tight tracking-tight mb-5">Solusi Website Profesional<br>Untuk Bisnis Anda</h2>
-                        <p class="text-[#475569] text-base sm:text-lg leading-relaxed mb-8 max-w-lg">INOWEB hadir untuk membantu bisnis, UMKM, dan perusahaan memiliki website modern, cepat, dan sesuai kebutuhan Anda.</p>
-                        <div class="flex flex-col sm:flex-row gap-3 mb-8">
+                        <p class="text-[#475569] text-base sm:text-lg leading-relaxed mb-8 max-w-lg mx-auto lg:mx-0">INOWEB hadir untuk membantu bisnis, UMKM, dan perusahaan memiliki website modern, cepat, dan sesuai kebutuhan Anda.</p>
+                        <div class="flex flex-col sm:flex-row gap-3 mb-8 justify-center lg:justify-start">
                             <a href="https://wa.me/{{ $waNum }}?text=Halo,%20saya%20ingin%20konsultasi%20tentang%20pembuatan%20website" target="_blank" rel="noopener" class="btn-primary px-6 py-3 text-base inline-flex items-center justify-center gap-2">
                                 Konsultasi Gratis
                             </a>
@@ -93,7 +93,7 @@
                 </template>
 
                 <!-- Feature badges -->
-                <div class="grid grid-cols-2 gap-3 mt-3">
+                <div class="grid grid-cols-2 gap-3 mt-3 justify-items-center lg:justify-items-start">
                     <div class="flex items-center gap-2.5">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
                         <span class="text-[#475569] text-xs sm:text-sm">Desain Modern &amp; Elegan</span>
@@ -114,7 +114,7 @@
             </div>
 
             <!-- Right: Hero 3D (auto-slide project cover images) -->
-            <div class="block lg:block relative py-4 sm:py-6 lg:py-10" data-aos="fade-up">
+            <div class="block lg:block relative py-4 sm:py-6 lg:py-10 order-first lg:order-2" data-aos="fade-up">
                 <div class="hero-3d relative" data-parallax data-parallax-speed="0.06"
                      x-data="{
                          items: @js($heroProjects),

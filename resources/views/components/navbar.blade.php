@@ -19,7 +19,7 @@
                     @else
                     <span class="text-base sm:text-lg font-bold text-[#0f172a] tracking-wide truncate block">{{ $logoSiteName }}</span>
                     @endif
-                    <small class="max-sm:hidden block text-[0.65rem] tracking-[2px] text-blue-600 font-semibold leading-none truncate">{{ $siteTagline }}</small>
+                    <small class="block text-[0.6rem] max-sm:text-[0.55rem] max-sm:tracking-[1px] tracking-[2px] text-blue-600 font-semibold leading-none truncate">{{ $siteTagline }}</small>
                 </div>
             </a>
 
