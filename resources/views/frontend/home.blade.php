@@ -2,13 +2,13 @@
 
 @section('content')
 <!-- Hero -->
-<section class="relative overflow-hidden pt-24 sm:pt-32 pb-16 sm:pb-20 lg:min-h-screen lg:flex lg:items-center" style="background: linear-gradient(180deg, #eff6ff 0%, #f8fafc 50%, #ffffff 100%);">
+<section class="relative overflow-hidden pt-24 sm:pt-32 pb-12 sm:pb-20 lg:min-h-screen lg:flex lg:items-center" style="background: linear-gradient(180deg, #eff6ff 0%, #f8fafc 50%, #ffffff 100%);">
     <div class="absolute -top-24 -left-24 w-96 h-96 rounded-full pointer-events-none hidden sm:block" style="background: radial-gradient(circle, rgba(37,99,235,0.14) 0%, rgba(37,99,235,0) 70%);"></div>
     <div class="absolute top-1/3 right-0 w-80 h-80 rounded-full pointer-events-none hidden sm:block" style="background: radial-gradient(circle, rgba(96,165,250,0.14) 0%, rgba(96,165,250,0) 70%);"></div>
     <div class="absolute bottom-0 left-1/3 w-72 h-72 rounded-full pointer-events-none hidden sm:block" style="background: radial-gradient(circle, rgba(37,99,235,0.08) 0%, rgba(37,99,235,0) 70%);"></div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full">
         @php $waNum = setting('whatsapp_number', '6285736186308'); @endphp
-        <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center"
+        <div class="grid lg:grid-cols-2 gap-6 lg:gap-12 items-center"
              x-data="{
                  active: 0,
                  slides: {{ $heroSections->map(fn($s) => ['title' => $s->title, 'description' => $s->description, 'image' => $s->image ? asset($s->image) : null, 'button_text' => $s->button_text, 'button_url' => $s->button_url])->toJson() }},
@@ -92,7 +92,7 @@
                     'slug' => $p->slug,
                 ])->all();
             @endphp
-            <div class="block lg:block relative py-10 lg:py-10" data-aos="fade-up">
+            <div class="block lg:block relative py-6 lg:py-10" data-aos="fade-up">
                 <div class="hero-3d relative" data-parallax data-parallax-speed="0.06"
                      x-data="{
                          items: @js($heroProjects),
@@ -185,38 +185,74 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-10" data-aos="fade-up">
             <span class="inline-block text-blue-600 font-bold text-sm tracking-[2px] uppercase mb-3">PORTFOLIO</span>
-            <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0f172a] leading-tight">Portofolio Terbaru Kami</h2>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0f172a] leading-tight">Portofolio Kami</h2>
             <div class="section-accent mx-auto"></div>
         </div>
 
-        <!-- Filter tabs -->
-        <div class="flex overflow-x-auto flex-nowrap lg:flex-wrap justify-start lg:justify-center gap-2 mb-10 pb-2 -mx-2 px-2 scrollbar-hide" data-aos="fade-up" data-aos-delay="100">
-            <button class="filter-tab active" data-filter="all">Semua</button>
-            @foreach($categories ?? [] as $cat)
-            <button class="filter-tab" data-filter="{{ $cat->slug }}">{{ $cat->name }}</button>
-            @endforeach
-        </div>
+        <!-- Carousel -->
+        @php $pcCount = $projects->count(); @endphp
+        <div class="relative" data-aos="fade-up" data-aos-delay="100"
+             x-data="{
+                 active: 0,
+                 cols: 3,
+                 timer: null,
+                 get max() { return Math.max(0, {{ $pcCount }} - this.cols); },
+                 next() { this.active = this.active < this.max ? this.active + 1 : 0; },
+                 prev() { this.active = this.active > 0 ? this.active - 1 : this.max; },
+                 start() { if (this.timer) return; this.timer = setInterval(() => this.next(), 4000); },
+                 stop() { clearInterval(this.timer); this.timer = null; },
+                 init() {
+                     const mq = () => { this.cols = window.innerWidth >= 1024 ? 3 : window.innerWidth >= 640 ? 2 : 1; this.active = Math.min(this.active, this.max); };
+                     mq(); window.addEventListener('resize', mq);
+                     this.start();
+                 }
+             }"
+             @mouseenter="stop()" @mouseleave="start()"
+             role="region" aria-label="Portofolio INOWEB">
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            @foreach($projects as $index => $project)
-            <div class="portfolio-card" data-aos="fade-up" data-aos-delay="{{ $index * 100 }}" data-category="{{ $project->categories->pluck('slug')->implode(' ') }}">
-                <div class="portfolio-img">
-                    <img src="{{ $project->coverImage()?->image ? asset($project->coverImage()->image) : '' }}" alt="{{ $project->name }}" loading="lazy" decoding="async">
-                    <div class="absolute top-4 left-4"><span class="portfolio-badge {{ $project->badge_class }}">{{ $project->categories->first()?->name }}</span></div>
-                </div>
-                <div class="p-5">
-                    <h5 class="text-base font-bold text-[#0f172a] mb-2">{{ $project->name }}</h5>
-                    <p class="text-sm text-[#64748b] line-clamp-2 mb-4">{!! strip_tags($project->description) !!}</p>
-                    <div class="flex items-center gap-3">
-                        <a href="{{ route('portfolio.detail', $project->slug) }}" class="inline-flex items-center gap-1.5 text-blue-600 text-sm font-semibold hover:gap-2 transition-all">
-                            Lihat Detail
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            <div class="overflow-hidden">
+                <div class="flex transition-transform duration-700 ease-out" :style="'transform: translateX(-' + (active * (100 / cols)) + '%)'">
+                    @foreach($projects as $project)
+                    <div class="shrink-0 w-full sm:w-1/2 lg:w-1/3 px-3">
+                        <a href="{{ route('portfolio.detail', $project->slug) }}" class="portfolio-card block cursor-pointer no-underline">
+                            <div class="portfolio-img relative">
+                                <img src="{{ $project->coverImage()?->image ? asset($project->coverImage()->image) : '' }}" alt="{{ $project->name }}" loading="lazy" decoding="async">
+                                <span class="portfolio-badge {{ $project->badge_class }}">{{ $project->categories->first()?->name }}</span>
+                            </div>
+                            <div class="p-5">
+                                <h5 class="text-base font-bold text-[#0f172a] mb-2">{{ $project->name }}</h5>
+                                <p class="text-sm text-[#64748b] line-clamp-2 mb-4">{!! strip_tags($project->description) !!}</p>
+                                <div class="flex items-center gap-1.5 text-blue-600 text-sm font-semibold">
+                                    Lihat Detail
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                                </div>
+                            </div>
                         </a>
                     </div>
+                    @endforeach
                 </div>
             </div>
-            @endforeach
+
+            @if($pcCount > 3)
+            <button @click="prev()" class="hero-arrow absolute -left-2 top-1/2 -translate-y-1/2 z-10" aria-label="Sebelumnya">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <button @click="next()" class="hero-arrow absolute -right-2 top-1/2 -translate-y-1/2 z-10" aria-label="Selanjutnya">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            @endif
+
+            @if($pcCount > 3)
+            <div class="flex items-center justify-center gap-2 mt-6">
+                <template x-for="(_, i) in Math.ceil({{ $pcCount }} / cols)" :key="i">
+                    <button @click="active = Math.min(i * cols, max)"
+                            :class="active === Math.min(i * cols, max) ? 'hero-dot active' : 'hero-dot'"
+                            :aria-label="'Slide ' + (i + 1)"></button>
+                </template>
+            </div>
+            @endif
         </div>
+
         <div class="text-center mt-10" data-aos="fade-up">
             <a href="{{ route('portfolio') }}" class="btn-outline-dark px-6 py-3.5 text-base">Lihat Semua Portofolio <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
         </div>

@@ -47,10 +47,80 @@
                 </div>
             </div>
             <div data-aos="fade-left" data-aos-delay="150">
-                @if($firstImage)
-                <div class="relative">
-                    <img src="{{ asset($firstImage->image) }}" alt="{{ $project->name }}" loading="lazy" decoding="async"
-                         class="w-full rounded-2xl shadow-lg border border-gray-200 object-cover">
+                @php
+                    $heroImages = $project->images->map(fn($img) => ['src' => asset($img->image), 'alt' => $img->caption ?? $project->name])->values();
+                @endphp
+                @if($heroImages->count())
+                <div x-data="{
+                         images: @js($heroImages),
+                         active: 0,
+                         timer: null,
+                         tiltX: 0,
+                         tiltY: 0,
+                         rx: window.innerWidth >= 1024 ? 4 : 0,
+                         ry: window.innerWidth >= 1024 ? -12 : 0,
+                         next() { this.active = (this.active + 1) % this.images.length; },
+                         prev() { this.active = (this.active - 1 + this.images.length) % this.images.length; },
+                         tilt(e) {
+                             if (window.innerWidth < 1024) return;
+                             if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+                             const rect = this.$refs.stage.getBoundingClientRect();
+                             const px = (e.clientX - rect.left) / rect.width - 0.5;
+                             const py = (e.clientY - rect.top) / rect.height - 0.5;
+                             this.tiltY = px * 14;
+                             this.tiltX = -py * 10;
+                         },
+                         resetTilt() { this.tiltX = 0; this.tiltY = 0; },
+                         init() { if (this.images.length > 1) this.timer = setInterval(() => this.next(), 4000); }
+                     }"
+                     @mouseenter="clearInterval(timer)"
+                     @mousemove="tilt($event)"
+                     @mouseleave="resetTilt(); if (images.length > 1) timer = setInterval(() => next(), 4500)"
+                     @touchstart="clearInterval(timer)"
+                     @touchend="if (images.length > 1) timer = setInterval(() => next(), 4500)">
+
+                    <div class="hero-3d-float relative">
+                        <div class="hero-3d-card" x-ref="stage"
+                             :style="'transform: rotateY(' + (ry + tiltY) + 'deg) rotateX(' + (rx + tiltX) + 'deg)'">
+                            <div class="hero-3d-layer-back"></div>
+                            <div class="hero-3d-slot no-underline">
+                                <template x-for="(img, i) in images" :key="'h-img-'+i">
+                                    <div class="hero-3d-img" :class="{ active: active === i }">
+                                        <img :src="img.src" :alt="img.alt" loading="lazy" decoding="async">
+                                    </div>
+                                </template>
+                                <div class="hero-3d-shine"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-center gap-4 mt-6">
+                        <button @click="prev()" :disabled="images.length <= 1" aria-label="Sebelumnya" class="hero-arrow">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                        </button>
+                        <template x-if="images.length > 1">
+                            <div class="flex items-center gap-2">
+                                <template x-for="(img, i) in images" :key="'dot-'+i">
+                                    <button @click="active = i"
+                                            :aria-label="'Gambar ' + (i + 1)"
+                                            :class="active === i ? 'hero-dot active' : 'hero-dot'"></button>
+                                </template>
+                            </div>
+                        </template>
+                        <button @click="next()" :disabled="images.length <= 1" aria-label="Selanjutnya" class="hero-arrow">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                        </button>
+                    </div>
+
+                    <div class="flex gap-2 mt-4 overflow-x-auto pb-2 scrollbar-hide" x-show="images.length > 1">
+                        <template x-for="(img, i) in images" :key="'thumb-'+i">
+                            <button @click="active = i"
+                                    class="shrink-0 w-20 h-14 rounded-xl overflow-hidden border-2 transition-all duration-200"
+                                    :class="active === i ? 'border-blue-600 shadow-md scale-105' : 'border-gray-200 opacity-70 hover:opacity-100'">
+                                <img :src="img.src" :alt="img.alt" class="w-full h-full object-cover">
+                            </button>
+                        </template>
+                    </div>
                 </div>
                 @else
                 <div class="w-full aspect-video rounded-2xl bg-gradient-to-b from-blue-50 to-slate-100 flex items-center justify-center border border-gray-100 shadow-2xl">

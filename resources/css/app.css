@@ -1012,6 +1012,7 @@ body { overflow-x: hidden; position: relative; width: 100%; }
 
 @media (max-width: 767.98px) {
     .service-card { padding: 24px 20px; }
+    .hero-3d-float { animation: none; }
     .service-icon { width: 48px; height: 48px; font-size: 1.3rem; }
     .process-card { padding: 20px 12px; }
     .process-step { font-size: 2.5rem; }
