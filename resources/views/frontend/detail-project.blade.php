@@ -50,8 +50,8 @@
                 @php
                     $heroImages = $project->images->map(fn($img) => ['src' => asset($img->image), 'alt' => $img->caption ?? $project->name])->values();
                 @endphp
-                @if($heroImages->count())
-                <div x-data="{
+                <div class="hero-3d relative" data-parallax data-parallax-speed="0.06"
+                     x-data="{
                          images: @js($heroImages),
                          active: 0,
                          timer: null,
@@ -59,8 +59,9 @@
                          tiltY: 0,
                          rx: window.innerWidth >= 1024 ? 4 : 0,
                          ry: window.innerWidth >= 1024 ? -12 : 0,
-                         next() { this.active = (this.active + 1) % this.images.length; },
-                         prev() { this.active = (this.active - 1 + this.images.length) % this.images.length; },
+                         init() { if (this.images.length > 1) this.timer = setInterval(() => this.next(), 4500); },
+                         next() { if (this.images.length) this.active = (this.active + 1) % this.images.length; },
+                         prev() { if (this.images.length) this.active = (this.active - 1 + this.images.length) % this.images.length; },
                          tilt(e) {
                              if (window.innerWidth < 1024) return;
                              if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -70,14 +71,17 @@
                              this.tiltY = px * 14;
                              this.tiltX = -py * 10;
                          },
-                         resetTilt() { this.tiltX = 0; this.tiltY = 0; },
-                         init() { if (this.images.length > 1) this.timer = setInterval(() => this.next(), 4000); }
+                         resetTilt() { this.tiltX = 0; this.tiltY = 0; }
                      }"
                      @mouseenter="clearInterval(timer)"
                      @mousemove="tilt($event)"
                      @mouseleave="resetTilt(); if (images.length > 1) timer = setInterval(() => next(), 4500)"
                      @touchstart="clearInterval(timer)"
                      @touchend="if (images.length > 1) timer = setInterval(() => next(), 4500)">
+
+                    <div class="hero-3d-glow" data-parallax data-parallax-speed="0.25" style="width:300px;height:300px;background:radial-gradient(circle, rgba(37,99,235,0.22) 0%, rgba(37,99,235,0) 70%);top:-60px;left:-30px;"></div>
+                    <div class="hero-3d-glow" data-parallax data-parallax-speed="-0.2" style="width:260px;height:260px;background:radial-gradient(circle, rgba(96,165,250,0.28) 0%, rgba(96,165,250,0) 70%);bottom:-50px;right:-40px;"></div>
+                    <div class="hero-3d-glow" data-parallax data-parallax-speed="0.1" style="width:180px;height:180px;background:radial-gradient(circle, rgba(37,99,235,0.18) 0%, rgba(37,99,235,0) 70%);top:30%;left:-70px;"></div>
 
                     <div class="hero-3d-float relative">
                         <div class="hero-3d-card" x-ref="stage"
@@ -89,41 +93,41 @@
                                         <img :src="img.src" :alt="img.alt" loading="lazy" decoding="async">
                                     </div>
                                 </template>
+                                <div class="hero-3d-placeholder" x-show="!images.length">
+                                    <div class="hero-3d-placeholder-shine"></div>
+                                    <div class="hero-3d-placeholder-brand">
+                                        <strong>{{ setting('site_name', 'INOWEB') }}</strong>
+                                        <span>PORTFOLIO</span>
+                                    </div>
+                                </div>
                                 <div class="hero-3d-shine"></div>
+                                <div class="hero-3d-badge" x-show="images.length">
+                                    <span class="dot"></span>
+                                    <span x-text="images[active].alt"></span>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="flex items-center justify-center gap-4 mt-5">
                         <button @click="prev()" :disabled="images.length <= 1" aria-label="Sebelumnya" class="hero-arrow">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
                         </button>
                         <template x-if="images.length > 1">
                             <div class="flex items-center gap-2">
                                 <template x-for="(img, i) in images" :key="'dot-'+i">
                                     <button @click="active = i"
                                             :aria-label="'Gambar ' + (i + 1)"
+                                            :aria-current="active === i ? 'true' : 'false'"
                                             :class="active === i ? 'hero-dot active' : 'hero-dot'"></button>
                                 </template>
                             </div>
                         </template>
                         <button @click="next()" :disabled="images.length <= 1" aria-label="Selanjutnya" class="hero-arrow">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
                         </button>
                     </div>
                 </div>
-                @else
-                <div class="w-full aspect-video rounded-2xl bg-gradient-to-b from-blue-50 to-slate-100 flex items-center justify-center border border-gray-100 shadow-2xl">
-                    <div class="text-center p-8">
-                        <div class="w-16 h-16 mx-auto bg-blue-600/10 rounded-2xl flex items-center justify-center text-blue-600 mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                        </div>
-                        <div class="h-3 bg-slate-200 rounded-full w-3/4 mx-auto mb-2"></div>
-                        <div class="h-3 bg-slate-200 rounded-full w-1/2 mx-auto mb-6"></div>
-                        <div class="w-[120px] h-9 bg-blue-600 rounded-lg mx-auto"></div>
-                    </div>
-                </div>
-                @endif
             </div>
         </div>
     </div>
