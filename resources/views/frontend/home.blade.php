@@ -27,7 +27,7 @@
                          this.typedTitle = full.substring(0, i);
                          if (i >= full.length) {
                              clearInterval(this.typeTimer);
-                             this.deleteTimer = setTimeout(() => this.deleteType(), 1400);
+                             this.deleteTimer = setTimeout(() => this.deleteType(), 2600);
                          }
                      }, 40);
                  },
@@ -38,7 +38,7 @@
                          this.typedTitle = this.typedTitle.substring(0, i);
                          if (i <= 0) {
                              clearInterval(this.typeTimer);
-                             this.next();
+                             this.deleteTimer = setTimeout(() => this.next(), 350);
                          }
                      }, 25);
                  },
@@ -61,7 +61,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                                 INOVASI &bull; PROFESIONAL &bull; TERPERCAYA
                             </div>
-                            <h1 class="text-4xl sm:text-5xl lg:text-[3.2rem] font-extrabold text-[#0f172a] leading-tight tracking-tight mb-5 typewriter-cursor" x-text="typedTitle"></h1>
+                            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0f172a] leading-tight tracking-tight mb-5 typewriter-cursor" x-text="typedTitle"></h1>
                             <p class="text-[#475569] text-base sm:text-lg leading-relaxed mb-8 max-w-lg" x-text="slide.description"></p>
                             <div class="flex flex-col sm:flex-row gap-3 mb-8">
                                 <a :href="slide.button_url || 'https://wa.me/{{ $waNum }}?text=Halo,%20saya%20ingin%20konsultasi%20tentang%20pembuatan%20website'" target="_blank" rel="noopener" class="btn-primary px-6 py-3 text-base inline-flex items-center justify-center gap-2">
@@ -78,7 +78,7 @@
                 <template x-if="!slides.length">
                     <div>
                         <div class="hero-badge mb-4">INOVASI &bull; PROFESIONAL &bull; TERPERCAYA</div>
-                        <h2 class="text-4xl sm:text-5xl lg:text-[3.2rem] font-extrabold text-[#0f172a] leading-tight tracking-tight mb-5">Solusi Website Profesional<br>Untuk Bisnis Anda</h2>
+                        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0f172a] leading-tight tracking-tight mb-5">Solusi Website Profesional<br>Untuk Bisnis Anda</h2>
                         <p class="text-[#475569] text-base sm:text-lg leading-relaxed mb-8 max-w-lg">INOWEB hadir untuk membantu bisnis, UMKM, dan perusahaan memiliki website modern, cepat, dan sesuai kebutuhan Anda.</p>
                         <div class="flex flex-col sm:flex-row gap-3 mb-8">
                             <a href="https://wa.me/{{ $waNum }}?text=Halo,%20saya%20ingin%20konsultasi%20tentang%20pembuatan%20website" target="_blank" rel="noopener" class="btn-primary px-6 py-3 text-base inline-flex items-center justify-center gap-2">
