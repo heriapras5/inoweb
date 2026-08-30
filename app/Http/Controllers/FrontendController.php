@@ -22,7 +22,16 @@ class FrontendController extends Controller
         $services = $this->frontendService->getServices();
         $faqs = $this->frontendService->getFaqs();
         $testimonials = $this->frontendService->getTestimonials();
-        return view('frontend.home', compact('heroSections', 'aboutSection', 'projects', 'services', 'faqs', 'categories', 'testimonials'));
+        $heroProjects = \App\Models\Project::with('images')->where('status', true)
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->filter(fn($p) => $p->coverImage())
+            ->map(fn($p) => [
+                'image' => asset($p->coverImage()->image),
+                'title' => $p->name,
+                'slug' => $p->slug,
+            ])->values()->all();
+        return view('frontend.home', compact('heroSections', 'aboutSection', 'projects', 'categories', 'services', 'faqs', 'testimonials', 'heroProjects'));
     }
 
     public function portfolio()

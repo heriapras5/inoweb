@@ -46,9 +46,9 @@
                  prev() { if (this.slides.length > 1) this.active = (this.active - 1 + this.slides.length) % this.slides.length; this.startType(); },
                  init() { this.startType(); }
              }"
-             @mouseenter="clearInterval(typeTimer); clearTimeout(deleteTimer)"
+             @mouseenter="clearInterval(typeTimer); clearTimeout(deleteTimer); startType()"
              @mouseleave="startType()"
-             @focusin="clearInterval(typeTimer); clearTimeout(deleteTimer)"
+             @focusin="clearInterval(typeTimer); clearTimeout(deleteTimer); startType()"
              @focusout="startType()"
              role="region" aria-roledescription="carousel" aria-label="Promo utama INOWEB">
 
@@ -114,13 +114,6 @@
             </div>
 
             <!-- Right: Hero 3D (auto-slide project cover images) -->
-            @php
-                $heroProjects = $projects->filter(fn($p) => $p->coverImage())->values()->map(fn($p) => [
-                    'image' => asset($p->coverImage()->image),
-                    'title' => $p->name,
-                    'slug' => $p->slug,
-                ])->all();
-            @endphp
             <div class="block lg:block relative py-6 lg:py-10" data-aos="fade-up">
                 <div class="hero-3d relative" data-parallax data-parallax-speed="0.06"
                      x-data="{
