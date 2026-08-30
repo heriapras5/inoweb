@@ -40,13 +40,15 @@ class HeroSectionController extends Controller
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $i => $file) {
                 $path = $file->store('hero', 'public');
+                $imgPath = 'storage/' . $path;
+                optimizeImage($imgPath);
                 HeroSection::create([
                     'title' => $data['title'],
                     'subtitle' => $data['subtitle'] ?? null,
                     'description' => $data['description'] ?? null,
                     'button_text' => $data['button_text'] ?? null,
                     'button_url' => $data['button_url'] ?? null,
-                    'image' => 'storage/' . $path,
+                    'image' => $imgPath,
                     'sort_order' => $sortOrder + $i,
                     'is_active' => $data['is_active'],
                 ]);
@@ -91,6 +93,7 @@ class HeroSectionController extends Controller
             }
             $path = $request->file('image')->store('hero', 'public');
             $data['image'] = 'storage/' . $path;
+            optimizeImage($data['image']);
         }
 
         $heroSection->update($data);

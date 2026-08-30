@@ -12,15 +12,44 @@
              x-data="{
                  active: 0,
                  slides: {{ $heroSections->map(fn($s) => ['title' => $s->title, 'description' => $s->description, 'image' => $s->image ? asset($s->image) : null, 'button_text' => $s->button_text, 'button_url' => $s->button_url])->toJson() }},
-                 interval: null,
-                 next() { if (this.slides.length > 1) this.active = (this.active + 1) % this.slides.length },
-                 prev() { if (this.slides.length > 1) this.active = (this.active - 1 + this.slides.length) % this.slides.length },
-                 init() { if (this.slides.length > 1) this.interval = setInterval(() => this.next(), 4000) }
+                 typedTitle: '',
+                 typeTimer: null,
+                 deleteTimer: null,
+                 startType() {
+                     clearInterval(this.typeTimer);
+                     clearTimeout(this.deleteTimer);
+                     this.typedTitle = '';
+                     const full = (this.slides[this.active]?.title || '').toString();
+                     if (!full) return;
+                     let i = 0;
+                     this.typeTimer = setInterval(() => {
+                         i++;
+                         this.typedTitle = full.substring(0, i);
+                         if (i >= full.length) {
+                             clearInterval(this.typeTimer);
+                             this.deleteTimer = setTimeout(() => this.deleteType(), 1400);
+                         }
+                     }, 40);
+                 },
+                 deleteType() {
+                     let i = this.typedTitle.length;
+                     this.typeTimer = setInterval(() => {
+                         i--;
+                         this.typedTitle = this.typedTitle.substring(0, i);
+                         if (i <= 0) {
+                             clearInterval(this.typeTimer);
+                             this.next();
+                         }
+                     }, 25);
+                 },
+                 next() { if (this.slides.length > 1) { this.active = (this.active + 1) % this.slides.length; this.startType(); } },
+                 prev() { if (this.slides.length > 1) { this.active = (this.active - 1 + this.slides.length) % this.slides.length; this.startType(); } },
+                 init() { this.startType(); }
              }"
-             @mouseenter="if (slides.length > 1) clearInterval(interval)"
-             @mouseleave="if (slides.length > 1) interval = setInterval(() => next(), 4000)"
-             @focusin="if (slides.length > 1) clearInterval(interval)"
-             @focusout="if (slides.length > 1) interval = setInterval(() => next(), 4000)"
+             @mouseenter="clearInterval(typeTimer); clearTimeout(deleteTimer)"
+             @mouseleave="startType()"
+             @focusin="clearInterval(typeTimer); clearTimeout(deleteTimer)"
+             @focusout="startType()"
              role="region" aria-roledescription="carousel" aria-label="Promo utama INOWEB">
 
             <!-- Left: Text content -->
@@ -32,7 +61,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                                 INOVASI &bull; PROFESIONAL &bull; TERPERCAYA
                             </div>
-                            <h1 class="text-4xl sm:text-5xl lg:text-[3.2rem] font-extrabold text-[#0f172a] leading-tight mb-5" x-text="slide.title"></h1>
+                            <h1 class="text-4xl sm:text-5xl lg:text-[3.2rem] font-extrabold text-[#0f172a] leading-tight tracking-tight mb-5 typewriter-cursor" x-text="typedTitle"></h1>
                             <p class="text-[#475569] text-base sm:text-lg leading-relaxed mb-8 max-w-lg" x-text="slide.description"></p>
                             <div class="flex flex-col sm:flex-row gap-3 mb-8">
                                 <a :href="slide.button_url || 'https://wa.me/{{ $waNum }}?text=Halo,%20saya%20ingin%20konsultasi%20tentang%20pembuatan%20website'" target="_blank" rel="noopener" class="btn-primary px-6 py-3 text-base inline-flex items-center justify-center gap-2">
@@ -49,7 +78,7 @@
                 <template x-if="!slides.length">
                     <div>
                         <div class="hero-badge mb-4">INOVASI &bull; PROFESIONAL &bull; TERPERCAYA</div>
-                        <h2 class="text-4xl sm:text-5xl lg:text-[3.2rem] font-extrabold text-[#0f172a] leading-tight mb-5">Solusi Website Profesional<br>Untuk Bisnis Anda</h2>
+                        <h2 class="text-4xl sm:text-5xl lg:text-[3.2rem] font-extrabold text-[#0f172a] leading-tight tracking-tight mb-5">Solusi Website Profesional<br>Untuk Bisnis Anda</h2>
                         <p class="text-[#475569] text-base sm:text-lg leading-relaxed mb-8 max-w-lg">INOWEB hadir untuk membantu bisnis, UMKM, dan perusahaan memiliki website modern, cepat, dan sesuai kebutuhan Anda.</p>
                         <div class="flex flex-col sm:flex-row gap-3 mb-8">
                             <a href="https://wa.me/{{ $waNum }}?text=Halo,%20saya%20ingin%20konsultasi%20tentang%20pembuatan%20website" target="_blank" rel="noopener" class="btn-primary px-6 py-3 text-base inline-flex items-center justify-center gap-2">
@@ -190,19 +219,45 @@
         </div>
 
         <!-- Carousel -->
-        @php $pcCount = $projects->count(); @endphp
+        @php
+            $pcCount = $projects->count();
+            $cloneCount = min(3, $pcCount);
+            $cloned = $projects->take($cloneCount);
+            $displayProjects = $projects->concat($cloned);
+            $displayCount = $displayProjects->count();
+        @endphp
         <div class="relative" data-aos="fade-up" data-aos-delay="100"
              x-data="{
                  active: 0,
                  cols: 3,
+                 pcCount: {{ $pcCount }},
+                 displayCount: {{ $displayCount }},
                  timer: null,
-                 get max() { return Math.max(0, {{ $pcCount }} - this.cols); },
-                 next() { this.active = this.active < this.max ? this.active + 1 : 0; },
-                 prev() { this.active = this.active > 0 ? this.active - 1 : this.max; },
+                 get maxPos() { return Math.max(0, this.displayCount - this.cols); },
+                 get pageCount() { return Math.max(0, this.pcCount - this.cols); },
+                 next() {
+                     if (this.active < this.maxPos) { this.active++; return; }
+                     const t = this.$refs.track;
+                     t.style.transition = 'none';
+                     this.active = 0;
+                     this.$nextTick(() => { t.style.transition = ''; });
+                 },
+                 prev() {
+                     if (this.active > 0) { this.active--; return; }
+                     const t = this.$refs.track;
+                     t.style.transition = 'none';
+                     this.active = this.maxPos;
+                     this.$nextTick(() => { t.style.transition = ''; });
+                 },
+                 go(i) {
+                     const t = this.$refs.track;
+                     t.style.transition = '';
+                     this.active = Math.min(i, this.maxPos);
+                 },
                  start() { if (this.timer) return; this.timer = setInterval(() => this.next(), 4000); },
                  stop() { clearInterval(this.timer); this.timer = null; },
                  init() {
-                     const mq = () => { this.cols = window.innerWidth >= 1024 ? 3 : window.innerWidth >= 640 ? 2 : 1; this.active = Math.min(this.active, this.max); };
+                     const mq = () => { this.cols = window.innerWidth >= 1024 ? 3 : window.innerWidth >= 640 ? 2 : 1; this.active = Math.min(this.active, this.maxPos); };
                      mq(); window.addEventListener('resize', mq);
                      this.start();
                  }
@@ -211,9 +266,9 @@
              role="region" aria-label="Portofolio INOWEB">
 
             <div class="overflow-hidden portfolio-carousel-overflow">
-                <div class="flex transition-transform duration-700 ease-out portfolio-carousel-track" :style="'transform: translateX(-' + (active * (100 / cols)) + '%)'">
-                    @foreach($projects as $project)
-                    <div class="shrink-0 w-full sm:w-1/2 lg:w-1/3 px-3">
+                <div class="flex transition-transform duration-700 ease-out portfolio-carousel-track" x-ref="track" :style="'transform: translateX(-' + (active * (100 / cols)) + '%)'">
+                    @foreach($displayProjects as $i => $project)
+                    <div class="shrink-0 w-full sm:w-1/2 lg:w-1/3 px-3 {{ $i >= $pcCount ? 'portfolio-clone' : '' }}">
                         <a href="{{ route('portfolio.detail', $project->slug) }}" class="portfolio-card block cursor-pointer no-underline">
                             <div class="portfolio-img relative">
                                 <img src="{{ $project->coverImage()?->image ? asset($project->coverImage()->image) : '' }}" alt="{{ $project->name }}" loading="lazy" decoding="async">
@@ -244,9 +299,9 @@
 
             @if($pcCount > 3)
             <div class="flex items-center justify-center gap-2 mt-6 portfolio-carousel-dots">
-                <template x-for="(_, i) in Math.ceil({{ $pcCount }} / cols)" :key="i">
-                    <button @click="active = Math.min(i * cols, max)"
-                            :class="active === Math.min(i * cols, max) ? 'hero-dot active' : 'hero-dot'"
+                <template x-for="(_, i) in (pageCount + 1)" :key="i">
+                    <button @click="go(i * cols)"
+                            :class="Math.min(active, pageCount) === i ? 'hero-dot active' : 'hero-dot'"
                             :aria-label="'Slide ' + (i + 1)"></button>
                 </template>
             </div>
@@ -409,7 +464,7 @@
                     <blockquote class="testimonial-text">{{ $testimonial->quote }}</blockquote>
                     <figcaption class="flex items-center gap-3">
                         @if($testimonial->avatar)
-                        <div class="author-avatar"><img src="{{ asset($testimonial->avatar) }}" alt="{{ $testimonial->name }}" loading="lazy"></div>
+                        <div class="author-avatar"><img src="{{ str_starts_with($testimonial->avatar, 'http') ? $testimonial->avatar : asset($testimonial->avatar) }}" alt="{{ $testimonial->name }}" loading="lazy"></div>
                         @else
                         <div class="author-avatar flex items-center justify-center bg-blue-600 text-white font-bold text-sm">{{ mb_strtoupper(mb_substr($testimonial->name, 0, 1)) }}</div>
                         @endif

@@ -770,8 +770,6 @@ body { overflow-x: hidden; position: relative; width: 100%; }
     0%, 100% { opacity: 0.5; transform: scale(1); }
     50% { opacity: 0.15; transform: scale(1.6); }
 }
-.group .wa-glow { animation: none; }
-.group:hover .wa-glow { animation: wa-glow-pulse 2s ease-in-out infinite; }
 
 @keyframes wa-shake {
     0%, 100% { transform: scale(1); }
@@ -787,6 +785,24 @@ body { overflow-x: hidden; position: relative; width: 100%; }
 @keyframes pageFadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
+}
+@keyframes typewriter-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+.typewriter-cursor {
+    min-height: 1.15em;
+}
+.typewriter-cursor::after {
+    content: '';
+    display: inline-block;
+    width: 3px;
+    height: 1em;
+    margin-left: 3px;
+    vertical-align: -1px;
+    background: linear-gradient(180deg, #2563eb, #3b82f6);
+    border-radius: 2px;
+    animation: typewriter-blink 1s step-end infinite;
 }
 .animate-page-enter { animation: pageFadeIn 0.4s ease; }
 .animate-float { animation: float 6s ease-in-out infinite; }
@@ -1003,7 +1019,14 @@ body { overflow-x: hidden; position: relative; width: 100%; }
     .filter-tabs { overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; }
     .filter-tab { flex-shrink: 0; }
     .hero-3d-card { transform: none !important; }
-    .hero-3d-layer-back { display: none; }
+    .hero-3d-layer-back {
+        display: block;
+        transform: none;
+        inset: 8px -8px -8px 8px;
+        background: linear-gradient(135deg, #dbeafe, #93c5fd);
+        box-shadow: 0 30px 60px rgba(37,99,235,0.22);
+        opacity: 0.9;
+    }
     .hero-3d-glow { display: none; }
     .hero-arrow { width: 38px; height: 38px; }
     .hero-dot { width: 8px; height: 8px; }
@@ -1012,7 +1035,7 @@ body { overflow-x: hidden; position: relative; width: 100%; }
 
 @media (max-width: 767.98px) {
     .service-card { padding: 24px 20px; }
-    .hero-3d-float { animation: none; }
+    .wa-img { width: 48px !important; height: 48px !important; }
     .hero-3d-badge { left: 10px; bottom: 10px; gap: 5px; padding: 4px 10px; font-size: 0.6rem; border-radius: 40px; max-width: 75%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .hero-3d-badge .dot { width: 6px; height: 6px; }
     .service-icon { width: 48px; height: 48px; font-size: 1.3rem; }
@@ -1044,6 +1067,7 @@ body { overflow-x: hidden; position: relative; width: 100%; }
         gap: 1.5rem;
     }
     .portfolio-carousel-track > div { width: 100% !important; padding: 0 !important; }
+    .portfolio-carousel-track > .portfolio-clone { display: none !important; }
     .portfolio-carousel-overflow { overflow: visible !important; }
     .portfolio-carousel-arrows, .portfolio-carousel-dots { display: none !important; }
 }

@@ -6,6 +6,7 @@
     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
     <span class="text-[#475569]">Manajemen Admin</span>
 </nav>
+<div x-data="{ search: '{{ request('search') }}' }">
 <div class="bg-white rounded-2xl border border-gray-200/80 shadow-sm">
     <div class="px-6 py-5 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
@@ -17,6 +18,17 @@
             Tambah Admin
         </a>
     </div>
+    <form method="GET" action="{{ route('admin.users.index') }}" class="px-6 py-4 border-b border-gray-100">
+        <div class="flex gap-2 max-w-md">
+            <div class="relative flex-1">
+                <svg class="absolute left-3 top-1/2 -translate-y-1/2 text-[#94a3b8] pointer-events-none" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" name="search" x-model="search" placeholder="Cari nama atau email..."
+                       class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow">
+            </div>
+            <button type="submit" class="bg-[#0a192f] text-white px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-[#0f2a4a] transition-colors shrink-0">Cari</button>
+            <a href="{{ route('admin.users.index') }}" class="px-4 py-2.5 rounded-xl text-sm border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-colors shrink-0 text-[#64748b]">Reset</a>
+        </div>
+    </form>
     @if($users->count())
     <div class="overflow-x-auto">
         <table class="w-full">
@@ -31,7 +43,7 @@
             <tbody class="divide-y divide-gray-100">
             @foreach($users as $index => $u)
             <tr class="text-sm text-[#1e293b] hover:bg-blue-50/30 transition-colors duration-150">
-                <td class="px-6 py-4 text-[#94a3b8] text-xs">{{ $loop->iteration ?? $index + 1 }}</td>
+                <td class="px-6 py-4 text-[#94a3b8] text-xs">{{ $users->firstItem() + $index }}</td>
                 <td class="px-6 py-4 font-medium">{{ $u->name }}</td>
                 <td class="px-6 py-4 text-[#64748b]">{{ $u->email }}</td>
                 <td class="px-6 py-4">
@@ -63,12 +75,17 @@
             </tbody>
         </table>
     </div>
+    <div class="px-6 py-4 border-t border-gray-100 flex items-center justify-between">
+        <p class="text-xs text-[#64748b]">Menampilkan {{ $users->firstItem() ?? 0 }} sampai {{ $users->lastItem() ?? 0 }} dari {{ $users->total() }} data</p>
+        {{ $users->appends(['search' => request('search')])->links() }}
+    </div>
     @else
     <div class="p-12 text-center">
         <svg class="mx-auto text-[#cbd5e1] mb-4" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-        <p class="text-sm text-[#94a3b8]">Belum ada admin.</p>
+        <p class="text-sm text-[#94a3b8]">@if(request('search')) Tidak ada admin yang cocok dengan pencarian "{{ request('search') }}". @else Belum ada admin. @endif</p>
         <a href="{{ route('admin.users.create') }}" class="inline-flex items-center gap-1 text-blue-600 text-sm mt-2 hover:underline">Tambah admin pertama</a>
     </div>
     @endif
+</div>
 </div>
 @endsection

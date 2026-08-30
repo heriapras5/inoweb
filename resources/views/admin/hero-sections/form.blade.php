@@ -24,10 +24,12 @@
             <div>
                 <label class="block text-sm font-medium text-[#1a1a2e] mb-1.5">Subjudul</label>
                 <input type="text" name="subtitle" value="{{ old('subtitle', $heroSection->subtitle) }}" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow">
+                @error('subtitle')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
             </div>
             <div>
                 <label class="block text-sm font-medium text-[#1a1a2e] mb-1.5">Deskripsi</label>
                 <textarea name="description" class="summernote">{{ old('description', $heroSection->description) }}</textarea>
+                @error('description')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
             </div>
             <div class="grid grid-cols-2 gap-4">
                 <div>

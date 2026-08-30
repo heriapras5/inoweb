@@ -18,11 +18,13 @@
             @csrf @if($faq->exists) @method('PUT') @endif
             <div>
                 <label class="block text-sm font-medium text-[#1a1a2e] mb-1.5">Pertanyaan</label>
-                <input type="text" name="question" value="{{ old('question', $faq->question) }}" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow" required>
+                <input type="text" name="question" value="{{ old('question', $faq->question) }}" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow {{ $errors->has('question') ? 'border-red-300 bg-red-50' : '' }}" required>
+                @error('question')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
             </div>
             <div>
                 <label class="block text-sm font-medium text-[#1a1a2e] mb-1.5">Jawaban</label>
                 <textarea name="answer" class="summernote">{{ old('answer', $faq->answer) }}</textarea>
+                @error('answer')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
             </div>
             <div class="grid grid-cols-2 gap-4">
                 <div>

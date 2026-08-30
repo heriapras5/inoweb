@@ -55,6 +55,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('faqs', FaqController::class);
     Route::resource('testimonials', TestimonialController::class);
     Route::resource('messages', MessageController::class)->except(['create', 'store', 'edit', 'update']);
+    Route::patch('messages/{message}/toggle-read', [MessageController::class, 'toggleRead'])->name('messages.toggle-read');
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::put('/settings', [SettingsController::class, 'update'])->name('settings.update');
     Route::get('/seo', [SeoController::class, 'index'])->name('seo.index');

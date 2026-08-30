@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Project;
 use App\Models\ProjectCategory;
 use App\Models\ProjectImage;
+use App\Models\ProjectFeature;
+use App\Models\ProjectTechnology;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -33,16 +35,29 @@ class ProjectController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
+            'url' => 'nullable|url|max:255',
+            'client' => 'nullable|string|max:255',
+            'year' => 'nullable|string|max:10',
+            'status' => 'boolean',
+            'sort_order' => 'nullable|integer|min:0',
             'categories' => 'nullable|array',
             'categories.*' => 'integer|exists:project_categories,id',
             'main_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'gallery_images' => 'nullable|array',
             'gallery_images.*' => 'image|mimes:jpeg,png,jpg,webp|max:2048',
+            'features' => 'nullable|array',
+            'features.*.feature' => 'nullable|string|max:255',
+            'features.*.description' => 'nullable|string|max:500',
+            'technologies' => 'nullable|array',
+            'technologies.*.name' => 'nullable|string|max:255',
         ]);
         $data['slug'] = $this->generateUniqueSlug($data['name']);
-        $data['status'] = true;
+        $data['status'] = $request->boolean('status');
         $project = Project::create($data);
         $project->categories()->sync($data['categories'] ?? []);
+
+        $this->syncFeatures($project, $data['features'] ?? []);
+        $this->syncTechnologies($project, $data['technologies'] ?? []);
 
         if ($request->hasFile('main_image')) {
             $path = $request->file('main_image')->store('projects', 'public');
@@ -72,7 +87,7 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $categories = ProjectCategory::orderBy('name')->get();
-        $project->load('images');
+        $project->load('images', 'features', 'technologies');
         return view('admin.projects.form', compact('project', 'categories'));
     }
 
@@ -81,6 +96,11 @@ class ProjectController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
+            'url' => 'nullable|url|max:255',
+            'client' => 'nullable|string|max:255',
+            'year' => 'nullable|string|max:10',
+            'status' => 'boolean',
+            'sort_order' => 'nullable|integer|min:0',
             'categories' => 'nullable|array',
             'categories.*' => 'integer|exists:project_categories,id',
             'main_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
@@ -88,10 +108,19 @@ class ProjectController extends Controller
             'gallery_images.*' => 'image|mimes:jpeg,png,jpg,webp|max:2048',
             'deleted_images' => 'nullable|array',
             'deleted_images.*' => 'integer|exists:project_images,id',
+            'features' => 'nullable|array',
+            'features.*.feature' => 'nullable|string|max:255',
+            'features.*.description' => 'nullable|string|max:500',
+            'technologies' => 'nullable|array',
+            'technologies.*.name' => 'nullable|string|max:255',
         ]);
         $data['slug'] = $this->generateUniqueSlug($data['name'], $project->id);
+        $data['status'] = $request->boolean('status');
         $project->update($data);
         $project->categories()->sync($data['categories'] ?? []);
+
+        $this->syncFeatures($project, $data['features'] ?? []);
+        $this->syncTechnologies($project, $data['technologies'] ?? []);
 
         if ($request->has('deleted_images')) {
             $images = ProjectImage::whereIn('id', $request->input('deleted_images'))->get();
@@ -128,8 +157,44 @@ class ProjectController extends Controller
         return redirect()->route('admin.projects.index')->with('success', 'Proyek berhasil diperbarui.');
     }
 
+    protected function syncFeatures(Project $project, array $rows): void
+    {
+        $project->features()->delete();
+        $rows = array_values(array_filter($rows, fn($r) => trim($r['feature'] ?? '') !== ''));
+        foreach ($rows as $i => $r) {
+            $project->features()->create([
+                'feature' => trim($r['feature']),
+                'description' => trim($r['description'] ?? '') ?: null,
+                'icon' => $r['icon'] ?? null,
+                'sort_order' => $i,
+            ]);
+        }
+    }
+
+    protected function syncTechnologies(Project $project, array $rows): void
+    {
+        $project->technologies()->delete();
+        $rows = array_values(array_filter($rows, fn($r) => trim($r['name'] ?? '') !== ''));
+        foreach ($rows as $i => $r) {
+            $project->technologies()->create([
+                'name' => trim($r['name']),
+                'icon' => $r['icon'] ?? null,
+                'sort_order' => $i,
+            ]);
+        }
+    }
+
     public function destroy(Project $project)
     {
+        foreach ($project->images as $img) {
+            deleteFile($img->image);
+        }
+        $project->images()->delete();
+        $project->features()->delete();
+        $project->technologies()->delete();
+        $project->results()->delete();
+        $project->testimonial()->delete();
+        $project->categories()->detach();
         $project->delete();
         return redirect()->route('admin.projects.index')->with('success', 'Proyek berhasil dihapus.');
     }

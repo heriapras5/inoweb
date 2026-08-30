@@ -43,6 +43,18 @@
                 </div>
             </div>
             <div class="flex flex-wrap gap-3 pt-6 border-t border-gray-100">
+                <form method="POST" action="{{ route('admin.messages.toggle-read', $message) }}" class="inline">
+                    @csrf @method('PATCH')
+                    <button type="submit" class="border border-gray-200 text-[#1a1a2e] px-5 py-2.5 rounded-xl text-sm font-medium hover:border-gray-300 hover:bg-gray-50 shadow-sm transition-all inline-flex items-center gap-2">
+                        @if($message->is_read)
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                        Tandai Belum Dibaca
+                        @else
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>
+                        Tandai Sudah Dibaca
+                        @endif
+                    </button>
+                </form>
                 <a href="mailto:{{ $message->email }}" class="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-5 py-2.5 rounded-xl text-sm font-medium hover:from-blue-700 hover:to-blue-800 shadow-md hover:shadow-lg transition-all inline-flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                     Balas Email

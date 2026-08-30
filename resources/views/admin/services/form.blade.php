@@ -61,6 +61,36 @@
                 <label class="block text-sm font-medium text-[#1a1a2e] mb-1.5">Deskripsi</label>
                 <textarea name="description" class="summernote">{{ old('description', $service->description) }}</textarea>
             </div>
+            <div x-data="{
+                features: {{ $service->exists ? '[]' : '[]' }},
+                init() {
+                    @if($service->exists && $service->features)
+                        this.features = @js($service->features);
+                    @elseif(old('features'))
+                        this.features = @js(old('features'));
+                    @endif
+                },
+                newFeature: '',
+                addFeature() { let t = this.newFeature.trim(); if (t) { this.features.push(t); this.newFeature = ''; } },
+                removeFeature(i) { this.features.splice(i, 1); }
+            }">
+                <label class="block text-sm font-medium text-[#1a1a2e] mb-1.5">Fitur Layanan</label>
+                <p class="text-xs text-[#94a3b8] mb-2">Daftar fitur yang ditampilkan di halaman layanan.</p>
+                <template x-for="(f, i) in features" :key="i">
+                    <div class="flex items-center gap-2 mb-2 px-3 py-2 bg-gray-50 rounded-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" class="shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span class="flex-1 text-sm text-[#1e293b]" x-text="f"></span>
+                        <button @click="removeFeature(i)" type="button" class="text-red-400 hover:text-red-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                        </button>
+                    </div>
+                </template>
+                <div class="flex gap-2">
+                    <input type="text" x-model="newFeature" @keydown.enter.prevent="addFeature()" placeholder="Tambah fitur..." class="flex-1 px-3 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none">
+                    <button @click="addFeature()" type="button" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors shrink-0">Tambah</button>
+                </div>
+                <input type="hidden" name="features" :value="JSON.stringify(features)">
+            </div>
             <div class="grid grid-cols-2 gap-4">
                 <div>
                     <label class="block text-sm font-medium text-[#1a1a2e] mb-1.5">Urutan</label>

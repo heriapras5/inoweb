@@ -10,6 +10,17 @@
 <form method="POST" action="{{ route('admin.settings.update') }}" enctype="multipart/form-data">
     @csrf @method('PUT')
 
+    @if($errors->any())
+    <div class="max-w-4xl mx-auto mb-6 bg-red-50 border border-red-200 rounded-2xl p-4">
+        <p class="text-sm font-semibold text-red-700 mb-1">Terdapat {{ $errors->count() }} masalah pada form:</p>
+        <ul class="list-disc list-inside text-xs text-red-600 space-y-0.5">
+            @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+
     <div class="max-w-4xl mx-auto space-y-6">
         {{-- Identitas --}}
         <div class="bg-white rounded-2xl border border-gray-200/80 shadow-sm">

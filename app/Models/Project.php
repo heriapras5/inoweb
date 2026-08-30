@@ -15,7 +15,7 @@ class Project extends Model
     protected $fillable = [
         'category_id', 'name', 'slug', 'description',
         'sort_order', 'is_featured', 'status',
-        'url', 'client', 'year',
+        'url', 'client', 'year', 'about', 'stats',
     ];
 
     protected function casts(): array

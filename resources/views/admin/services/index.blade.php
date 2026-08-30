@@ -35,6 +35,7 @@
                     <th class="px-6 py-4 w-10">No</th>
                     <th class="px-6 py-4 w-12">Ikon</th>
                     <th class="px-6 py-4">Judul</th>
+                    <th class="px-6 py-4 w-24">Fitur</th>
                     <th class="px-6 py-4">Status</th>
                     <th class="px-6 py-4 w-16">Urutan</th>
                     <th class="px-6 py-4 w-28">Dibuat Pada</th>
@@ -48,6 +49,12 @@
                         <div class="w-10 h-10 bg-blue-600/10 rounded-xl flex items-center justify-center text-blue-600">{!! $s->icon !!}</div>
                     </td>
                     <td class="px-6 py-4 font-medium">{{ $s->title }}</td>
+                    <td class="px-6 py-4">
+                        <span class="inline-flex items-center gap-1 text-xs font-medium text-[#64748b]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            {{ is_array($s->features) ? count($s->features) : 0 }} fitur
+                        </span>
+                    </td>
                     <td class="px-6 py-4">
                         <span class="inline-flex items-center gap-1.5 text-xs font-medium">
                             <span class="w-2 h-2 rounded-full {{ $s->status ? 'bg-green-500' : 'bg-gray-300' }}"></span>

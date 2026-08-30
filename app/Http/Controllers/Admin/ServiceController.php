@@ -27,10 +27,14 @@ class ServiceController extends Controller
             'title' => 'required|string|max:255',
             'icon' => 'required|string|max:255',
             'description' => 'required|string',
+            'features' => 'nullable|array',
+            'features.*' => 'string|max:255',
             'sort_order' => 'nullable|integer|min:0',
             'status' => 'boolean',
         ]);
         $data['status'] = $request->boolean('status');
+        $data['slug'] = $this->generateUniqueSlug($data['title']);
+        $data['features'] = $data['features'] ?? [];
         Service::create($data);
         return redirect()->route('admin.services.index')->with('success', 'Layanan berhasil ditambahkan.');
     }
@@ -46,10 +50,14 @@ class ServiceController extends Controller
             'title' => 'required|string|max:255',
             'icon' => 'required|string|max:255',
             'description' => 'required|string',
+            'features' => 'nullable|array',
+            'features.*' => 'string|max:255',
             'sort_order' => 'nullable|integer|min:0',
             'status' => 'boolean',
         ]);
         $data['status'] = $request->boolean('status');
+        $data['slug'] = $this->generateUniqueSlug($data['title'], $service->id);
+        $data['features'] = $data['features'] ?? [];
         $service->update($data);
         return redirect()->route('admin.services.index')->with('success', 'Layanan berhasil diperbarui.');
     }
@@ -58,5 +66,20 @@ class ServiceController extends Controller
     {
         $service->delete();
         return redirect()->route('admin.services.index')->with('success', 'Layanan berhasil dihapus.');
+    }
+
+    protected function generateUniqueSlug(string $title, ?int $ignoreId = null): string
+    {
+        $slug = \Illuminate\Support\Str::slug($title);
+        if (empty($slug)) $slug = 'layanan';
+        $base = $slug;
+        $counter = 2;
+        while (true) {
+            $query = \App\Models\Service::where('slug', $slug);
+            if ($ignoreId) $query->where('id', '!=', $ignoreId);
+            if (!$query->exists()) break;
+            $slug = $base . '-' . $counter++;
+        }
+        return $slug;
     }
 }

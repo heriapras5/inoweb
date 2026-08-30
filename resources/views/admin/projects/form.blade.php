@@ -41,11 +41,115 @@
                     </div>
                 </div>
 
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-[#1a1a2e] mb-1.5">URL Website</label>
+                        <input type="url" name="url" value="{{ old('url', $project->url) }}" placeholder="https://..." class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow">
+                        @error('url')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-[#1a1a2e] mb-1.5">Klien</label>
+                        <input type="text" name="client" value="{{ old('client', $project->client) }}" placeholder="Nama klien" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow">
+                        @error('client')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-[#1a1a2e] mb-1.5">Tahun</label>
+                        <input type="text" name="year" value="{{ old('year', $project->year) }}" placeholder="2026" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow">
+                        @error('year')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-[#1a1a2e] mb-1.5">Urutan</label>
+                        <input type="number" name="sort_order" value="{{ old('sort_order', $project->sort_order ?? 0) }}" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-[#1a1a2e] mb-1.5">Status</label>
+                    <div class="flex gap-2">
+                        <label class="inline-flex items-center gap-2 px-4 py-2 rounded-xl border cursor-pointer transition-colors {{ (old('status', $project->status ?? true) ? 'border-blue-500 bg-blue-50/60' : 'border-gray-200') }}">
+                            <input type="radio" name="status" value="1" {{ old('status', $project->status ?? true) ? 'checked' : '' }} class="w-4 h-4 text-blue-600 focus:ring-blue-500">
+                            <span class="text-sm font-medium text-[#1a1a2e]">Aktif (ditampilkan)</span>
+                        </label>
+                        <label class="inline-flex items-center gap-2 px-4 py-2 rounded-xl border cursor-pointer transition-colors {{ (!old('status', $project->status ?? true) ? 'border-red-300 bg-red-50/60' : 'border-gray-200') }}">
+                            <input type="radio" name="status" value="0" {{ !old('status', $project->status ?? true) ? 'checked' : '' }} class="w-4 h-4 text-red-500 focus:ring-red-500">
+                            <span class="text-sm font-medium text-[#1a1a2e]">Nonaktif (disembunyikan)</span>
+                        </label>
+                    </div>
+                    @error('status')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                </div>
+
                 <div>
                     <label class="block text-sm font-medium text-[#1a1a2e] mb-1.5">Deskripsi <span class="text-red-500">*</span></label>
                     <textarea name="description" rows="10" class="summernote">{{ old('description', $project->description) }}</textarea>
                     <p class="text-xs text-[#94a3b8] mt-1.5">Tulis deskripsi lengkap proyek termasuk fitur-fiturnya di sini. Mendukung teks, gambar, dan HTML.</p>
                     @error('description')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                </div>
+
+                {{-- Fitur Utama --}}
+                <div x-data="{
+                    rows: @js($project->exists ? $project->features->map(fn($f) => ['feature' => $f->feature, 'description' => $f->description])->values() : []),
+                    add() { this.rows.push({ feature: '', description: '' }); },
+                    remove(i) { this.rows.splice(i, 1); }
+                }">
+                    <div class="flex items-center justify-between mb-2">
+                        <label class="block text-sm font-medium text-[#1a1a2e]">Fitur Utama</label>
+                        <button type="button" @click="add()" class="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-lg transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                            Tambah Fitur
+                        </button>
+                    </div>
+                    <p class="text-xs text-[#94a3b8] mb-3">Fitur yang ditampilkan di halaman detail proyek (blok "Fitur Utama").</p>
+                    <template x-for="(row, i) in rows" :key="i">
+                        <div class="mb-3 p-4 bg-gray-50/70 rounded-xl border border-gray-100">
+                            <div class="flex items-start gap-2">
+                                <div class="flex-1 space-y-2">
+                                    <input type="text" x-model="row.feature" :name="'features[' + i + '][feature]'"
+                                           placeholder="Nama fitur (mis. Dashboard Real-time)"
+                                           class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow">
+                                    <input type="text" x-model="row.description" :name="'features[' + i + '][description]'"
+                                           placeholder="Deskripsi singkat (opsional)"
+                                           class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow">
+                                </div>
+                                <button @click="remove(i)" type="button" class="text-red-400 hover:text-red-600 mt-1 shrink-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </template>
+                    <div x-show="!rows.length" class="text-sm text-[#94a3b8] bg-gray-50 rounded-xl px-4 py-6 text-center border border-dashed border-gray-200">
+                        Belum ada fitur. Klik "Tambah Fitur" untuk menambahkan.
+                    </div>
+                </div>
+
+                {{-- Teknologi --}}
+                <div x-data="{
+                    rows: @js($project->exists ? $project->technologies->map(fn($t) => ['name' => $t->name])->values() : []),
+                    add() { this.rows.push({ name: '' }); },
+                    remove(i) { this.rows.splice(i, 1); }
+                }">
+                    <div class="flex items-center justify-between mb-2">
+                        <label class="block text-sm font-medium text-[#1a1a2e]">Teknologi yang Digunakan</label>
+                        <button type="button" @click="add()" class="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-lg transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                            Tambah Teknologi
+                        </button>
+                    </div>
+                    <p class="text-xs text-[#94a3b8] mb-3">Contoh: Laravel, Vue.js, MySQL, dsb.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <template x-for="(row, i) in rows" :key="i">
+                            <div class="inline-flex items-center gap-1.5 px-3 py-2 bg-blue-50/70 rounded-lg border border-blue-100">
+                                <input type="text" x-model="row.name" :name="'technologies[' + i + '][name]'"
+                                       placeholder="Nama teknologi"
+                                       class="w-32 bg-transparent text-sm text-[#1e293b] outline-none placeholder:text-[#94a3b8]">
+                                <button @click="remove(i)" type="button" class="text-red-400 hover:text-red-600 shrink-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                                </button>
+                            </div>
+                        </template>
+                        <button type="button" @click="add()" class="inline-flex items-center justify-center w-9 h-9 rounded-lg border border-dashed border-gray-300 text-[#94a3b8] hover:text-blue-600 hover:border-blue-300 transition-colors" aria-label="Tambah teknologi">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        </button>
+                    </div>
                 </div>
 
                 {{-- Gambar Utama (Cover) --}}

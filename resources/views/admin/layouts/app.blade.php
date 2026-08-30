@@ -100,7 +100,6 @@
         : (session('info') ? ['msg' => session('info'), 'type' => 'info'] 
          : null )))
     , JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!},
-    headerSearch: '',
     userDropdown: false,
     notifDropdown: false
 }" x-init="if (notif) { setTimeout(() => notif = null, 4000) }"
@@ -243,11 +242,6 @@
                     <button type="button" onclick="document.body.classList.toggle('sidebar-toggled')" class="text-[#64748b] hover:text-[#1e293b]">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
                     </button>
-                    <div class="relative flex-1 max-w-md">
-                        <svg class="absolute left-3 top-1/2 -translate-y-1/2 text-[#94a3b8] pointer-events-none" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                        <input type="text" x-model="headerSearch" placeholder="Cari sesuatu..."
-                               class="w-full pl-9 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all placeholder:text-[#94a3b8]">
-                    </div>
                 </div>
                 <div class="flex items-center gap-2">
                     <a href="{{ url('/') }}" target="_blank" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs text-[#64748b] hover:text-blue-600 hover:bg-blue-50 transition-colors">

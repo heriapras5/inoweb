@@ -189,7 +189,6 @@
                         <input type="checkbox" name="remember" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500 w-3.5 h-3.5">
                         Ingat saya
                     </label>
-                    <a href="#" class="text-xs text-blue-600 hover:underline">Lupa password?</a>
                 </div>
 
                 <button type="submit" class="w-full bg-[#2563eb] hover:bg-[#1d4ed8] text-white py-2.5 rounded-xl text-xs font-semibold transition-all shadow-md shadow-blue-600/20 flex items-center justify-center gap-1.5 mt-1">

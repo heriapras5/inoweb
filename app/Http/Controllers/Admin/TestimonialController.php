@@ -26,13 +26,18 @@ class TestimonialController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'role' => 'nullable|string|max:255',
-            'avatar' => 'nullable|string|max:255',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'quote' => 'required|string',
             'rating' => 'nullable|integer|min:1|max:5',
             'sort_order' => 'nullable|integer|min:0',
             'status' => 'boolean',
         ]);
         $data['status'] = $request->boolean('status');
+        if ($request->hasFile('avatar')) {
+            $path = $request->file('avatar')->store('testimonials', 'public');
+            $data['avatar'] = 'storage/' . $path;
+            optimizeImage($data['avatar']);
+        }
         Testimonial::create($data);
         return redirect()->route('admin.testimonials.index')->with('success', 'Testimoni berhasil ditambahkan.');
     }
@@ -47,19 +52,32 @@ class TestimonialController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'role' => 'nullable|string|max:255',
-            'avatar' => 'nullable|string|max:255',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'remove_avatar' => 'nullable|boolean',
             'quote' => 'required|string',
             'rating' => 'nullable|integer|min:1|max:5',
             'sort_order' => 'nullable|integer|min:0',
             'status' => 'boolean',
         ]);
         $data['status'] = $request->boolean('status');
+        if ($request->boolean('remove_avatar')) {
+            deleteFile($testimonial->avatar);
+            $data['avatar'] = null;
+        } elseif ($request->hasFile('avatar')) {
+            deleteFile($testimonial->avatar);
+            $path = $request->file('avatar')->store('testimonials', 'public');
+            $data['avatar'] = 'storage/' . $path;
+            optimizeImage($data['avatar']);
+        } else {
+            unset($data['avatar']);
+        }
         $testimonial->update($data);
         return redirect()->route('admin.testimonials.index')->with('success', 'Testimoni berhasil diperbarui.');
     }
 
     public function destroy(Testimonial $testimonial)
     {
+        deleteFile($testimonial->avatar);
         $testimonial->delete();
         return redirect()->route('admin.testimonials.index')->with('success', 'Testimoni berhasil dihapus.');
     }

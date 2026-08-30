@@ -4,15 +4,31 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\PageView;
+use Illuminate\Support\Facades\Cache;
 
 class AdminController extends Controller
 {
     public function dashboard()
     {
+        $cacheKey = 'admin.dashboard.' . now()->format('YmdHi');
+        $stats = Cache::remember($cacheKey, 60, function () {
+            return $this->buildStats();
+        });
+
+        $latestMessages = Cache::remember('admin.latestMessages', 60, function () {
+            return \App\Models\Message::latest()->take(5)->get();
+        });
+
+        return view('admin.dashboard', array_merge($stats, [
+            'latestMessages' => $latestMessages,
+        ]));
+    }
+
+    protected function buildStats(): array
+    {
         $today = now()->startOfDay();
         $yesterday = now()->subDay()->startOfDay();
 
-        // ─── Period Counts ───
         $visitorsToday = PageView::whereDate('created_at', $today)->count();
         $visitorsYesterday = PageView::whereDate('created_at', $yesterday)->count();
         $visitorsWeek = PageView::whereBetween('created_at', [now()->startOfWeek(), now()])->count();
@@ -21,7 +37,6 @@ class AdminController extends Controller
         $visitorsTotal = PageView::count();
         $uniqueTotal = PageView::distinct('ip_address')->count('ip_address');
 
-        // ─── % Change ───
         $yesterdayChange = $visitorsYesterday > 0 ? round((($visitorsToday - $visitorsYesterday) / $visitorsYesterday) * 100) : ($visitorsToday > 0 ? 100 : 0);
         $lastWeek = PageView::whereBetween('created_at', [now()->subWeek()->startOfWeek(), now()->subWeek()->endOfWeek()])->count();
         $weekChange = $lastWeek > 0 ? round((($visitorsWeek - $lastWeek) / $lastWeek) * 100) : ($visitorsWeek > 0 ? 100 : 0);
@@ -47,7 +62,6 @@ class AdminController extends Controller
             'last_year' => $lastYear,
         ];
 
-        // ─── Chart: 30 Hari ───
         $dailyData = collect();
         for ($i = 29; $i >= 0; $i--) {
             $date = now()->subDays($i);
@@ -57,7 +71,6 @@ class AdminController extends Controller
             ]);
         }
 
-        // ─── Chart: 12 Minggu ───
         $weeklyData = collect();
         for ($i = 11; $i >= 0; $i--) {
             $weekStart = now()->subWeeks($i)->startOfWeek();
@@ -68,7 +81,6 @@ class AdminController extends Controller
             ]);
         }
 
-        // ─── Chart: 12 Bulan ───
         $monthlyData = collect();
         for ($i = 11; $i >= 0; $i--) {
             $date = now()->subMonths($i);
@@ -78,7 +90,6 @@ class AdminController extends Controller
             ]);
         }
 
-        // ─── Chart: 5 Tahun ───
         $yearlyData = collect();
         for ($i = 4; $i >= 0; $i--) {
             $year = now()->subYears($i)->year;
@@ -88,17 +99,18 @@ class AdminController extends Controller
             ]);
         }
 
-        // ─── Device ───
         $deviceData = PageView::selectRaw('device_type, COUNT(*) as total')
             ->groupBy('device_type')
             ->orderByDesc('total')
-            ->get();
+            ->get()
+            ->map(fn($d) => [
+                'type' => $d->device_type ?: 'unknown',
+                'total' => $d->total,
+            ]);
 
-        // ─── Rata-rata & Puncak Harian ───
         $dailyAvg = $dailyData->count() > 0 ? round($dailyData->avg('value')) : 0;
         $dailyPeak = $dailyData->sortByDesc('value')->first();
 
-        // ─── Ringkasan Konten ───
         $contentSummary = [
             ['label' => 'Projek', 'count' => \App\Models\Project::count(), 'route' => route('admin.projects.index'), 'icon' => 'folder', 'colors' => ['bg' => 'from-blue-500 to-blue-600', 'iconBg' => 'bg-blue-50', 'iconText' => 'text-blue-600']],
             ['label' => 'Kategori Projek', 'count' => \App\Models\ProjectCategory::count(), 'route' => route('admin.project-categories.index'), 'icon' => 'tag', 'colors' => ['bg' => 'from-indigo-500 to-indigo-600', 'iconBg' => 'bg-indigo-50', 'iconText' => 'text-indigo-600']],
@@ -109,12 +121,11 @@ class AdminController extends Controller
         ];
         $totalMessages = \App\Models\Message::count();
         $unreadMessages = \App\Models\Message::where('is_read', false)->count();
-        $latestMessages = \App\Models\Message::latest()->take(5)->get();
 
-        return view('admin.dashboard', compact(
+        return compact(
             'totals', 'dailyData', 'weeklyData', 'monthlyData', 'yearlyData',
             'deviceData', 'dailyAvg', 'dailyPeak',
-            'contentSummary', 'totalMessages', 'unreadMessages', 'latestMessages'
-        ));
+            'contentSummary', 'totalMessages', 'unreadMessages'
+        );
     }
 }

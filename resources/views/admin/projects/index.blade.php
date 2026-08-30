@@ -43,6 +43,8 @@
                     <th class="px-6 py-4 w-14">Gambar</th>
                     <th class="px-6 py-4">Judul Projek</th>
                     <th class="px-6 py-4">Kategori</th>
+                    <th class="px-6 py-4 w-20">Tahun</th>
+                    <th class="px-6 py-4 w-24">Status</th>
                     <th class="px-6 py-4 w-28"></th>
                 </tr></thead>
                 <tbody class="divide-y divide-gray-100">
@@ -58,7 +60,12 @@
                         </div>
                         @endif
                     </td>
-                    <td class="px-6 py-4 font-medium">{{ $p->name }}</td>
+                    <td class="px-6 py-4 font-medium">
+                        {{ $p->name }}
+                        @if($p->client)
+                        <div class="text-[11px] text-[#94a3b8] font-normal mt-0.5">Klien: {{ $p->client }}</div>
+                        @endif
+                    </td>
                     <td class="px-6 py-4">
                         @if($p->categories->count())
                         <div class="flex flex-wrap gap-1">
@@ -71,6 +78,18 @@
                         </div>
                         @else
                         <span class="text-[#94a3b8]">—</span>
+                        @endif
+                    </td>
+                    <td class="px-6 py-4 text-[#64748b] text-xs">{{ $p->year ?: '—' }}</td>
+                    <td class="px-6 py-4">
+                        @if($p->status)
+                        <span class="inline-flex items-center gap-1.5 text-xs font-medium text-green-700 bg-green-50 px-2.5 py-1 rounded-full">
+                            <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>Aktif
+                        </span>
+                        @else
+                        <span class="inline-flex items-center gap-1.5 text-xs font-medium text-gray-500 bg-gray-100 px-2.5 py-1 rounded-full">
+                            <span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span>Nonaktif
+                        </span>
                         @endif
                     </td>
                     <td class="px-6 py-4 text-right">
