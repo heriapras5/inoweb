@@ -2,7 +2,7 @@
 
 @section('content')
 <!-- Hero -->
-<section class="relative overflow-hidden pt-24 sm:pt-32 pb-12 sm:pb-20 lg:min-h-screen lg:flex lg:items-center" style="background: linear-gradient(180deg, #eff6ff 0%, #f8fafc 50%, #ffffff 100%);">
+<section class="relative overflow-hidden pt-24 sm:pt-32 pb-10 sm:pb-20 lg:min-h-screen lg:flex lg:items-center" style="background: linear-gradient(180deg, #eff6ff 0%, #f8fafc 50%, #ffffff 100%);">
     <div class="absolute -top-24 -left-24 w-96 h-96 rounded-full pointer-events-none hidden sm:block" style="background: radial-gradient(circle, rgba(37,99,235,0.14) 0%, rgba(37,99,235,0) 70%);"></div>
     <div class="absolute top-1/3 right-0 w-80 h-80 rounded-full pointer-events-none hidden sm:block" style="background: radial-gradient(circle, rgba(96,165,250,0.14) 0%, rgba(96,165,250,0) 70%);"></div>
     <div class="absolute bottom-0 left-1/3 w-72 h-72 rounded-full pointer-events-none hidden sm:block" style="background: radial-gradient(circle, rgba(37,99,235,0.08) 0%, rgba(37,99,235,0) 70%);"></div>
@@ -93,7 +93,7 @@
                 </template>
 
                 <!-- Feature badges -->
-                <div class="grid grid-cols-2 gap-3 mt-4">
+                <div class="grid grid-cols-2 gap-3 mt-3">
                     <div class="flex items-center gap-2.5">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
                         <span class="text-[#475569] text-xs sm:text-sm">Desain Modern &amp; Elegan</span>
@@ -114,7 +114,7 @@
             </div>
 
             <!-- Right: Hero 3D (auto-slide project cover images) -->
-            <div class="block lg:block relative py-6 lg:py-10" data-aos="fade-up">
+            <div class="block lg:block relative py-4 sm:py-6 lg:py-10" data-aos="fade-up">
                 <div class="hero-3d relative" data-parallax data-parallax-speed="0.06"
                      x-data="{
                          items: @js($heroProjects),

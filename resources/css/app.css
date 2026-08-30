@@ -1022,12 +1022,22 @@ body { overflow-x: hidden; position: relative; width: 100%; }
     .hero-3d-layer-back {
         display: block;
         transform: none;
-        inset: 8px -8px -8px 8px;
+        inset: 0;
         background: linear-gradient(135deg, #dbeafe, #93c5fd);
-        box-shadow: 0 30px 60px rgba(37,99,235,0.22);
-        opacity: 0.9;
+        box-shadow: 0 20px 40px rgba(37,99,235,0.2);
+        opacity: 0.85;
     }
     .hero-3d-glow { display: none; }
+    .hero-3d-glow:first-child {
+        display: block !important;
+        width: 140px !important;
+        height: 140px !important;
+        top: -30px !important;
+        right: -20px !important;
+        left: auto !important;
+        bottom: auto !important;
+        opacity: 0.55;
+    }
     .hero-arrow { width: 38px; height: 38px; }
     .hero-dot { width: 8px; height: 8px; }
     .hero-dot.active { width: 24px; }

@@ -17,7 +17,7 @@ class FrontendController extends Controller
     {
         $heroSections = HeroSection::where('is_active', true)->orderBy('sort_order')->get();
         $aboutSection = AboutSection::where('is_active', true)->first();
-        $projects = $this->frontendService->getProjects(6);
+        $projects = $this->frontendService->getProjects();
         $categories = $this->frontendService->getProjectCategories();
         $services = $this->frontendService->getServices();
         $faqs = $this->frontendService->getFaqs();
