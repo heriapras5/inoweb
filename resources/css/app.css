@@ -1013,6 +1013,8 @@ body { overflow-x: hidden; position: relative; width: 100%; }
 @media (max-width: 767.98px) {
     .service-card { padding: 24px 20px; }
     .hero-3d-float { animation: none; }
+    .hero-3d-badge { left: 10px; bottom: 10px; gap: 5px; padding: 4px 10px; font-size: 0.6rem; border-radius: 40px; max-width: 75%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .hero-3d-badge .dot { width: 6px; height: 6px; }
     .service-icon { width: 48px; height: 48px; font-size: 1.3rem; }
     .process-card { padding: 20px 12px; }
     .process-step { font-size: 2.5rem; }
@@ -1032,6 +1034,18 @@ body { overflow-x: hidden; position: relative; width: 100%; }
     .mockup-browser { border-radius: 10px; }
     .portfolio-hero-mockup { height: 320px; }
     .portfolio-device { width: 88%; }
+}
+
+@media (max-width: 639.98px) {
+    .portfolio-carousel-track {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        transform: none !important;
+        gap: 1.5rem;
+    }
+    .portfolio-carousel-track > div { width: 100% !important; padding: 0 !important; }
+    .portfolio-carousel-overflow { overflow: visible !important; }
+    .portfolio-carousel-arrows, .portfolio-carousel-dots { display: none !important; }
 }
 
 @media (max-width: 575.98px) {

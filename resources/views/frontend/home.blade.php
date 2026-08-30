@@ -210,8 +210,8 @@
              @mouseenter="stop()" @mouseleave="start()"
              role="region" aria-label="Portofolio INOWEB">
 
-            <div class="overflow-hidden">
-                <div class="flex transition-transform duration-700 ease-out" :style="'transform: translateX(-' + (active * (100 / cols)) + '%)'">
+            <div class="overflow-hidden portfolio-carousel-overflow">
+                <div class="flex transition-transform duration-700 ease-out portfolio-carousel-track" :style="'transform: translateX(-' + (active * (100 / cols)) + '%)'">
                     @foreach($projects as $project)
                     <div class="shrink-0 w-full sm:w-1/2 lg:w-1/3 px-3">
                         <a href="{{ route('portfolio.detail', $project->slug) }}" class="portfolio-card block cursor-pointer no-underline">
@@ -234,16 +234,16 @@
             </div>
 
             @if($pcCount > 3)
-            <button @click="prev()" class="hero-arrow absolute -left-2 top-1/2 -translate-y-1/2 z-10" aria-label="Sebelumnya">
+            <button @click="prev()" class="hero-arrow portfolio-carousel-arrows absolute -left-2 top-1/2 -translate-y-1/2 z-10" aria-label="Sebelumnya">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
             </button>
-            <button @click="next()" class="hero-arrow absolute -right-2 top-1/2 -translate-y-1/2 z-10" aria-label="Selanjutnya">
+            <button @click="next()" class="hero-arrow portfolio-carousel-arrows absolute -right-2 top-1/2 -translate-y-1/2 z-10" aria-label="Selanjutnya">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
             </button>
             @endif
 
             @if($pcCount > 3)
-            <div class="flex items-center justify-center gap-2 mt-6">
+            <div class="flex items-center justify-center gap-2 mt-6 portfolio-carousel-dots">
                 <template x-for="(_, i) in Math.ceil({{ $pcCount }} / cols)" :key="i">
                     <button @click="active = Math.min(i * cols, max)"
                             :class="active === Math.min(i * cols, max) ? 'hero-dot active' : 'hero-dot'"

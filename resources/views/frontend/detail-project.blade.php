@@ -7,7 +7,7 @@
 @php $firstImage = $project->coverImage(); @endphp
 
 {{-- Page Header --}}
-<section class="bg-gradient-hero pt-20 sm:pt-32 pb-16 sm:pb-20 relative overflow-hidden">
+<section class="bg-gradient-hero pt-20 sm:pt-32 pb-12 sm:pb-20 relative overflow-hidden">
     <x-hero-bg />
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <nav class="flex mb-6 text-sm" data-aos="fade-up">
@@ -19,7 +19,7 @@
                 <li class="text-blue-600 font-medium truncate max-w-[200px]">{{ $project->name }}</li>
             </ol>
         </nav>
-        <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+        <div class="grid lg:grid-cols-2 gap-6 lg:gap-16 items-center">
             <div data-aos="fade-right" data-aos-delay="100">
                 @if($project->categories->isNotEmpty())
                 <span class="inline-block text-[0.7rem] font-bold tracking-[0.2em] uppercase text-blue-600 mb-3">{{ $project->categories->first()->name }}</span>
@@ -94,7 +94,7 @@
                         </div>
                     </div>
 
-                    <div class="flex items-center justify-center gap-4 mt-6">
+                    <div class="flex items-center justify-center gap-4 mt-5">
                         <button @click="prev()" :disabled="images.length <= 1" aria-label="Sebelumnya" class="hero-arrow">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
                         </button>
@@ -110,16 +110,6 @@
                         <button @click="next()" :disabled="images.length <= 1" aria-label="Selanjutnya" class="hero-arrow">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
                         </button>
-                    </div>
-
-                    <div class="flex gap-2 mt-4 overflow-x-auto pb-2 scrollbar-hide" x-show="images.length > 1">
-                        <template x-for="(img, i) in images" :key="'thumb-'+i">
-                            <button @click="active = i"
-                                    class="shrink-0 w-20 h-14 rounded-xl overflow-hidden border-2 transition-all duration-200"
-                                    :class="active === i ? 'border-blue-600 shadow-md scale-105' : 'border-gray-200 opacity-70 hover:opacity-100'">
-                                <img :src="img.src" :alt="img.alt" class="w-full h-full object-cover">
-                            </button>
-                        </template>
                     </div>
                 </div>
                 @else
@@ -142,7 +132,7 @@
 {{-- Info Badge Row --}}
 <section class="border-b border-gray-100 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-wrap justify-center gap-3 py-6">
+        <div class="grid grid-cols-1 sm:flex sm:flex-wrap sm:justify-center gap-3 py-6">
             @if($project->categories->isNotEmpty())
             <div class="inline-flex items-center gap-2 bg-gray-50 rounded-xl px-4 py-2.5 border border-gray-100">
                 <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 shrink-0">
