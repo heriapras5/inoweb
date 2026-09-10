@@ -22,7 +22,7 @@
         <div class="grid lg:grid-cols-2 gap-6 lg:gap-16 items-center">
             <div data-aos="fade-right" data-aos-delay="100">
                 @if($project->categories->isNotEmpty())
-                <span class="inline-block text-[0.7rem] font-bold tracking-[0.2em] uppercase text-blue-600 mb-3">{{ $project->categories->first()->name }}</span>
+                <span class="portfolio-badge inline-block bg-blue-600/10 text-blue-600 mb-3">{{ $project->categories->first()->name }}</span>
                 @endif
                 <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0f172a] leading-tight tracking-tight text-balance mb-6">
                     @php
@@ -139,17 +139,6 @@
 <section class="border-b border-gray-100 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 sm:flex sm:flex-wrap sm:justify-center gap-3 py-6">
-            @if($project->categories->isNotEmpty())
-            <div class="inline-flex items-center gap-2 bg-gray-50 rounded-xl px-4 py-2.5 border border-gray-100">
-                <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 shrink-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
-                </div>
-                <div>
-                    <p class="text-[10px] text-[#94a3b8] font-semibold uppercase tracking-wider leading-tight">Jenis</p>
-                    <p class="text-sm font-bold text-[#1e293b] leading-tight">{{ $project->categories->pluck('name')->implode(', ') }}</p>
-                </div>
-            </div>
-            @endif
             @if($project->client)
             <div class="inline-flex items-center gap-2 bg-gray-50 rounded-xl px-4 py-2.5 border border-gray-100">
                 <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 shrink-0">
@@ -205,12 +194,12 @@
 {{-- Deskripsi Lengkap --}}
 @if($project->description)
 <section class="py-16 sm:py-20 bg-white">
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div data-aos="fade-up">
             <span class="section-badge">DETAIL PORTOFOLIO</span>
             <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1a1a2e] leading-tight">Deskripsi <span class="text-gradient">Portofolio</span></h2>
             <div class="section-accent"></div>
-            <div class="prose-content prose-justify bg-gray-50/60 rounded-2xl p-6 sm:p-8 border border-gray-100 shadow-md">
+            <div class="prose-content prose-justify bg-gray-50/60 rounded-2xl px-4 py-5 sm:p-8 border border-gray-100 shadow-md">
                 {!! cleanRichText($project->description) !!}
             </div>
         </div>
