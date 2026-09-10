@@ -791,7 +791,12 @@ body { overflow-x: hidden; position: relative; width: 100%; }
     50% { opacity: 0; }
 }
 .typewriter-cursor {
-    min-height: 1.15em;
+    min-height: 2.5em;
+}
+@media (max-width: 639.98px) {
+    .typewriter-cursor {
+        min-height: 3.75em;
+    }
 }
 .typewriter-cursor::after {
     content: '';

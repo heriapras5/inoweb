@@ -11,7 +11,7 @@
         <div class="grid lg:grid-cols-2 gap-6 lg:gap-12 items-center"
              x-data="{
                  active: 0,
-                 slides: {{ $heroSections->map(fn($s) => ['title' => $s->title, 'description' => $s->description, 'image' => $s->image ? asset($s->image) : null, 'button_text' => $s->button_text, 'button_url' => $s->button_url])->toJson() }},
+                  slides: {{ $heroSections->map(fn($s) => ['title' => strip_tags($s->title), 'description' => strip_tags($s->description), 'image' => $s->image ? asset($s->image) : null, 'button_text' => $s->button_text, 'button_url' => $s->button_url])->toJson() }},
                  typedTitle: '',
                  typeTimer: null,
                  deleteTimer: null,
@@ -55,8 +55,9 @@
             <!-- Left: Text content -->
             <div data-aos="fade-right" class="lg:order-1 text-center lg:text-left">
                 <template x-if="slides.length">
+                    <div class="grid">
                     <template x-for="(slide, i) in slides" :key="i">
-                        <div x-show="active === i" x-transition.opacity.duration.300>
+                        <div x-show="active === i" x-transition.opacity.duration.300 class="col-start-1 row-start-1">
                             <div class="hero-badge mb-4 mx-auto lg:mx-0">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                                 INOVASI &bull; PROFESIONAL &bull; TERPERCAYA
@@ -74,6 +75,7 @@
                             </div>
                         </div>
                     </template>
+                    </div>
                 </template>
                 <template x-if="!slides.length">
                     <div>
@@ -118,15 +120,15 @@
                 <div class="hero-3d relative" data-parallax data-parallax-speed="0.06"
                      x-data="{
                          items: @js($heroProjects),
-                         active: 0,
+                         imgActive: 0,
                          timer: null,
                          tiltX: 0,
                          tiltY: 0,
                          rx: window.innerWidth >= 1024 ? 4 : 0,
                          ry: window.innerWidth >= 1024 ? -12 : 0,
                          init() { if (this.items.length > 1) this.timer = setInterval(() => this.next(), 4500); },
-                         next() { if (this.items.length) this.active = (this.active + 1) % this.items.length; },
-                         prev() { if (this.items.length) this.active = (this.active - 1 + this.items.length) % this.items.length; },
+                         next() { if (this.items.length) this.imgActive = (this.imgActive + 1) % this.items.length; },
+                         prev() { if (this.items.length) this.imgActive = (this.imgActive - 1 + this.items.length) % this.items.length; },
                          tilt(e) {
                              if (window.innerWidth < 1024) return;
                              if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -152,47 +154,25 @@
                         <div class="hero-3d-card" x-ref="stage"
                              :style="'transform: rotateY(' + (ry + tiltY) + 'deg) rotateX(' + (rx + tiltX) + 'deg)'">
                             <div class="hero-3d-layer-back"></div>
-                            <a :href="items.length ? '{{ url('/portfolio') }}/' + items[active].slug : '{{ route('portfolio') }}'"
+                            <a :href="items.length ? '{{ url('/portfolio') }}/' + items[imgActive].slug : '{{ route('portfolio') }}'"
                                class="hero-3d-slot no-underline" aria-label="Lihat portofolio">
                                 <template x-for="(item, i) in items" :key="'img' + i">
-                                    <div class="hero-3d-img" :class="{ active: active === i }">
+                                    <div class="hero-3d-img" :class="{ active: imgActive === i }">
                                         <img :src="item.image" :alt="item.title" loading="lazy" decoding="async">
                                     </div>
                                 </template>
-                                <div class="hero-3d-placeholder" x-show="!items.length">
-                                    <div class="hero-3d-placeholder-shine"></div>
-                                    <div class="hero-3d-placeholder-brand">
-                                        <strong>{{ setting('site_name', 'INOWEB') }}</strong>
-                                        <span>PORTFOLIO</span>
+                                <template x-for="(s, si) in slides" :key="'slideimg' + si">
+                                    <div class="hero-3d-img" :class="{ active: !items.length && active === si }" x-show="s.image">
+                                        <img :src="s.image" :alt="s.title" loading="lazy" decoding="async">
                                     </div>
-                                </div>
+                                </template>
                                 <div class="hero-3d-shine"></div>
                                 <div class="hero-3d-badge" x-show="items.length">
                                     <span class="dot"></span>
-                                    <span x-text="items[active].title"></span>
+                                    <span x-text="items[imgActive].title"></span>
                                 </div>
                             </a>
                         </div>
-                    </div>
-
-                    <!-- Navigation arrows -->
-                    <div class="flex items-center justify-center gap-4 mt-8">
-                        <button @click="prev()" :disabled="items.length <= 1" aria-label="Slide sebelumnya" class="hero-arrow">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
-                        </button>
-                        <template x-if="items.length > 1">
-                            <div class="flex items-center gap-2">
-                                <template x-for="(item, i) in items" :key="'dot' + i">
-                                    <button @click="active = i"
-                                            :aria-label="'Ke slide ' + (i + 1)"
-                                            :aria-current="active === i ? 'true' : 'false'"
-                                            :class="active === i ? 'hero-dot active' : 'hero-dot'"></button>
-                                </template>
-                            </div>
-                        </template>
-                        <button @click="next()" :disabled="items.length <= 1" aria-label="Slide berikutnya" class="hero-arrow">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
-                        </button>
                     </div>
                 </div>
             </div>

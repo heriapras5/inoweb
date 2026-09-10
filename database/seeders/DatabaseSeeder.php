@@ -4,23 +4,32 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
         User::updateOrCreate(
-            ['email' => 'superadmin@inoweb.my.id'],
+            ['email' => 'superadmin@aksarabaja.com'],
             [
                 'name' => 'Super Admin',
-                'password' => bcrypt('@Segoku123'),
+                'password' => Hash::make('admin123'),
+                'is_admin' => true,
+            ]
+        );
+
+        User::updateOrCreate(
+            ['email' => 'admin@aksarabaja.com'],
+            [
+                'name' => 'Admin',
+                'password' => Hash::make('admin123'),
                 'is_admin' => true,
             ]
         );
 
         $this->call([
             SettingsSeeder::class,
-            ProjectCategorySeeder::class,
             ServiceSeeder::class,
             FaqSeeder::class,
             TestimonialSeeder::class,

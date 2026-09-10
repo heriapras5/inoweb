@@ -8,10 +8,6 @@
                 <div class="inline-flex items-center gap-2.5 mb-4">
                     @if($logoImage)
                     <img src="{{ asset($logoImage) }}" alt="{{ $logoSiteName }}" class="h-8 sm:h-10 w-auto shrink-0">
-                    @else
-                    <div class="w-8 h-8 sm:w-10 sm:h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white text-base sm:text-xl shrink-0">
-                        {!! setting('logo_icon') ?: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>' !!}
-                    </div>
                     @endif
                     <div class="text-left">
                         <span class="block text-base sm:text-lg font-bold text-[#0f172a] tracking-wide leading-tight">{{ $logoSiteName }}</span>
