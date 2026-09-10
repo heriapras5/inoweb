@@ -4,7 +4,7 @@
 @section('meta_description', 'Hubungi INOWEB untuk konsultasi pembuatan website profesional. Tersedia WhatsApp, email, dan formulir kontak.')
 
 @section('content')
-<section class="bg-gradient-hero pt-20 sm:pt-32 pb-16 sm:pb-20 relative overflow-hidden">
+<section class="bg-gradient-hero pt-20 sm:pt-32 pb-6 sm:pb-12 relative overflow-hidden">
     <x-hero-bg />
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <nav class="flex mb-6 text-sm" data-aos="fade-up">
@@ -19,7 +19,7 @@
     </div>
 </section>
 
-<section class="pt-8 pb-16 sm:pt-10 sm:pb-24 bg-white">
+<section class="pt-4 pb-16 sm:pt-8 sm:pb-24 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid lg:grid-cols-2 gap-16">
             <div data-aos="fade-right">
