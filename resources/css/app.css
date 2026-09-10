@@ -761,6 +761,12 @@ body { overflow-x: hidden; position: relative; width: 100%; }
     border-radius: 0;
 }
 
+/* Deskripsi portofolio: paragraf rata kiri kanan */
+.prose-content.prose-justify p {
+    text-align: justify;
+    hyphens: auto;
+}
+
 /* ─── Keyframes ─── */
 @keyframes float {
     0%, 100% { transform: translateY(0); }

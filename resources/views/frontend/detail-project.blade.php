@@ -210,7 +210,7 @@
             <span class="section-badge">DETAIL PORTOFOLIO</span>
             <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1a1a2e] leading-tight">Deskripsi <span class="text-gradient">Portofolio</span></h2>
             <div class="section-accent"></div>
-            <div class="prose-content bg-gray-50/60 rounded-2xl p-6 sm:p-8 border border-gray-100">
+            <div class="prose-content prose-justify bg-gray-50/60 rounded-2xl p-6 sm:p-8 border border-gray-100 shadow-md">
                 {!! cleanRichText($project->description) !!}
             </div>
         </div>
