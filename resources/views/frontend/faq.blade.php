@@ -19,7 +19,7 @@
     </div>
 </section>
 
-<section class="py-16 sm:py-24 bg-white">
+<section class="pt-8 pb-16 sm:pt-10 sm:pb-24 bg-white">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="space-y-4">
             @foreach($faqs as $i => $faq)

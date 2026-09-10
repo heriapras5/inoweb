@@ -193,7 +193,7 @@
 
 {{-- Deskripsi Lengkap --}}
 @if($project->description)
-<section class="py-16 sm:py-20 bg-white">
+<section class="pt-8 pb-16 sm:pt-10 sm:pb-20 bg-white">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div data-aos="fade-up">
             <span class="section-badge">DETAIL PORTOFOLIO</span>

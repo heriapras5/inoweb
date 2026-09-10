@@ -19,7 +19,7 @@
     </div>
 </section>
 
-<section class="py-16 sm:py-24 bg-white">
+<section class="pt-8 pb-16 sm:pt-10 sm:pb-24 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid lg:grid-cols-2 gap-16">
             <div data-aos="fade-right">
