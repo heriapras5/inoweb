@@ -26,7 +26,6 @@ class HeroSectionController extends Controller
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'subtitle' => 'nullable|string|max:255',
-            'description' => 'nullable|string',
             'button_text' => 'nullable|string|max:255',
             'button_url' => 'nullable|string|max:255',
             'images' => 'nullable|array',
@@ -45,7 +44,6 @@ class HeroSectionController extends Controller
                 HeroSection::create([
                     'title' => $data['title'],
                     'subtitle' => $data['subtitle'] ?? null,
-                    'description' => $data['description'] ?? null,
                     'button_text' => $data['button_text'] ?? null,
                     'button_url' => $data['button_url'] ?? null,
                     'image' => $imgPath,
@@ -70,7 +68,6 @@ class HeroSectionController extends Controller
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'subtitle' => 'nullable|string|max:255',
-            'description' => 'nullable|string',
             'button_text' => 'nullable|string|max:255',
             'button_url' => 'nullable|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',

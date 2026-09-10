@@ -54,6 +54,8 @@
                      x-data="{
                          images: @js($heroImages),
                          active: 0,
+                         get dotMax() { return Math.min(7, this.images.length); },
+                         get dotStart() { return Math.max(0, Math.min(this.active - Math.floor(this.dotMax / 2), this.images.length - this.dotMax)); },
                          timer: null,
                          tiltX: 0,
                          tiltY: 0,
@@ -115,11 +117,11 @@
                         </button>
                         <template x-if="images.length > 1">
                             <div class="flex items-center gap-2">
-                                <template x-for="(img, i) in images" :key="'dot-'+i">
-                                    <button @click="active = i"
-                                            :aria-label="'Gambar ' + (i + 1)"
-                                            :aria-current="active === i ? 'true' : 'false'"
-                                            :class="active === i ? 'hero-dot active' : 'hero-dot'"></button>
+                                <template x-for="(img, wi) in images.slice(dotStart, dotStart + dotMax)" :key="'dot-'+(dotStart + wi)">
+                                    <button @click="active = dotStart + wi"
+                                            :aria-label="'Gambar ' + (dotStart + wi + 1)"
+                                            :aria-current="active === dotStart + wi ? 'true' : 'false'"
+                                            :class="active === dotStart + wi ? 'hero-dot active' : 'hero-dot'"></button>
                                 </template>
                             </div>
                         </template>

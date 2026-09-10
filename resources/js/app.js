@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
         start();
     }
 
-    // Parallax (transform-based, lightweight — cached positions, no layout thrash)
+    // Parallax (transform-based, lightweight - cached positions, no layout thrash)
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const parallaxEls = Array.from(document.querySelectorAll('[data-parallax]'));
     let parallaxRaf = null;

@@ -77,10 +77,10 @@
                             @endforeach
                         </div>
                         @else
-                        <span class="text-[#94a3b8]">—</span>
+                        <span class="text-[#94a3b8]">-</span>
                         @endif
                     </td>
-                    <td class="px-6 py-4 text-[#64748b] text-xs">{{ $p->year ?: '—' }}</td>
+                    <td class="px-6 py-4 text-[#64748b] text-xs">{{ $p->year ?: '-' }}</td>
                     <td class="px-6 py-4">
                         @if($p->status)
                         <span class="inline-flex items-center gap-1.5 text-xs font-medium text-green-700 bg-green-50 px-2.5 py-1 rounded-full">

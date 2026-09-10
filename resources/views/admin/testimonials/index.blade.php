@@ -60,7 +60,7 @@
                         @if($t->rating)
                         <span class="text-amber-400 text-sm">{{ str_repeat('★', $t->rating) }}</span>
                         @else
-                        <span class="text-[#94a3b8]">—</span>
+                        <span class="text-[#94a3b8]">-</span>
                         @endif
                     </td>
                     <td class="px-6 py-4">
