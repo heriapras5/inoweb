@@ -47,7 +47,7 @@
                     @error('status')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                 </div>
 
-                <x-admin.summernote name="description" label="Deskripsi" :value="$project->description" :height="260" required help="Tulis deskripsi lengkap proyek termasuk fitur-fiturnya di sini." />
+                <x-admin.summernote name="description" label="Deskripsi" :value="$project->description" :height="260" :required="true" help="Tulis deskripsi lengkap proyek termasuk fitur-fiturnya di sini." />
 
                 {{-- Fitur Utama --}}
                 <div x-data="{

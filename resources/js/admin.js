@@ -18,8 +18,7 @@ const summernoteReady = Promise.all([
 
 function snHeight($this) {
     var h = $this.data('height');
-    if (h) return parseInt(h, 10);
-    return $this.hasClass('sm-short') ? 140 : 260;
+    return h ? parseInt(h, 10) : 260;
 }
 
 function snCreateSummernote($this) {
@@ -32,32 +31,14 @@ function snCreateSummernote($this) {
             ['view', ['codeview']],
         ],
         lang: 'id-ID',
-        callbacks: {
-            onKeydown: function(e) {
-                if (e.keyCode === 13 && !e.shiftKey) {
-                    var sel = window.getSelection();
-                    if (sel && sel.rangeCount > 0) {
-                        var node = sel.getRangeAt(0).commonAncestorContainer;
-                        // Jika kursor di dalam <li>, biarkan Summernote menangani Enter (membuat item list baru)
-                        if ($(node).closest('li').length) return;
-                    }
-                    e.preventDefault();
-                    document.execCommand('insertLineBreak');
-                }
-            }
-        },
     });
     $this.data('summernote-init', true);
 }
 
 function snTryInit($this, wait) {
     if ($this.data('summernote-init')) {
-        if (wait) {
-            var $editor = $this.next('.note-editor');
-            if ($editor.length && $editor.is(':visible')) {
-                $this.summernote('reposition');
-            }
-        }
+        // Editor sudah aktif. Summernote 0.9 tidak memiliki API reposition
+        // (pemanggilan lama hanya no-op), jadi tidak ada yang perlu diulang.
         return true;
     }
     if (typeof $this.summernote !== 'function') return false;
@@ -71,13 +52,28 @@ function snTryInit($this, wait) {
     }
 }
 
-function snInitWhenReady($this, wait, attempts) {
+var SN_MAX_HIDDEN_ATTEMPTS = 40;
+var SN_MAX_PLUGIN_ATTEMPTS = 150;
+
+function snInitWhenReady($this, wait, attempts, pluginAttempts) {
     attempts = attempts || 0;
+    pluginAttempts = pluginAttempts || 0;
     if (!document.contains($this[0])) return;
+    if ($this.data('summernote-init')) return;
+    // Plugin belum dimuat (chunk async lambat): retry terus tanpa batas 40x.
+    if (typeof $this.summernote !== 'function') {
+        if (pluginAttempts >= SN_MAX_PLUGIN_ATTEMPTS) {
+            $this.addClass('summernote-failed');
+            console.error('summernote plugin tidak tersedia setelah menunggu.');
+            return;
+        }
+        setTimeout(function () { snInitWhenReady($this, wait, attempts, pluginAttempts + 1); }, 80);
+        return;
+    }
     if (snTryInit($this, wait)) return;
-    if (attempts >= 40) return;
-    // Tunggu plugin siap dan elemen tampak, lalu coba lagi.
-    setTimeout(function () { snInitWhenReady($this, wait, attempts + 1); }, 80);
+    if (attempts >= SN_MAX_HIDDEN_ATTEMPTS) return;
+    // Plugin sudah ada tapi elemen masih tersembunyi: batasi retry.
+    setTimeout(function () { snInitWhenReady($this, wait, attempts + 1, pluginAttempts); }, 80);
 }
 
 window.initSummernote = function (scope, wait) {
@@ -88,17 +84,31 @@ window.initSummernote = function (scope, wait) {
 };
 
 // Pastikan global tersedia meski chunk plugin masih dimuat, lalu scan DOM.
+// Dipanggil ulang tanpa syarat saat chunk selesai agar retry yang kehabisan
+// batas tetap mendapat kesempatan init.
 summernoteReady.then(() => {
     $(function () {
         window.initSummernote(document);
     });
+    window.initSummernote(document);
 });
 
 // Tab/pane memakai x-show (display:none) — summernote tidak bisa diinisialisasi
-// saat tersembunyi. Tangani saat elemen baru muncul di DOM.
+// saat tersembunyi. Tangani saat elemen baru muncul di DOM. Pemindaian
+// di-debounce dan perubahan dari dalam editor sendiri diabaikan agar
+// pengetikan tidak membebani halaman form.
 if (window.MutationObserver) {
-    new MutationObserver(function () {
-        window.initSummernote(document, true);
+    var snScanTimer = null;
+    new MutationObserver(function (mutations) {
+        var internal = mutations.length > 0 && mutations.every(function (m) {
+            var t = m.target;
+            return t && t.nodeType === 1 && t.closest && t.closest('.note-editor,.note-modal,.note-popover');
+        });
+        if (internal || snScanTimer) return;
+        snScanTimer = setTimeout(function () {
+            snScanTimer = null;
+            window.initSummernote(document, true);
+        }, 150);
     }).observe(document.body, {
         childList: true,
         subtree: true,

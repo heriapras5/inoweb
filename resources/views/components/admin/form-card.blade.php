@@ -19,9 +19,11 @@
     $tone = $tones[$tone] ?? $tones['green'];
 @endphp
 
-<div {{ $attributes->merge(['class' => 'bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden']) }}>
+{{-- Tanpa overflow-hidden agar dropdown Summernote tidak terpotong.
+    Sudut dibulatkan per elemen (header/body) sebagai gantinya. --}}
+<div {{ $attributes->merge(['class' => 'bg-white rounded-xl border border-gray-200 shadow-sm']) }}>
     @if($title || $actions)
-    <div class="px-6 py-4 border-b border-gray-200 bg-gray-50/50 flex items-center justify-between gap-4">
+    <div class="px-6 py-4 border-b border-gray-200 bg-gray-50/50 rounded-t-xl flex items-center justify-between gap-4">
         <div class="flex items-center gap-3 min-w-0">
             <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 {{ $tone }}">
                 {{ $icon ?? '' }}
@@ -36,7 +38,7 @@
         @endif
     </div>
     @endif
-    <div class="p-6">
+    <div @class(['p-6', 'rounded-b-xl' => $title || $actions, 'rounded-xl' => !($title || $actions)])>
         {{ $slot }}
     </div>
 </div>

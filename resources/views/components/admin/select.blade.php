@@ -10,7 +10,7 @@
     'disabledOptions' => [],
 ])
 
-<div class="space-y-1.5">
+<div class="min-w-0 w-full space-y-1.5">
     @if($label)
     <label for="{{ $name }}" class="form-label">
         {{ $label }}

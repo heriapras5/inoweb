@@ -48,6 +48,14 @@ class SettingsController extends Controller
             'remove_about_image' => 'nullable|boolean',
         ]);
 
+        // Editor rich text mengirim '<p><br></p>' saat dikosongkan. Perlakukan
+        // sebagai kosong agar kolom NOT NULL / meta description tidak terisi markup hampa.
+        foreach (['site_description', 'about_description', 'about_vision'] as $richKey) {
+            if (isEmptyRichText($data[$richKey] ?? null)) {
+                $data[$richKey] = null;
+            }
+        }
+
         foreach (['site_name', 'site_tagline', 'site_description', 'logo_icon', 'whatsapp_number', 'footer_address', 'footer_email', 'maps_embed', 'social_facebook', 'social_instagram', 'social_linkedin', 'social_youtube'] as $key) {
             Setting::updateOrCreate(
                 ['key' => $key],

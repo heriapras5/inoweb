@@ -9,7 +9,7 @@
     'wrapperClass' => null,
 ])
 
-<div @class(['space-y-1.5', $wrapperClass])>
+<div @class(['min-w-0 w-full space-y-1.5', $wrapperClass])>
     @if($label)
     <label for="{{ $name }}" class="form-label">
         {{ $label }}

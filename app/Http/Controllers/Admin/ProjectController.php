@@ -34,7 +34,11 @@ class ProjectController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'required|string',
+            'description' => ['required', 'string', function ($attribute, $value, $fail) {
+                if (isEmptyRichText($value)) {
+                    $fail('Kolom deskripsi wajib diisi.');
+                }
+            }],
             'url' => 'nullable|url|max:255',
             'client' => 'nullable|string|max:255',
             'year' => 'nullable|string|max:10',
@@ -95,7 +99,11 @@ class ProjectController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'required|string',
+            'description' => ['required', 'string', function ($attribute, $value, $fail) {
+                if (isEmptyRichText($value)) {
+                    $fail('Kolom deskripsi wajib diisi.');
+                }
+            }],
             'url' => 'nullable|url|max:255',
             'client' => 'nullable|string|max:255',
             'year' => 'nullable|string|max:10',

@@ -47,6 +47,28 @@ if (!function_exists('cleanRichText')) {
     }
 }
 
+if (!function_exists('isEmptyRichText')) {
+    /**
+     * Cek apakah HTML dari editor rich text secara visual kosong.
+     * Summernote sering mengirim '<p><br></p>' saat editor dibiarkan kosong,
+     * yang tetap lolos validasi 'required|string' biasa.
+     */
+    function isEmptyRichText(?string $html): bool
+    {
+        if ($html === null || trim($html) === '') {
+            return true;
+        }
+
+        $text = preg_replace('/&nbsp;|&#160;|&zwnj;/i', ' ', $html);
+        if (trim(strip_tags((string) $text)) !== '') {
+            return false;
+        }
+
+        // Tanpa teks, tapi konten visual (gambar/embed/tabel/hr) tetap dianggap terisi.
+        return !preg_match('/<(img|iframe|video|table|hr)\b/i', $html);
+    }
+}
+
 if (!function_exists('optimizeImage')) {
     function optimizeImage(?string $path, int $maxDim = 1600, int $quality = 82): void
     {
