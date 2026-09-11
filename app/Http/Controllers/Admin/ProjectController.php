@@ -106,6 +106,7 @@ class ProjectController extends Controller
             'main_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'gallery_images' => 'nullable|array',
             'gallery_images.*' => 'image|mimes:jpeg,png,jpg,webp|max:2048',
+            'replace_gallery' => 'boolean',
             'deleted_images' => 'nullable|array',
             'deleted_images.*' => 'integer|exists:project_images,id',
             'features' => 'nullable|array',
@@ -123,7 +124,9 @@ class ProjectController extends Controller
         $this->syncTechnologies($project, $data['technologies'] ?? []);
 
         if ($request->has('deleted_images')) {
-            $images = ProjectImage::whereIn('id', $request->input('deleted_images'))->get();
+            $images = ProjectImage::where('project_id', $project->id)
+                ->whereIn('id', $request->input('deleted_images'))
+                ->get();
             foreach ($images as $img) {
                 deleteFile($img->image);
                 $img->delete();
@@ -142,7 +145,15 @@ class ProjectController extends Controller
         }
 
         if ($request->hasFile('gallery_images')) {
-            $maxSort = $project->images()->max('sort_order') ?? 0;
+            if ($request->boolean('replace_gallery')) {
+                $project->images()->where('type', 'gallery')->each(function ($img) {
+                    deleteFile($img->image);
+                    $img->delete();
+                });
+                $maxSort = 0;
+            } else {
+                $maxSort = $project->images()->max('sort_order') ?? 0;
+            }
             foreach ($request->file('gallery_images') as $i => $file) {
                 $path = $file->store('projects', 'public');
                 optimizeImage('storage/' . $path);
@@ -155,6 +166,16 @@ class ProjectController extends Controller
         }
 
         return redirect()->route('admin.projects.index')->with('success', 'Proyek berhasil diperbarui.');
+    }
+
+    public function destroyImage(Project $project, ProjectImage $image)
+    {
+        if ($image->project_id !== $project->id) {
+            return response()->json(['success' => false, 'message' => 'Gambar bukan milik proyek ini.'], 403);
+        }
+        deleteFile($image->image);
+        $image->delete();
+        return response()->json(['success' => true]);
     }
 
     protected function syncFeatures(Project $project, array $rows): void

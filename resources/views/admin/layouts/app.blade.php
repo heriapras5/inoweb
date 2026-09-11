@@ -4,7 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Dashboard') - Admin {{ setting('site_name', 'INOWEB') }}</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="status-toggle-url" content="{{ Route::has('admin.status.toggle') ? route('admin.status.toggle') : '' }}">
+    @vite(['resources/css/app.css', 'resources/css/admin.css', 'resources/css/admin-summernote.css', 'resources/js/app.js', 'resources/js/admin.js'])
     @php $faviconVersion = md5(setting('favicon') ?: setting('logo_image')); @endphp
     <link rel="icon" type="image/png" href="{{ url('/favicon.png') }}?v={{ $faviconVersion }}">
     <link rel="shortcut icon" href="{{ url('/favicon.png') }}?v={{ $faviconVersion }}">
@@ -13,17 +15,7 @@
     @else
     <link rel="apple-touch-icon" href="{{ url('/favicon.png') }}?v={{ $faviconVersion }}">
     @endif
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <style>
-        .swal2-popup { border-radius: 16px; padding: 24px; }
-        .swal2-title { font-size: 1.15rem; font-weight: 700; color: #1e293b; }
-        .swal2-html-container { font-size: 0.9rem; color: #64748b; }
-        .swal2-confirm { border-radius: 10px !important; font-weight: 600 !important; font-size: 0.85rem !important; padding: 10px 24px !important; }
-        .swal2-cancel { border-radius: 10px !important; font-weight: 600 !important; font-size: 0.85rem !important; padding: 10px 24px !important; }
-    </style>
+
     <style>
         html { height: 100%; }
         body { height: 100%; touch-action: manipulation; }
@@ -92,48 +84,15 @@
     </style>
     @stack('styles')
 </head>
-<body x-data="{
-    notif: {!! json_encode(
-        session('success') ? ['msg' => session('success'), 'type' => 'success'] 
-        : (session('error') ? ['msg' => session('error'), 'type' => 'error'] 
-        : (session('warning') ? ['msg' => session('warning'), 'type' => 'warning'] 
-        : (session('info') ? ['msg' => session('info'), 'type' => 'info'] 
-         : null )))
-    , JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!},
-    userDropdown: false,
-    notifDropdown: false
-}" x-init="if (notif) { setTimeout(() => notif = null, 4000) }"
+<body x-data="{ userDropdown: false, notifDropdown: false }"
       class="bg-[#f1f5f9] font-sans text-[#1e293b] h-screen overflow-hidden">
 
-    <!-- Toast Notification -->
-    <div x-show="notif" x-cloak
-         x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="opacity-0 translate-y-4"
-         x-transition:enter-end="opacity-100 translate-y-0"
-         x-transition:leave="transition ease-in duration-200"
-         x-transition:leave-start="opacity-100 translate-y-0"
-         x-transition:leave-end="opacity-0 translate-y-4"
-         class="fixed top-4 right-4 z-[100] backdrop-blur-md text-white px-5 py-3 rounded-xl shadow-xl text-sm flex items-center gap-2.5"
-         :class="{
-             'bg-emerald-500/90': notif?.type === 'success',
-             'bg-red-500/90': notif?.type === 'error',
-             'bg-amber-500/90': notif?.type === 'warning',
-             'bg-blue-500/90': notif?.type === 'info'
-         }">
-        <template x-if="notif?.type === 'success'">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-        </template>
-        <template x-if="notif?.type === 'error'">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-        </template>
-        <template x-if="notif?.type === 'warning'">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-        </template>
-        <template x-if="notif?.type === 'info'">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        </template>
-        <span x-text="notif?.msg"></span>
-        <button @click="notif = null" class="ml-1 text-white/80 hover:text-white">&times;</button>
+    <!-- Flash Message: satu komponen untuk success/error/warning/info -->
+    <div class="fixed top-4 right-4 z-[100] max-w-sm w-full space-y-2">
+        <x-flash-message type="success" :message="session('success')" />
+        <x-flash-message type="error" :message="session('error')" />
+        <x-flash-message type="warning" :message="session('warning')" />
+        <x-flash-message type="info" :message="session('info')" />
     </div>
 
     <!-- Mobile Overlay -->
@@ -172,12 +131,20 @@
                 <template x-for="item in [
                     { label: 'Dashboard', route: '{{ route('admin.dashboard') }}', icon: 'dashboard', active: '{{ request()->routeIs('admin.dashboard') ? 'true' : 'false' }}' },
                     { label: 'Hero', route: '{{ route('admin.hero-sections.index') }}', icon: 'image', active: '{{ request()->routeIs('admin.hero-sections*') ? 'true' : 'false' }}' },
+                    { label: 'Banner', route: '{{ route('admin.banners.index') }}', icon: 'image', active: '{{ request()->routeIs('admin.banners*') ? 'true' : 'false' }}' },
+                    { label: 'Tentang', route: '{{ route('admin.about-sections.index') }}', icon: 'grid', active: '{{ request()->routeIs('admin.about-sections*') ? 'true' : 'false' }}' },
                     { label: 'Kategori Projek', route: '{{ route('admin.project-categories.index') }}', icon: 'tag', active: '{{ request()->routeIs('admin.project-categories*') ? 'true' : 'false' }}' },
                     { label: 'Projek', route: '{{ route('admin.projects.index') }}', icon: 'folder', active: '{{ request()->routeIs('admin.projects*') ? 'true' : 'false' }}' },
                     { label: 'Layanan', route: '{{ route('admin.services.index') }}', icon: 'grid', active: '{{ request()->routeIs('admin.services*') ? 'true' : 'false' }}' },
+                    { label: 'Klien', route: '{{ route('admin.clients.index') }}', icon: 'message', active: '{{ request()->routeIs('admin.clients*') ? 'true' : 'false' }}' },
+                    { label: 'Partner', route: '{{ route('admin.partners.index') }}', icon: 'message', active: '{{ request()->routeIs('admin.partners*') ? 'true' : 'false' }}' },
+                    { label: 'Menu', route: '{{ route('admin.menus.index') }}', icon: 'dashboard', active: '{{ request()->routeIs('admin.menus*') ? 'true' : 'false' }}' },
+                    { label: 'CTA', route: '{{ route('admin.cta-sections.index') }}', icon: 'grid', active: '{{ request()->routeIs('admin.cta-sections*') ? 'true' : 'false' }}' },
+                    { label: 'Info Kontak', route: '{{ route('admin.contact-info.index') }}', icon: 'mail', active: '{{ request()->routeIs('admin.contact-info*') ? 'true' : 'false' }}' },
                     { label: 'FAQ', route: '{{ route('admin.faqs.index') }}', icon: 'help', active: '{{ request()->routeIs('admin.faqs*') ? 'true' : 'false' }}' },
                     { label: 'Testimoni', route: '{{ route('admin.testimonials.index') }}', icon: 'message', active: '{{ request()->routeIs('admin.testimonials*') ? 'true' : 'false' }}' },
                     { label: 'Pesan Masuk', route: '{{ route('admin.messages.index') }}', icon: 'mail', active: '{{ request()->routeIs('admin.messages*') ? 'true' : 'false' }}', badge: {{ $unreadCount }} },
+                    { label: 'Traffic', route: '{{ route('admin.traffics.index') }}', icon: 'seo', active: '{{ request()->routeIs('admin.traffics*') ? 'true' : 'false' }}' },
                     { label: 'SEO', route: '{{ route('admin.seo.index') }}', icon: 'seo', active: '{{ request()->routeIs('admin.seo*') ? 'true' : 'false' }}' },
                 ]" x-key="item.label">
                     <a :href="item.route"
@@ -225,12 +192,14 @@
                         Pengaturan Website
                     </a>
                 </div>
+                @if(auth()->user()?->isSuperAdmin())
                 <div>
                     <a href="{{ route('admin.users.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 text-sm text-white/70 hover:text-white {{ request()->routeIs('admin.users*') ? 'active' : '' }}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                         Manajemen Admin
                     </a>
                 </div>
+                @endif
             </nav>
         </aside>
 
@@ -242,6 +211,12 @@
                     <button type="button" onclick="document.body.classList.toggle('sidebar-toggled')" class="text-[#64748b] hover:text-[#1e293b]">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
                     </button>
+                    <form method="GET" action="{{ route('admin.search') }}" class="hidden md:flex items-center flex-1 max-w-md">
+                        <div class="relative w-full">
+                            <svg class="absolute left-3 top-1/2 -translate-y-1/2 text-[#94a3b8]" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            <input type="text" name="q" value="{{ request('q') }}" placeholder="Cari layanan, projek, FAQ..." class="admin-input pl-9">
+                        </div>
+                    </form>
                 </div>
                 <div class="flex items-center gap-2">
                     <a href="{{ url('/') }}" target="_blank" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs text-[#64748b] hover:text-blue-600 hover:bg-blue-50 transition-colors">
@@ -295,7 +270,7 @@
                                 Profil
                             </a>
                             <hr class="border-gray-100">
-                            <button @click="Swal.fire({ title: 'Konfirmasi Logout', text: 'Apakah Anda yakin ingin logout?', icon: 'question', showCancelButton: true, confirmButtonText: 'Ya, Logout', cancelButtonText: 'Batal', confirmButtonColor: '#ef4444', cancelButtonColor: '#e2e8f0', cancelButtonClass: 'text-[#64748b]', reverseButtons: true }).then(r => { if (r.isConfirmed) document.getElementById('logout-form').submit(); })" class="w-full flex items-center gap-2.5 px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors">
+                            <button @click="window.confirmLogout()" class="w-full flex items-center gap-2.5 px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
                                 Logout
                             </button>
@@ -308,34 +283,13 @@
             <div class="flex-1 overflow-y-auto min-h-0 p-4 lg:p-6 content-scroll">
                 @yield('content')
             </div>
+
+            @stack('modals')
         </main>
     </div>
 
     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">@csrf</form>
 
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.summernote').forEach(function(el) {
-            if (el.classList.contains('summernote-inited')) return;
-            el.classList.add('summernote-inited');
-            $(el).summernote({
-                height: 200,
-                toolbar: [
-                    ['style', ['bold', 'italic', 'underline', 'clear']],
-                    ['para', ['ul', 'ol', 'paragraph']],
-                    ['insert', ['link']],
-                    ['view', ['codeview']],
-                ],
-                callbacks: {
-                    onChange: function(contents) {
-                        el.value = contents;
-                    }
-                }
-            });
-            el.addEventListener('summernote-init', function() {});
-        });
-    });
-    </script>
     @stack('scripts')
 </body>
 </html>

@@ -30,9 +30,11 @@ class UserController extends Controller
             'email' => 'required|email|max:255|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
             'is_admin' => 'boolean',
+            'role' => 'required|in:admin,super_admin',
         ]);
         $data['password'] = Hash::make($data['password']);
-        $data['is_admin'] = $request->boolean('is_admin');
+        $data['is_admin'] = true;
+        $data['role'] = $data['role'] === 'super_admin' ? 'super_admin' : 'admin';
         User::create($data);
         return redirect()->route('admin.users.index')->with('success', 'User berhasil ditambahkan.');
     }
@@ -48,9 +50,16 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . $user->id,
             'password' => 'nullable|string|min:8|confirmed',
-            'is_admin' => 'boolean',
+            'role' => 'required|in:admin,super_admin',
         ]);
-        $data['is_admin'] = $request->boolean('is_admin');
+        // Proteksi: super admin utama (id 1) tidak bisa di-demote, diri sendiri tidak bisa di-demote.
+        if ($user->id === 1 || $user->id === auth()->id()) {
+            $data['role'] = $user->role ?: 'super_admin';
+            $data['is_admin'] = true;
+        } else {
+            $data['is_admin'] = true;
+            $data['role'] = $data['role'] === 'super_admin' ? 'super_admin' : 'admin';
+        }
         if ($data['password']) {
             $data['password'] = Hash::make($data['password']);
         } else {
@@ -63,10 +72,13 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         if ($user->id === 1) {
-            return back()->with('error', 'Super admin tidak dapat dihapus.');
+            return back()->with('error', 'Super admin utama tidak dapat dihapus.');
         }
         if ($user->id === auth()->id()) {
             return back()->with('error', 'Tidak bisa menghapus akun sendiri.');
+        }
+        if ($user->isSuperAdmin() && User::where('role', 'super_admin')->where('is_admin', true)->count() <= 1) {
+            return back()->with('error', 'Tidak bisa menghapus satu-satunya Super Admin.');
         }
         $user->delete();
         return redirect()->route('admin.users.index')->with('success', 'User berhasil dihapus.');

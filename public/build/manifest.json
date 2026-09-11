@@ -1,6 +1,74 @@
 {
+  "_vendor-DB40SKyu.js": {
+    "file": "assets/vendor-DB40SKyu.js",
+    "name": "vendor",
+    "css": [
+      "assets/vendor-DvB2Xm2x.css"
+    ]
+  },
+  "_vendor-DvB2Xm2x.css": {
+    "file": "assets/vendor-DvB2Xm2x.css",
+    "src": "_vendor-DvB2Xm2x.css"
+  },
+  "_vendor-chartjs-Ty_V2Qn0.js": {
+    "file": "assets/vendor-chartjs-Ty_V2Qn0.js",
+    "name": "vendor-chartjs",
+    "imports": [
+      "_vendor-DB40SKyu.js"
+    ]
+  },
+  "_vendor-jquery-CX5Op1rV.js": {
+    "file": "assets/vendor-jquery-CX5Op1rV.js",
+    "name": "vendor-jquery",
+    "imports": [
+      "_vendor-DB40SKyu.js"
+    ]
+  },
+  "_vendor-summernote-BP_3R8Id.js": {
+    "file": "assets/vendor-summernote-BP_3R8Id.js",
+    "name": "vendor-summernote",
+    "isDynamicEntry": true,
+    "imports": [
+      "_vendor-DB40SKyu.js",
+      "_vendor-jquery-CX5Op1rV.js"
+    ]
+  },
+  "node_modules/summernote/dist/font/summernote.eot": {
+    "file": "assets/summernote-jt9apK1s.eot",
+    "src": "node_modules/summernote/dist/font/summernote.eot"
+  },
+  "node_modules/summernote/dist/font/summernote.ttf": {
+    "file": "assets/summernote-BDPkqvsB.ttf",
+    "src": "node_modules/summernote/dist/font/summernote.ttf"
+  },
+  "node_modules/summernote/dist/font/summernote.woff": {
+    "file": "assets/summernote-MGhHcnpK.woff",
+    "src": "node_modules/summernote/dist/font/summernote.woff"
+  },
+  "node_modules/summernote/dist/font/summernote.woff2": {
+    "file": "assets/summernote-tk6LuLER.woff2",
+    "src": "node_modules/summernote/dist/font/summernote.woff2"
+  },
+  "resources/css/admin-summernote.css": {
+    "file": "assets/admin-summernote-qqJW9a3P.css",
+    "src": "resources/css/admin-summernote.css",
+    "isEntry": true,
+    "name": "admin-summernote",
+    "names": [
+      "admin-summernote.css"
+    ]
+  },
+  "resources/css/admin.css": {
+    "file": "assets/admin-Tsp6d9uK.css",
+    "src": "resources/css/admin.css",
+    "isEntry": true,
+    "name": "admin",
+    "names": [
+      "admin.css"
+    ]
+  },
   "resources/css/app.css": {
-    "file": "assets/app-cpzdj9x_.css",
+    "file": "assets/app-viHLopPf.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -8,13 +76,28 @@
       "app.css"
     ]
   },
+  "resources/js/admin.js": {
+    "file": "assets/admin-D5-QeC3a.js",
+    "name": "admin",
+    "src": "resources/js/admin.js",
+    "isEntry": true,
+    "imports": [
+      "_vendor-jquery-CX5Op1rV.js",
+      "_vendor-DB40SKyu.js"
+    ],
+    "dynamicImports": [
+      "_vendor-summernote-BP_3R8Id.js",
+      "_vendor-summernote-BP_3R8Id.js"
+    ]
+  },
   "resources/js/app.js": {
-    "file": "assets/app-BWr6Y4WL.js",
+    "file": "assets/app--0c5x_VP.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
-    "css": [
-      "assets/app-DvB2Xm2x.css"
+    "imports": [
+      "_vendor-DB40SKyu.js",
+      "_vendor-chartjs-Ty_V2Qn0.js"
     ]
   }
 }

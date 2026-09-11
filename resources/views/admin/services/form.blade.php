@@ -1,26 +1,12 @@
 @extends('admin.layouts.app')
 @section('title', $service->exists ? 'Edit Layanan' : 'Tambah Layanan')
 @section('content')
-<nav class="flex items-center gap-1.5 text-xs text-[#94a3b8] mb-4">
-    <a href="{{ route('admin.dashboard') }}" class="hover:text-blue-600 transition-colors">Dashboard</a>
-    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-    <a href="{{ route('admin.services.index') }}" class="hover:text-blue-600 transition-colors">Layanan</a>
-    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-    <span class="text-[#475569]">{{ $service->exists ? 'Edit' : 'Tambah' }}</span>
-</nav>
+<x-admin.breadcrumb :items="[['label' => 'Dashboard', 'url' => route('admin.dashboard')], ['label' => 'Layanan', 'url' => route('admin.services.index')], ['label' => $service->exists ? 'Edit' : 'Tambah']]" />
 <div class="max-w-2xl">
-    <div class="bg-white rounded-2xl border border-gray-200/80 shadow-sm">
-        <div class="px-8 py-5 border-b border-gray-100">
-            <h2 class="text-lg font-bold text-[#1e293b]">{{ $service->exists ? 'Edit Layanan' : 'Tambah Layanan' }}</h2>
-            <p class="text-sm text-[#64748b] mt-0.5">{{ $service->exists ? 'Ubah data layanan.' : 'Buat layanan baru.' }}</p>
-        </div>
-        <form action="{{ $service->exists ? route('admin.services.update', $service) : route('admin.services.store') }}" method="POST" class="p-8 space-y-6">
+    <x-admin.form-card :title="$service->exists ? 'Edit Layanan' : 'Tambah Layanan'" :description="$service->exists ? 'Ubah data layanan.' : 'Buat layanan baru.'">
+        <form action="{{ $service->exists ? route('admin.services.update', $service) : route('admin.services.store') }}" method="POST" class="space-y-5">
             @csrf @if($service->exists) @method('PUT') @endif
-            <div>
-                <label class="block text-sm font-medium text-[#1a1a2e] mb-1.5">Judul Layanan</label>
-                <input type="text" name="title" value="{{ old('title', $service->title) }}" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow" required>
-                @error('title')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
-            </div>
+            <x-admin.input name="title" label="Judul Layanan" :value="$service->title" required />
             @php
                 $iconOptions = [
                     'globe' => '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
@@ -41,9 +27,9 @@
                 ];
             @endphp
             <div x-data="{ selectedIcon: '{{ old('icon', $service->icon) }}' }">
-                <label class="block text-sm font-medium text-[#1a1a2e] mb-1.5">Ikon</label>
-                <p class="text-xs text-[#94a3b8] mb-2">Pilih ikon yang mewakili layanan ini.</p>
-                <select name="icon" x-model="selectedIcon" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow" required>
+                <label class="form-label">Ikon <span class="text-red-400">*</span></label>
+                <p class="form-hint mb-2">Pilih ikon yang mewakili layanan ini.</p>
+                <select name="icon" x-model="selectedIcon" class="admin-input bg-white" required>
                     <option value="">-- Pilih Ikon --</option>
                     @foreach($iconOptions as $name => $svg)
                     <option value="{{ $svg }}" {{ old('icon', $service->icon) == $svg ? 'selected' : '' }}>
@@ -52,17 +38,14 @@
                     @endforeach
                 </select>
                 <div class="mt-3 flex items-center gap-3">
-                    <span class="text-xs text-[#64748b]">Preview:</span>
-                    <div class="w-12 h-12 bg-blue-600/10 rounded-xl flex items-center justify-center text-blue-600 text-xl" x-html="selectedIcon || '<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot;><circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;10&quot;/><line x1=&quot;12&quot; y1=&quot;8&quot; x2=&quot;12&quot; y2=&quot;12&quot;/><line x1=&quot;12&quot; y1=&quot;16&quot; x2=&quot;12.01&quot; y2=&quot;16&quot;/></svg>'">
-                    </div>
+                    <span class="text-xs text-gray-500">Preview:</span>
+                    <div class="w-10 h-10 bg-blue-600/10 rounded-lg flex items-center justify-center text-blue-600 [&>svg]:w-5 [&>svg]:h-5" x-html="selectedIcon || ''"></div>
                 </div>
+                @error('icon')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
             </div>
-            <div>
-                <label class="block text-sm font-medium text-[#1a1a2e] mb-1.5">Deskripsi</label>
-                <textarea name="description" class="summernote">{{ old('description', $service->description) }}</textarea>
-            </div>
+            <x-admin.summernote name="description" label="Deskripsi" :value="$service->description" :height="200" />
             <div x-data="{
-                features: {{ $service->exists ? '[]' : '[]' }},
+                features: [],
                 init() {
                     @if($service->exists && $service->features)
                         this.features = @js($service->features);
@@ -74,41 +57,29 @@
                 addFeature() { let t = this.newFeature.trim(); if (t) { this.features.push(t); this.newFeature = ''; } },
                 removeFeature(i) { this.features.splice(i, 1); }
             }">
-                <label class="block text-sm font-medium text-[#1a1a2e] mb-1.5">Fitur Layanan</label>
-                <p class="text-xs text-[#94a3b8] mb-2">Daftar fitur yang ditampilkan di halaman layanan.</p>
+                <label class="form-label">Fitur Layanan</label>
+                <p class="form-hint mb-2">Daftar fitur yang ditampilkan di halaman layanan.</p>
                 <template x-for="(f, i) in features" :key="i">
                     <div class="flex items-center gap-2 mb-2 px-3 py-2 bg-gray-50 rounded-lg">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" class="shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
-                        <span class="flex-1 text-sm text-[#1e293b]" x-text="f"></span>
+                        <span class="flex-1 text-[13px] text-gray-900" x-text="f"></span>
                         <button @click="removeFeature(i)" type="button" class="text-red-400 hover:text-red-600">
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                         </button>
                     </div>
                 </template>
                 <div class="flex gap-2">
-                    <input type="text" x-model="newFeature" @keydown.enter.prevent="addFeature()" placeholder="Tambah fitur..." class="flex-1 px-3 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none">
-                    <button @click="addFeature()" type="button" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors shrink-0">Tambah</button>
+                    <input type="text" x-model="newFeature" @keydown.enter.prevent="addFeature()" placeholder="Tambah fitur..." class="admin-input flex-1">
+                    <button @click="addFeature()" type="button" class="btn btn-primary btn-sm shrink-0">Tambah</button>
                 </div>
                 <input type="hidden" name="features" :value="JSON.stringify(features)">
             </div>
-            <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-sm font-medium text-[#1a1a2e] mb-1.5">Urutan</label>
-                    <input type="number" name="sort_order" value="{{ old('sort_order', $service->sort_order ?? 0) }}" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-[#1a1a2e] mb-1.5">Status</label>
-                    <select name="status" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow">
-                        <option value="1" {{ old('status', $service->status ?? true) ? 'selected' : '' }}>Aktif</option>
-                        <option value="0" {{ !old('status', $service->status ?? true) ? 'selected' : '' }}>Nonaktif</option>
-                    </select>
-                </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <x-admin.input name="sort_order" label="Urutan" type="number" :value="$service->sort_order ?? 0" />
+                <x-admin.select name="status" label="Status" :options="['1' => 'Aktif', '0' => 'Nonaktif']" :selected="old('status', (string) ($service->status ?? 1))" />
             </div>
-            <div class="flex gap-3 pt-2">
-                <button type="submit" class="bg-gradient-to-r from-[#0a192f] to-[#1a365d] text-white px-6 py-2.5 rounded-xl text-sm font-medium hover:from-[#0f2a4a] hover:to-[#1e4978] shadow-md hover:shadow-lg transition-all">{{ $service->exists ? 'Simpan Perubahan' : 'Simpan' }}</button>
-                <a href="{{ route('admin.services.index') }}" class="px-6 py-2.5 rounded-xl text-sm border border-gray-200 hover:border-gray-300 hover:bg-gray-50 shadow-sm transition-all">Batal</a>
-            </div>
+            <x-admin.form-actions :cancelUrl="route('admin.services.index')" submitLabel="Simpan" />
         </form>
-    </div>
+    </x-admin.form-card>
 </div>
 @endsection

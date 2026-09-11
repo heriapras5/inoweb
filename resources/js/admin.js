@@ -1,0 +1,267 @@
+import $ from 'jquery';
+import Swal from 'sweetalert2';
+
+// Pastikan jQuery global aktif SEBELUM plugin Summernote dimuat,
+// karena Summernote (UMD) menempel ke window.jQuery pada saat evaluasinya.
+window.$ = window.jQuery = $;
+window.Swal = window.Swal || Swal;
+
+const summernoteReady = Promise.all([
+    import('summernote/dist/summernote-lite.min.js'),
+    import('summernote/dist/lang/summernote-id-ID.min.js'),
+]).then(() => {
+    // Plugin sudah menempel ke jQuery — tandai agar polling cepat selesai.
+    window.__summernoteLoaded = true;
+}).catch((e) => {
+    console.error('summernote chunk load failed:', e);
+});
+
+function snHeight($this) {
+    var h = $this.data('height');
+    if (h) return parseInt(h, 10);
+    return $this.hasClass('sm-short') ? 140 : 260;
+}
+
+function snCreateSummernote($this) {
+    $this.summernote({
+        height: snHeight($this),
+        toolbar: [
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['insert', ['link', 'picture']],
+            ['view', ['codeview']],
+        ],
+        lang: 'id-ID',
+        callbacks: {
+            onKeydown: function(e) {
+                if (e.keyCode === 13 && !e.shiftKey) {
+                    var sel = window.getSelection();
+                    if (sel && sel.rangeCount > 0) {
+                        var node = sel.getRangeAt(0).commonAncestorContainer;
+                        // Jika kursor di dalam <li>, biarkan Summernote menangani Enter (membuat item list baru)
+                        if ($(node).closest('li').length) return;
+                    }
+                    e.preventDefault();
+                    document.execCommand('insertLineBreak');
+                }
+            }
+        },
+    });
+    $this.data('summernote-init', true);
+}
+
+function snTryInit($this, wait) {
+    if ($this.data('summernote-init')) {
+        if (wait) {
+            var $editor = $this.next('.note-editor');
+            if ($editor.length && $editor.is(':visible')) {
+                $this.summernote('reposition');
+            }
+        }
+        return true;
+    }
+    if (typeof $this.summernote !== 'function') return false;
+    if (!$this.is(':visible')) return false;
+    try {
+        snCreateSummernote($this);
+        return true;
+    } catch (e) {
+        console.error('summernote init failed:', e);
+        return false;
+    }
+}
+
+function snInitWhenReady($this, wait, attempts) {
+    attempts = attempts || 0;
+    if (!document.contains($this[0])) return;
+    if (snTryInit($this, wait)) return;
+    if (attempts >= 40) return;
+    // Tunggu plugin siap dan elemen tampak, lalu coba lagi.
+    setTimeout(function () { snInitWhenReady($this, wait, attempts + 1); }, 80);
+}
+
+window.initSummernote = function (scope, wait) {
+    var $scope = scope ? $(scope) : $(document);
+    $scope.find('.summernote').each(function () {
+        snInitWhenReady($(this), !!wait, 0);
+    });
+};
+
+// Pastikan global tersedia meski chunk plugin masih dimuat, lalu scan DOM.
+summernoteReady.then(() => {
+    $(function () {
+        window.initSummernote(document);
+    });
+});
+
+// Tab/pane memakai x-show (display:none) — summernote tidak bisa diinisialisasi
+// saat tersembunyi. Tangani saat elemen baru muncul di DOM.
+if (window.MutationObserver) {
+    new MutationObserver(function () {
+        window.initSummernote(document, true);
+    }).observe(document.body, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['style'],
+    });
+} else {
+    window.addEventListener('resize', function () {
+        window.initSummernote(document, true);
+    });
+}
+
+// meta content adalah URL biasa (bukan JSON) — baca langsung sebagai string.
+function swalBase(customClass) {
+    return {
+        buttonsStyling: false,
+        reverseButtons: true,
+        customClass: Object.assign({
+            popup: 'rounded-2xl shadow-lg border border-gray-100',
+            confirmButton: 'btn btn-danger',
+            cancelButton: 'btn btn-secondary',
+        }, customClass || {}),
+    };
+}
+
+window.confirmDeleteForm = function (formId, options) {
+    options = options || {};
+    if (!window.Swal) {
+        if (window.confirm(options.text || 'Yakin ingin menghapus? Data yang dihapus tidak dapat dikembalikan!')) {
+            document.getElementById(formId)?.submit();
+        }
+        return;
+    }
+    Swal.fire(Object.assign(swalBase(), {
+        title: options.title || 'Konfirmasi Hapus',
+        text: options.text || 'Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan.',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: options.confirmText || 'Ya, Hapus',
+        cancelButtonText: 'Batal',
+        confirmButtonColor: '#ef4444',
+    })).then((r) => {
+        if (r.isConfirmed) document.getElementById(formId)?.submit();
+    });
+};
+
+window.confirmDelete = function (url, options) {
+    options = options || {};
+    var submit = function () {
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = url;
+        var csrf = document.createElement('input');
+        csrf.type = 'hidden';
+        csrf.name = '_token';
+        csrf.value = CSRF_TOKEN || document.querySelector('meta[name="csrf-token"]')?.content || '';
+        var method = document.createElement('input');
+        method.type = 'hidden';
+        method.name = '_method';
+        method.value = 'DELETE';
+        form.appendChild(csrf);
+        form.appendChild(method);
+        document.body.appendChild(form);
+        form.submit();
+    };
+    if (!window.Swal) {
+        if (window.confirm(options.text || 'Yakin ingin menghapus? Data yang dihapus tidak dapat dikembalikan!')) submit();
+        return;
+    }
+    Swal.fire(Object.assign(swalBase(), {
+        title: options.title || 'Konfirmasi Hapus',
+        text: options.text || 'Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan.',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: options.confirmText || 'Ya, Hapus',
+        cancelButtonText: 'Batal',
+        confirmButtonColor: '#ef4444',
+    })).then((r) => { if (r.isConfirmed) submit(); });
+};
+
+window.confirmLogout = function () {
+    if (!window.Swal) {
+        if (window.confirm('Apakah Anda yakin ingin logout?')) document.getElementById('logout-form')?.submit();
+        return;
+    }
+    Swal.fire(Object.assign(swalBase({ confirmButton: 'btn btn-danger' }), {
+        title: 'Konfirmasi Logout',
+        text: 'Apakah Anda yakin ingin logout?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, Logout',
+        cancelButtonText: 'Batal',
+        confirmButtonColor: '#ef4444',
+    })).then((r) => {
+        if (r.isConfirmed) document.getElementById('logout-form')?.submit();
+    });
+};
+
+window.hapusGambarGaleri = function (projectId, imageId, elementId) {
+    var doDelete = function () {
+        var token = CSRF_TOKEN || document.querySelector('meta[name="csrf-token"]')?.content || '';
+        return fetch('/admin/projects/' + projectId + '/images/' + imageId, {
+            method: 'DELETE',
+            headers: { 'X-CSRF-TOKEN': token, 'Accept': 'application/json' },
+        }).then(function (res) { return res.json(); }).then(function (res) {
+            if (!res.success) throw new Error(res.message || 'Gagal menghapus gambar.');
+            document.getElementById(elementId)?.remove();
+        }).catch(function () {
+            if (window.Swal) {
+                Swal.fire(Object.assign(swalBase({ confirmButton: 'btn btn-primary' }), {
+                    title: 'Gagal', text: 'Gambar tidak dapat dihapus. Coba lagi.', icon: 'error', confirmButtonText: 'Tutup',
+                }));
+            }
+        });
+    };
+    if (!window.Swal) {
+        if (window.confirm('Hapus gambar ini?')) doDelete();
+        return;
+    }
+    window.confirmRemoveImage().then(function (r) { if (r.isConfirmed) doDelete(); });
+};
+
+window.confirmRemoveImage = function (options) {
+    options = options || {};
+    if (!window.Swal) return Promise.resolve(window.confirm('Hapus gambar ini?'));
+    return Swal.fire(Object.assign(swalBase({ confirmButton: 'btn btn-primary' }), {
+        title: options.title || 'Hapus Gambar?',
+        text: options.text || 'Gambar yang dipilih akan dihapus',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, Hapus',
+        cancelButtonText: 'Batal',
+    }));
+};
+
+var STATUS_TOGGLE_URL = document.querySelector('meta[name="status-toggle-url"]')?.content || '';
+var CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]')?.content || '';
+
+$(document).on('change', '.status-toggle', function () {
+    var $t = $(this);
+    var revert = function () {
+        $t.prop('checked', !$t.prop('checked'));
+        Swal.fire({
+            title: 'Gagal',
+            text: 'Status tidak dapat diperbarui. Coba lagi.',
+            icon: 'error',
+            confirmButtonText: 'Tutup',
+            buttonsStyling: false,
+            customClass: { popup: 'rounded-2xl shadow-lg border border-gray-100', confirmButton: 'btn btn-primary' }
+        });
+    };
+    $.ajax({
+        url: STATUS_TOGGLE_URL,
+        method: 'POST',
+        data: {
+            _token: CSRF_TOKEN,
+            resource: $t.data('resource'),
+            id: $t.data('id'),
+            status: $t.prop('checked') ? 1 : 0
+        },
+        dataType: 'json',
+        success: function (res) {
+            if (!res.success) revert();
+        },
+        error: revert
+    });
+});

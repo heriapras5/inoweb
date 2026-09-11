@@ -24,6 +24,35 @@ class AdminController extends Controller
         ]));
     }
 
+    public function data(\Illuminate\Http\Request $request)
+    {
+        $filter = $request->get('filter', 'mingguan');
+        $from = $request->get('date_from') ? now()->parse($request->get('date_from'))->startOfDay() : null;
+        $to = $request->get('date_to') ? now()->parse($request->get('date_to'))->endOfDay() : now();
+
+        if ($from) {
+            $current = \App\Models\PageView::whereBetween('created_at', [$from, $to])->count();
+            $days = max(1, $from->diffInDays($to));
+            $prevFrom = $from->copy()->subDays($days);
+            $prev = \App\Models\PageView::whereBetween('created_at', [$prevFrom, $from])->count();
+            $change = $prev > 0 ? round((($current - $prev) / $prev) * 100) : ($current > 0 ? 100 : 0);
+            return response()->json(['total' => $current, 'previous' => $prev, 'change' => $change, 'filter' => 'custom']);
+        }
+
+        $map = [
+            'harian' => [now()->startOfDay(), now(), \App\Models\PageView::whereDate('created_at', now()->subDay())->count()],
+            'mingguan' => [now()->startOfWeek(), now(), \App\Models\PageView::whereBetween('created_at', [now()->subWeek()->startOfWeek(), now()->subWeek()->endOfWeek()])->count()],
+            'bulanan' => [now()->startOfMonth(), now(), \App\Models\PageView::whereYear('created_at', now()->subMonth()->year)->whereMonth('created_at', now()->subMonth()->month)->count()],
+            'tahunan' => [now()->startOfYear(), now(), \App\Models\PageView::whereYear('created_at', now()->subYear()->year)->count()],
+        ];
+
+        [$start, $end, $prev] = $map[$filter] ?? $map['mingguan'];
+        $current = \App\Models\PageView::whereBetween('created_at', [$start, $end])->count();
+        $change = $prev > 0 ? round((($current - $prev) / $prev) * 100) : ($current > 0 ? 100 : 0);
+
+        return response()->json(['total' => $current, 'previous' => $prev, 'change' => $change, 'filter' => $filter]);
+    }
+
     protected function buildStats(): array
     {
         $today = now()->startOfDay();

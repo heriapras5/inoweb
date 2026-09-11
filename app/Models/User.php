@@ -23,9 +23,25 @@ class User extends Authenticatable
         'email',
         'password',
         'is_admin',
+        'role',
         'google_id',
         'avatar',
     ];
+
+    public function isSuperAdmin(): bool
+    {
+        return (bool) $this->is_admin && ($this->role === 'super_admin' || $this->id === 1);
+    }
+
+    public function isAdmin(): bool
+    {
+        return (bool) $this->is_admin;
+    }
+
+    public function roleLabel(): string
+    {
+        return $this->isSuperAdmin() ? 'Super Admin' : 'Admin';
+    }
 
     /**
      * The attributes that should be hidden for serialization.

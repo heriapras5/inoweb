@@ -15,20 +15,36 @@
     <link rel="canonical" href="{{ setting('seo_canonical') ?: url()->current() }}">
 
     @php
-        $ogImage = setting('seo_og_image') ? url(setting('seo_og_image')) : (setting('og_image') ? url(setting('og_image')) : url(setting('logo_image', '/images/og-default.png')));
+        $absUrl = function ($path) {
+            if (empty($path)) return null;
+            if (preg_match('#^https?://#i', $path)) return $path;
+            return url(ltrim($path, '/'));
+        };
+        // Urutan share: gambar (dari Pengaturan SEO / Logo Website) -> link -> judul -> subjudul.
+        // Jika tidak ada gambar di pengaturan, tag image sengaja tidak dirender (tidak menunjuk file tidak ada).
+        $ogImage = $absUrl(setting('seo_og_image') ?: (setting('og_image') ?: setting('logo_image')));
         $ogTitle = trim(strip_tags((string) View::yieldContent('title', (setting('seo_title') ?: setting('site_name', 'INOWEB')) . ' - ' . setting('site_tagline', 'Inovasi Website'))));
         $ogDesc = trim(strip_tags((string) View::yieldContent('meta_description', setting('seo_description') ?: setting('site_description', 'INOWEB - Inovasi Website.'))));
     @endphp
+    @if($ogImage)
+    <meta property="og:image" content="{{ $ogImage }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="{{ setting('site_name', 'INOWEB') }}">
+    @endif
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="id_ID">
     <meta property="og:site_name" content="{{ setting('site_name', 'INOWEB') }}">
     <meta property="og:title" content="{{ $ogTitle }}">
     <meta property="og:description" content="{{ $ogDesc }}">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:image" content="{{ $ogImage }}">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ $ogTitle }}">
     <meta name="twitter:description" content="{{ $ogDesc }}">
+    @if($ogImage)
     <meta name="twitter:image" content="{{ $ogImage }}">
+    <meta name="twitter:image:alt" content="{{ setting('site_name', 'INOWEB') }}">
+    @endif
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

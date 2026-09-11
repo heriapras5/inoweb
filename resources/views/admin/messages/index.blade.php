@@ -1,100 +1,61 @@
 @extends('admin.layouts.app')
 @section('title', 'Pesan Masuk')
 @section('content')
-<nav class="flex items-center gap-1.5 text-xs text-[#94a3b8] mb-4">
-    <a href="{{ route('admin.dashboard') }}" class="hover:text-blue-600 transition-colors">Dashboard</a>
-    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-    <span class="text-[#475569]">Pesan Masuk</span>
-</nav>
-<div x-data="{ search: '{{ request('search') }}' }">
-    <div class="bg-white rounded-2xl border border-gray-200/80 shadow-sm">
-        <div class="px-6 py-5 border-b border-gray-100">
-            <h2 class="text-lg font-bold text-[#1e293b]">Pesan Masuk</h2>
-            <p class="text-sm text-[#64748b] mt-0.5">Pesan dari pengunjung website.</p>
-        </div>
-        <form method="GET" action="{{ route('admin.messages.index') }}" class="px-6 py-4 border-b border-gray-100">
-            <div class="flex gap-2 flex-wrap">
-                <div class="relative flex-1 min-w-[200px] max-w-md">
-                    <svg class="absolute left-3 top-1/2 -translate-y-1/2 text-[#94a3b8] pointer-events-none" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                    <input type="text" name="search" x-model="search" placeholder="Cari pesan..."
-                           class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow">
-                </div>
-                <select name="status" class="w-36 px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-shadow">
-                    <option value="all" {{ ($status ?? 'all') === 'all' ? 'selected' : '' }}>Semua Status</option>
-                    <option value="unread" {{ ($status ?? 'all') === 'unread' ? 'selected' : '' }}>Baru</option>
-                    <option value="read" {{ ($status ?? 'all') === 'read' ? 'selected' : '' }}>Terbaca</option>
-                </select>
-                <button type="submit" class="bg-[#0a192f] text-white px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-[#0f2a4a] transition-colors shrink-0">Cari</button>
-                <a href="{{ route('admin.messages.index') }}" class="px-4 py-2.5 rounded-xl text-sm border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-colors shrink-0 text-[#64748b]">Reset</a>
-            </div>
-        </form>
-        @if($messages->count())
-        <div class="overflow-x-auto">
-            <table class="w-full">
-                <thead><tr class="bg-gray-50/80 text-left text-xs font-semibold text-[#64748b] uppercase tracking-wider">
-                    <th class="px-6 py-4 w-10">No</th>
-                    <th class="px-6 py-4">Nama</th>
-                    <th class="px-6 py-4">Email</th>
-                    <th class="px-6 py-4">Layanan</th>
-                    <th class="px-6 py-4 w-20">Status</th>
-                    <th class="px-6 py-4 w-28">Tanggal</th>
-                    <th class="px-6 py-4 w-24"></th>
-                </tr></thead>
-                <tbody class="divide-y divide-gray-100">
-                @foreach($messages as $index => $m)
-                <tr class="text-sm text-[#1e293b] hover:bg-blue-50/30 transition-colors duration-150 {{ !$m->is_read ? 'bg-blue-50/40 font-medium' : '' }}">
-                    <td class="px-6 py-4 text-[#94a3b8] text-xs">{{ $messages->firstItem() + $index }}</td>
-                    <td class="px-6 py-4">{{ $m->name }}</td>
-                    <td class="px-6 py-4 text-[#64748b]">{{ $m->email }}</td>
-                    <td class="px-6 py-4">{{ $m->service ? \Str::limit($m->service, 30) : '-' }}</td>
-                    <td class="px-6 py-4">
-                        @if($m->is_read)
-                        <span class="inline-flex items-center gap-1.5 text-xs font-medium text-green-600">
-                            <span class="w-2 h-2 rounded-full bg-green-500"></span>
-                            Terbaca
-                        </span>
-                        @else
-                        <span class="inline-flex items-center gap-1.5 text-xs font-medium text-blue-700 bg-blue-100 px-2.5 py-1 rounded-full">
-                            <span class="w-2 h-2 rounded-full bg-blue-500"></span>
-                            Baru
-                        </span>
-                        @endif
-                    </td>
-                    <td class="px-6 py-4 text-[#94a3b8] text-xs">{{ $m->created_at->format('d M Y') }}<br>{{ $m->created_at->format('H:i') }}</td>
-                    <td class="px-6 py-4 text-right">
-                        <div class="flex items-center justify-end gap-1">
-                            <a href="{{ route('admin.messages.show', $m) }}" class="inline-flex items-center justify-center w-8 h-8 rounded-lg text-blue-600 hover:bg-blue-50 transition-colors" title="Lihat">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                            </a>
-                            <form method="POST" action="{{ route('admin.messages.toggle-read', $m) }}" class="inline">
-                                @csrf @method('PATCH')
-                                <button type="submit" class="inline-flex items-center justify-center w-8 h-8 rounded-lg {{ $m->is_read ? 'text-[#94a3b8] hover:bg-gray-100' : 'text-blue-600 hover:bg-blue-50' }} transition-colors" title="{{ $m->is_read ? 'Tandai belum dibaca' : 'Tandai sudah dibaca' }}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>
-                                </button>
-                            </form>
-                            <form method="POST" action="{{ route('admin.messages.destroy', $m) }}" class="inline" id="delete-{{ $m->id }}">
-                                @csrf @method('DELETE')
-                                <button type="button" @click="Swal.fire({title:'Konfirmasi Hapus',text:'Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan.',icon:'question',showCancelButton:true,confirmButtonText:'Ya, Hapus',cancelButtonText:'Batal',confirmButtonColor:'#ef4444',cancelButtonColor:'#e2e8f0',reverseButtons:true}).then(r=>{ if(r.isConfirmed) document.getElementById('delete-{{ $m->id }}').submit(); })" class="inline-flex items-center justify-center w-8 h-8 rounded-lg text-red-500 hover:bg-red-50 transition-colors" title="Hapus">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                                </button>
-                            </form>
-                        </div>
-                    </td>
-                </tr>
-                @endforeach
-                </tbody>
-            </table>
-        </div>
-        <div class="px-6 py-4 border-t border-gray-100 flex items-center justify-between">
-            <p class="text-xs text-[#64748b]">Menampilkan {{ $messages->firstItem() ?? 0 }} sampai {{ $messages->lastItem() ?? 0 }} dari {{ $messages->total() }} data</p>
-            {{ $messages->appends(['search' => request('search'), 'status' => request('status')])->links() }}
-        </div>
-        @else
-        <div class="p-12 text-center">
-            <svg class="mx-auto text-[#cbd5e1] mb-4" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/></svg>
-            <p class="text-sm text-[#94a3b8]">Belum ada pesan masuk.</p>
-        </div>
-        @endif
-    </div>
-</div>
+<x-admin.breadcrumb :items="[['label' => 'Dashboard', 'url' => route('admin.dashboard')], ['label' => 'Pesan Masuk']]" />
+<x-admin.section-title title="Pesan Masuk" subtitle="Pesan dari pengunjung website" />
+<x-admin.search route="admin.messages.index" placeholder="Cari pesan..." :filterNames="['search', 'status']">
+    <x-slot:filters>
+        <select name="status" class="admin-input w-36">
+            <option value="all" @selected(($status ?? 'all') === 'all')>Semua Status</option>
+            <option value="unread" @selected(($status ?? 'all') === 'unread')>Baru</option>
+            <option value="read" @selected(($status ?? 'all') === 'read')>Terbaca</option>
+        </select>
+    </x-slot:filters>
+</x-admin.search>
+<x-admin.table>
+    <x-slot:head>
+        <x-admin.th class="w-10">No</x-admin.th>
+        <x-admin.th>Nama</x-admin.th>
+        <x-admin.th>Email</x-admin.th>
+        <x-admin.th>Layanan</x-admin.th>
+        <x-admin.th class="w-20">Status</x-admin.th>
+        <x-admin.th class="w-28">Tanggal</x-admin.th>
+        <x-admin.th class="w-24 text-right">Aksi</x-admin.th>
+    </x-slot:head>
+    @forelse($messages as $index => $m)
+    <tr class="hover:bg-blue-50/30 transition-colors {{ !$m->is_read ? 'bg-blue-50/40 font-medium' : '' }}">
+        <x-admin.td class="text-gray-400 text-xs">{{ $messages->firstItem() + $index }}</x-admin.td>
+        <x-admin.td>{{ $m->name }}</x-admin.td>
+        <x-admin.td class="text-gray-500">{{ $m->email }}</x-admin.td>
+        <x-admin.td>{{ $m->service ? \Str::limit($m->service, 30) : '-' }}</x-admin.td>
+        <x-admin.td>
+            @if($m->is_read)
+            <span class="inline-flex items-center gap-1.5 text-xs font-medium text-green-600">
+                <span class="w-2 h-2 rounded-full bg-green-500"></span>Terbaca
+            </span>
+            @else
+            <x-admin.badge color="blue">Baru</x-admin.badge>
+            @endif
+        </x-admin.td>
+        <x-admin.td class="text-gray-400 text-xs">{{ $m->created_at->format('d M Y H:i') }}</x-admin.td>
+        <x-admin.td>
+            <x-admin.actions show="admin.messages.show" destroy="admin.messages.destroy" :params="[$m]">
+                <form method="POST" action="{{ route('admin.messages.toggle-read', $m) }}" class="inline">
+                    @csrf @method('PATCH')
+                    <button type="submit" title="{{ $m->is_read ? 'Tandai belum dibaca' : 'Tandai sudah dibaca' }}"
+                            class="p-2 rounded-lg transition {{ $m->is_read ? 'text-gray-400 hover:bg-gray-100' : 'text-blue-600 hover:bg-blue-50' }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>
+                    </button>
+                </form>
+            </x-admin.actions>
+        </x-admin.td>
+    </tr>
+    @empty
+    <x-admin.empty-state :colspan="7" message="Belum ada pesan masuk." />
+    @endforelse
+    <x-slot:footer>
+        <p>Menampilkan {{ $messages->firstItem() ?? 0 }} sampai {{ $messages->lastItem() ?? 0 }} dari {{ $messages->total() }} data</p>
+        {{ $messages->appends(['search' => request('search'), 'status' => request('status')])->links() }}
+    </x-slot:footer>
+</x-admin.table>
 @endsection
