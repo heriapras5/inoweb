@@ -170,7 +170,7 @@ class FrontendController extends Controller
         // sehingga ganti logo di admin langsung mengubah hasil share.
         $width = 1200;
         $height = 630;
-        $diameter = 480;
+        $diameter = 560;
 
         $logo = setting('seo_og_image') ?: setting('logo_image');
 

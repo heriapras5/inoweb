@@ -62,37 +62,7 @@
     <style>[x-cloak] { display: none !important; }</style>
 
     <script type="application/ld+json">
-    @php
-        $sameAs = array_values(array_filter([
-            setting('social_facebook', ''),
-            setting('social_instagram', ''),
-            setting('social_linkedin', ''),
-            setting('social_youtube', ''),
-        ]));
-        $org = [
-            '@type' => 'Organization',
-            '@id' => url('/') . '#organization',
-            'name' => setting('site_name', 'INOWEB'),
-            'url' => url('/'),
-            'description' => setting('site_description', 'INOWEB - Inovasi Website. Solusi website modern, cepat, dan mudah dikelola untuk bisnis Anda.'),
-            'logo' => setting('logo_image') ? url(setting('logo_image')) : '',
-            'sameAs' => $sameAs,
-            'contactPoint' => [
-                '@type' => 'ContactPoint',
-                'telephone' => '+' . setting('whatsapp_number', '6285736186308'),
-                'contactType' => 'customer service',
-            ],
-        ];
-        $web = [
-            '@type' => 'WebSite',
-            '@id' => url('/') . '#website',
-            'url' => url('/'),
-            'name' => setting('site_name', 'INOWEB'),
-            'inLanguage' => 'id-ID',
-            'publisher' => ['@id' => url('/') . '#organization'],
-        ];
-    @endphp
-    {!! json_encode(['@context' => 'https://schema.org', '@graph' => [$org, $web]], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+    {!! organizationJsonLd() !!}
     </script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])

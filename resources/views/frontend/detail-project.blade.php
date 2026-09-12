@@ -1,7 +1,20 @@
 @extends('layouts.frontend')
 
 @section('title', $project->name . ' - INOWEB')
-@section('meta_description', $project->description ? strip_tags($project->description) : 'Detail portofolio website ' . $project->name)
+@php
+    // Bersihkan deskripsi untuk meta: buang tag, dekode entitas berlapis
+    // (konten Summernote bisa tersimpan ganda-encode hingga muncul &amp;amp;),
+    // rapatkan spasi, batasi 300 karakter agar preview share rapi.
+    $__metaRaw = strip_tags((string) ($project->description ?: ''));
+    for ($__i = 0; $__i < 5; $__i++) {
+        $__decoded = html_entity_decode($__metaRaw, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        if ($__decoded === $__metaRaw) break;
+        $__metaRaw = $__decoded;
+    }
+    $__metaDesc = trim(preg_replace('/\s+/u', ' ', $__metaRaw));
+    $__metaDesc = $__metaDesc !== '' ? Str::limit($__metaDesc, 300) : 'Detail portofolio website ' . $project->name;
+@endphp
+@section('meta_description', $__metaDesc)
 
 @section('content')
 @php $firstImage = $project->coverImage(); @endphp

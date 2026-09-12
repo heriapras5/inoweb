@@ -42,4 +42,23 @@ class OgMetaCheckTest extends TestCase
         $this->assertSame(1200, $info[0], 'og:image width must match declared 1200');
         $this->assertSame(630, $info[1], 'og:image height must match declared 630');
     }
+
+    public function test_json_ld_is_valid_organization_schema(): void
+    {
+        AboutSection::create(['title' => 'Tentang Kami', 'description' => 'Deskripsi tentang kami.', 'is_active' => true]);
+
+        $html = $this->get('/')->getContent();
+
+        $this->assertSame(
+            1,
+            preg_match('#<script type="application/ld\+json">\s*(\{.*\})\s*</script>#s', $html, $m),
+            'A valid JSON-LD block must be present (guards against Blade @context miscompilation)'
+        );
+        $data = json_decode($m[1], true);
+        $this->assertIsArray($data, 'JSON-LD must decode to an array');
+        $this->assertSame('https://schema.org', $data['@context'] ?? null);
+        $types = array_column($data['@graph'] ?? [], '@type');
+        $this->assertContains('Organization', $types);
+        $this->assertContains('WebSite', $types);
+    }
 }
