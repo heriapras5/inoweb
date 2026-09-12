@@ -10,6 +10,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    @php $faviconVersion = md5(setting('favicon') ?: setting('logo_image')); @endphp
+    <link rel="icon" type="image/png" href="{{ url('/favicon.png') }}?v={{ $faviconVersion }}">
+    <link rel="shortcut icon" href="{{ url('/favicon.png') }}?v={{ $faviconVersion }}">
+    @if(setting('logo_image'))
+    <link rel="apple-touch-icon" href="{{ asset(setting('logo_image')) }}">
+    @else
+    <link rel="apple-touch-icon" href="{{ url('/favicon.png') }}?v={{ $faviconVersion }}">
+    @endif
     @stack('styles')
 </head>
 <body x-data="{
