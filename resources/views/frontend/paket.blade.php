@@ -6,7 +6,7 @@
 
 @section('content')
 <!-- Page Hero -->
-<section class="bg-gradient-hero pt-20 sm:pt-32 pb-16 sm:pb-20 relative overflow-hidden">
+<section class="bg-gradient-hero pt-20 sm:pt-32 pb-10 sm:pb-12 relative overflow-hidden">
     <x-hero-bg />
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <nav class="flex mb-6 text-sm" aria-label="Breadcrumb" data-aos="fade-up">
@@ -24,7 +24,7 @@
 </section>
 
 <!-- Daftar Paket -->
-<section class="py-16 sm:py-24 bg-white">
+<section class="pt-10 sm:pt-14 pb-16 sm:pb-24 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         @if($packages->isNotEmpty())
         @include('frontend.partials.paket-cards')
