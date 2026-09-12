@@ -30,12 +30,6 @@
         @endif
         @php
             $waMessage = 'Halo INOWEB, saya tertarik dengan paket ' . $package->name . ' (' . $package->price . ').';
-            if (!empty($package->facilities)) {
-                $waMessage .= "\nFasilitas: " . implode(', ', $package->facilities) . '.';
-            }
-            if ($package->renewal) {
-                $waMessage .= "\nPerpanjangan: " . $package->renewal . '.';
-            }
             $waMessage .= "\nMohon info lebih lanjut. Terima kasih.";
         @endphp
         <a href="https://wa.me/{{ setting('whatsapp_number', '6285736186308') }}?text={{ urlencode($waMessage) }}" target="_blank" rel="noopener"
