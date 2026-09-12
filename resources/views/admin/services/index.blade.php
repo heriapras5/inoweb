@@ -31,9 +31,7 @@
         <x-admin.td><x-admin.actions edit="admin.services.edit" destroy="admin.services.destroy" :params="[$s]" /></x-admin.td>
     </tr>
     @empty
-    <x-admin.empty-state :colspan="8" message="Belum ada layanan.">
-        <a href="{{ route('admin.services.create') }}" class="inline-block text-blue-600 text-xs mt-2 hover:underline">Tambah layanan pertama</a>
-    </x-admin.empty-state>
+    <x-admin.empty-state :colspan="8" message="Belum ada layanan." />
     @endforelse
     <x-slot:footer>
         <p>Menampilkan {{ $services->firstItem() ?? 0 }} sampai {{ $services->lastItem() ?? 0 }} dari {{ $services->total() }} data</p>

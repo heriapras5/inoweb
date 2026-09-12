@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Admin\Concerns\BuildsPageStats;
 use App\Http\Controllers\Controller;
 use App\Models\PageView;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 
 class AdminController extends Controller
 {
+    use BuildsPageStats;
+
     public function dashboard()
     {
         $cacheKey = 'admin.dashboard.' . now()->format('YmdHi');
@@ -24,121 +28,30 @@ class AdminController extends Controller
         ]));
     }
 
-    public function data(\Illuminate\Http\Request $request)
-    {
-        $filter = $request->get('filter', 'mingguan');
-        $from = $request->get('date_from') ? now()->parse($request->get('date_from'))->startOfDay() : null;
-        $to = $request->get('date_to') ? now()->parse($request->get('date_to'))->endOfDay() : now();
-
-        if ($from) {
-            $current = \App\Models\PageView::whereBetween('created_at', [$from, $to])->count();
-            $days = max(1, $from->diffInDays($to));
-            $prevFrom = $from->copy()->subDays($days);
-            $prev = \App\Models\PageView::whereBetween('created_at', [$prevFrom, $from])->count();
-            $change = $prev > 0 ? round((($current - $prev) / $prev) * 100) : ($current > 0 ? 100 : 0);
-            return response()->json(['total' => $current, 'previous' => $prev, 'change' => $change, 'filter' => 'custom']);
-        }
-
-        $map = [
-            'harian' => [now()->startOfDay(), now(), \App\Models\PageView::whereDate('created_at', now()->subDay())->count()],
-            'mingguan' => [now()->startOfWeek(), now(), \App\Models\PageView::whereBetween('created_at', [now()->subWeek()->startOfWeek(), now()->subWeek()->endOfWeek()])->count()],
-            'bulanan' => [now()->startOfMonth(), now(), \App\Models\PageView::whereYear('created_at', now()->subMonth()->year)->whereMonth('created_at', now()->subMonth()->month)->count()],
-            'tahunan' => [now()->startOfYear(), now(), \App\Models\PageView::whereYear('created_at', now()->subYear()->year)->count()],
-        ];
-
-        [$start, $end, $prev] = $map[$filter] ?? $map['mingguan'];
-        $current = \App\Models\PageView::whereBetween('created_at', [$start, $end])->count();
-        $change = $prev > 0 ? round((($current - $prev) / $prev) * 100) : ($current > 0 ? 100 : 0);
-
-        return response()->json(['total' => $current, 'previous' => $prev, 'change' => $change, 'filter' => $filter]);
-    }
-
     protected function buildStats(): array
     {
-        $today = now()->startOfDay();
-        $yesterday = now()->subDay()->startOfDay();
+        $periodStats = $this->periodStats();
 
-        $visitorsToday = PageView::whereDate('created_at', $today)->count();
-        $visitorsYesterday = PageView::whereDate('created_at', $yesterday)->count();
-        $visitorsWeek = PageView::whereBetween('created_at', [now()->startOfWeek(), now()])->count();
-        $visitorsMonth = PageView::whereYear('created_at', now()->year)->whereMonth('created_at', now()->month)->count();
-        $visitorsYear = PageView::whereYear('created_at', now()->year)->count();
-        $visitorsTotal = PageView::count();
-        $uniqueTotal = PageView::distinct('ip_address')->count('ip_address');
-
-        $yesterdayChange = $visitorsYesterday > 0 ? round((($visitorsToday - $visitorsYesterday) / $visitorsYesterday) * 100) : ($visitorsToday > 0 ? 100 : 0);
-        $lastWeek = PageView::whereBetween('created_at', [now()->subWeek()->startOfWeek(), now()->subWeek()->endOfWeek()])->count();
-        $weekChange = $lastWeek > 0 ? round((($visitorsWeek - $lastWeek) / $lastWeek) * 100) : ($visitorsWeek > 0 ? 100 : 0);
-        $lastMonth = PageView::whereYear('created_at', now()->subMonth()->year)->whereMonth('created_at', now()->subMonth()->month)->count();
-        $monthChange = $lastMonth > 0 ? round((($visitorsMonth - $lastMonth) / $lastMonth) * 100) : ($visitorsMonth > 0 ? 100 : 0);
-        $lastYear = PageView::whereYear('created_at', now()->subYear()->year)->count();
-        $yearChange = $lastYear > 0 ? round((($visitorsYear - $lastYear) / $lastYear) * 100) : ($visitorsYear > 0 ? 100 : 0);
-
-        $totals = [
-            'visitors_today' => $visitorsToday,
-            'visitors_yesterday' => $visitorsYesterday,
-            'visitors_week' => $visitorsWeek,
-            'visitors_month' => $visitorsMonth,
-            'visitors_year' => $visitorsYear,
-            'visitors_total' => $visitorsTotal,
-            'unique_total' => $uniqueTotal,
-            'yesterday_change' => $yesterdayChange,
-            'week_change' => $weekChange,
-            'month_change' => $monthChange,
-            'year_change' => $yearChange,
-            'last_week' => $lastWeek,
-            'last_month' => $lastMonth,
-            'last_year' => $lastYear,
+        $series = [
+            'daily' => $this->seriesDaily(),
+            'weekly' => $this->seriesWeekly(),
+            'monthly' => $this->seriesMonthly(),
+            'yearly' => $this->seriesYearly(),
         ];
 
-        $dailyData = collect();
-        for ($i = 29; $i >= 0; $i--) {
-            $date = now()->subDays($i);
-            $dailyData->push([
-                'label' => $date->format('d/m'),
-                'value' => PageView::whereDate('created_at', $date)->count(),
-            ]);
-        }
+        $topPages = [
+            'daily' => $this->topPages(now()->subDays(29)->startOfDay()),
+            'weekly' => $this->topPages(now()->subWeeks(11)->startOfWeek()),
+            'monthly' => $this->topPages(now()->subMonthsNoOverflow(11)->startOfMonth()),
+            'yearly' => $this->topPages(now()->subYears(4)->startOfYear()),
+        ];
 
-        $weeklyData = collect();
-        for ($i = 11; $i >= 0; $i--) {
-            $weekStart = now()->subWeeks($i)->startOfWeek();
-            $weekEnd = now()->subWeeks($i)->endOfWeek();
-            $weeklyData->push([
-                'label' => 'Minggu ' . $weekStart->isoFormat('DD/MM'),
-                'value' => PageView::whereBetween('created_at', [$weekStart, $weekEnd])->count(),
-            ]);
-        }
-
-        $monthlyData = collect();
-        for ($i = 11; $i >= 0; $i--) {
-            $date = now()->subMonths($i);
-            $monthlyData->push([
-                'label' => $date->isoFormat('MMM YY'),
-                'value' => PageView::whereYear('created_at', $date->year)->whereMonth('created_at', $date->month)->count(),
-            ]);
-        }
-
-        $yearlyData = collect();
-        for ($i = 4; $i >= 0; $i--) {
-            $year = now()->subYears($i)->year;
-            $yearlyData->push([
-                'label' => (string) $year,
-                'value' => PageView::whereYear('created_at', $year)->count(),
-            ]);
-        }
-
-        $deviceData = PageView::selectRaw('device_type, COUNT(*) as total')
-            ->groupBy('device_type')
-            ->orderByDesc('total')
-            ->get()
-            ->map(fn($d) => [
-                'type' => $d->device_type ?: 'unknown',
-                'total' => $d->total,
-            ]);
-
-        $dailyAvg = $dailyData->count() > 0 ? round($dailyData->avg('value')) : 0;
-        $dailyPeak = $dailyData->sortByDesc('value')->first();
+        $portfolioTop = [
+            'daily' => $this->portfolioPages(now()->subDays(29)->startOfDay()),
+            'weekly' => $this->portfolioPages(now()->subWeeks(11)->startOfWeek()),
+            'monthly' => $this->portfolioPages(now()->subMonthsNoOverflow(11)->startOfMonth()),
+            'yearly' => $this->portfolioPages(now()->subYears(4)->startOfYear()),
+        ];
 
         $contentSummary = [
             ['label' => 'Projek', 'count' => \App\Models\Project::count(), 'route' => route('admin.projects.index'), 'icon' => 'folder', 'colors' => ['bg' => 'from-blue-500 to-blue-600', 'iconBg' => 'bg-blue-50', 'iconText' => 'text-blue-600']],
@@ -152,9 +65,134 @@ class AdminController extends Controller
         $unreadMessages = \App\Models\Message::where('is_read', false)->count();
 
         return compact(
-            'totals', 'dailyData', 'weeklyData', 'monthlyData', 'yearlyData',
-            'deviceData', 'dailyAvg', 'dailyPeak',
+            'periodStats', 'series', 'topPages', 'portfolioTop',
             'contentSummary', 'totalMessages', 'unreadMessages'
+        );
+    }
+
+    /**
+     * Statistik per periode laporan (harian/mingguan/bulanan/tahunan).
+     * Window-nya sengaja disamakan dengan window chart agar kartu KPI,
+     * grafik, dan halaman terpopuler berbicara satu suara.
+     */
+    protected function periodStats(): array
+    {
+        $pct = fn (int $current, int $prev) => $prev > 0 ? round((($current - $prev) / $prev) * 100) : ($current > 0 ? 100 : 0);
+        $share = fn (int $part, int $whole) => $whole > 0 ? round($part / $whole * 100) : 0;
+
+        $windows = [
+            'daily' => [now()->subDays(29)->startOfDay(), null, now()->subDays(59)->startOfDay(), now()->subDays(30)->endOfDay()],
+            'weekly' => [now()->subWeeks(11)->startOfWeek(), null, now()->subWeeks(23)->startOfWeek(), now()->subWeeks(12)->endOfWeek()],
+            'monthly' => [now()->subMonthsNoOverflow(11)->startOfMonth(), null, now()->subMonthsNoOverflow(23)->startOfMonth(), now()->subMonthsNoOverflow(12)->endOfMonth()],
+            'yearly' => [now()->subYears(4)->startOfYear(), null, now()->subYears(9)->startOfYear(), now()->subYears(5)->endOfYear()],
+        ];
+
+        $stats = [];
+        foreach ($windows as $key => [$from, $to, $prevFrom, $prevTo]) {
+            $current = $this->windowCounts($from, $to);
+            $previous = $this->windowCounts($prevFrom, $prevTo);
+
+            $stats[$key] = [
+                'visits' => $current['total'],
+                'visitsChange' => $pct($current['total'], $previous['total']),
+                'unique' => $current['unique'],
+                'portfolio' => $current['portfolio'],
+                'portfolioChange' => $pct($current['portfolio'], $previous['portfolio']),
+                'share' => $share($current['portfolio'], $current['total']),
+            ];
+        }
+
+        $stats['visitors_total'] = PageView::count();
+        $stats['unique_total'] = PageView::distinct('ip_address')->count('ip_address');
+
+        return $stats;
+    }
+
+    /**
+     * Total, portofolio, dan pengunjung unik dalam satu query untuk satu rentang.
+     */
+    protected function windowCounts(Carbon $from, ?Carbon $to = null): array
+    {
+        $row = PageView::query()
+            ->where('created_at', '>=', $from)
+            ->when($to !== null, fn ($q) => $q->where('created_at', '<=', $to))
+            ->selectRaw("COUNT(*) as total, COUNT(DISTINCT ip_address) as unique_visitors, COALESCE(SUM(CASE WHEN page_path LIKE 'portfolio%' THEN 1 ELSE 0 END), 0) as portfolio")
+            ->first();
+
+        return [
+            'total' => (int) $row->total,
+            'unique' => (int) $row->unique_visitors,
+            'portfolio' => (int) $row->portfolio,
+        ];
+    }
+
+    /**
+     * Seri teragregasi per bucket waktu; satu query menghasilkan ketiga garis
+     * sparkline (total, unik, portofolio), tanpa N+1 per titik.
+     */
+    protected function combinedSeries(string $expression, Carbon $from, array $labels, array $keys): array
+    {
+        $rows = PageView::query()
+            ->where('created_at', '>=', $from)
+            ->selectRaw("{$expression} as bucket, COUNT(*) as total, COUNT(DISTINCT ip_address) as unique_visitors, COALESCE(SUM(CASE WHEN page_path LIKE 'portfolio%' THEN 1 ELSE 0 END), 0) as portfolio")
+            ->groupBy('bucket')
+            ->get()
+            ->keyBy('bucket');
+
+        $total = [];
+        $unique = [];
+        $portfolio = [];
+        foreach ($keys as $key) {
+            $row = $rows[$key] ?? null;
+            $total[] = (int) ($row->total ?? 0);
+            $unique[] = (int) ($row->unique_visitors ?? 0);
+            $portfolio[] = (int) ($row->portfolio ?? 0);
+        }
+
+        return ['labels' => $labels, 'total' => $total, 'unique' => $unique, 'portfolio' => $portfolio];
+    }
+
+    protected function seriesDaily(): array
+    {
+        $days = collect(range(29, 0));
+        return $this->combinedSeries(
+            'DATE(created_at)',
+            now()->subDays(29)->startOfDay(),
+            $days->map(fn ($i) => now()->subDays($i)->format('d/m'))->values()->all(),
+            $days->map(fn ($i) => now()->subDays($i)->toDateString())->values()->all()
+        );
+    }
+
+    protected function seriesWeekly(): array
+    {
+        $starts = collect(range(11, 0))->map(fn ($i) => now()->subWeeks($i)->startOfWeek());
+        return $this->combinedSeries(
+            'YEARWEEK(created_at, 3)',
+            now()->subWeeks(11)->startOfWeek(),
+            $starts->map(fn ($d) => 'Minggu ' . $d->isoFormat('DD/MM'))->values()->all(),
+            $starts->map(fn ($d) => $d->format('oW'))->values()->all()
+        );
+    }
+
+    protected function seriesMonthly(): array
+    {
+        $months = collect(range(11, 0));
+        return $this->combinedSeries(
+            "DATE_FORMAT(created_at, '%Y-%m')",
+            now()->subMonthsNoOverflow(11)->startOfMonth(),
+            $months->map(fn ($i) => now()->subMonthsNoOverflow($i)->isoFormat('MMM YY'))->values()->all(),
+            $months->map(fn ($i) => now()->subMonthsNoOverflow($i)->format('Y-m'))->values()->all()
+        );
+    }
+
+    protected function seriesYearly(): array
+    {
+        $years = collect(range(4, 0));
+        return $this->combinedSeries(
+            'YEAR(created_at)',
+            now()->subYears(4)->startOfYear(),
+            $years->map(fn ($i) => (string) now()->subYears($i)->year)->values()->all(),
+            $years->map(fn ($i) => now()->subYears($i)->year)->values()->all()
         );
     }
 }

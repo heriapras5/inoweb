@@ -11,7 +11,7 @@ class SettingsController extends Controller
 {
     public function index()
     {
-        $keys = ['site_name', 'site_tagline', 'site_description', 'logo_icon', 'logo_image', 'favicon', 'whatsapp_number', 'footer_address', 'footer_email', 'maps_embed', 'social_facebook', 'social_instagram', 'social_linkedin', 'social_youtube'];
+        $keys = ['site_name', 'site_tagline', 'site_description', 'logo_image', 'favicon', 'whatsapp_number', 'footer_address', 'footer_email', 'maps_embed', 'social_facebook', 'social_instagram', 'social_linkedin', 'social_youtube'];
         $settings = [];
         foreach ($keys as $key) {
             $settings[$key] = Setting::where('key', $key)->value('value');
@@ -26,7 +26,6 @@ class SettingsController extends Controller
             'site_name' => 'nullable|string|max:255',
             'site_tagline' => 'nullable|string|max:255',
             'site_description' => 'nullable|string',
-            'logo_icon' => 'nullable|string',
             'logo_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'favicon' => 'nullable|image|mimes:jpeg,png,jpg,ico,webp|max:1024',
             'whatsapp_number' => 'nullable|string|max:20',
@@ -56,7 +55,7 @@ class SettingsController extends Controller
             }
         }
 
-        foreach (['site_name', 'site_tagline', 'site_description', 'logo_icon', 'whatsapp_number', 'footer_address', 'footer_email', 'maps_embed', 'social_facebook', 'social_instagram', 'social_linkedin', 'social_youtube'] as $key) {
+        foreach (['site_name', 'site_tagline', 'site_description', 'whatsapp_number', 'footer_address', 'footer_email', 'maps_embed', 'social_facebook', 'social_instagram', 'social_linkedin', 'social_youtube'] as $key) {
             Setting::updateOrCreate(
                 ['key' => $key],
                 ['value' => $data[$key] ?? '', 'group' => 'general', 'type' => 'text']

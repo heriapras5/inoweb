@@ -6,6 +6,9 @@
     <title>Login - {{ $siteName = setting('site_name', 'INOWEB') }}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     @php
         $siteName = setting('site_name', 'INOWEB');
         $logoImage = setting('logo_image');
@@ -22,6 +25,7 @@
     @endif
     <style>
         body {
+            font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
             background: linear-gradient(145deg, #060d24 0%, #0c1a3a 25%, #143264 50%, #1c4a8c 75%, #2563eb 100%);
         }
 

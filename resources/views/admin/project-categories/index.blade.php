@@ -27,9 +27,7 @@
         <x-admin.td><x-admin.actions edit="admin.project-categories.edit" destroy="admin.project-categories.destroy" :params="[$c]" /></x-admin.td>
     </tr>
     @empty
-    <x-admin.empty-state :colspan="7" message="Belum ada kategori.">
-        <a href="{{ route('admin.project-categories.create') }}" class="inline-block text-blue-600 text-xs mt-2 hover:underline">Tambah kategori pertama</a>
-    </x-admin.empty-state>
+    <x-admin.empty-state :colspan="7" message="Belum ada kategori." />
     @endforelse
     <x-slot:footer>
         <p>Menampilkan {{ $categories->firstItem() ?? 0 }} sampai {{ $categories->lastItem() ?? 0 }} dari {{ $categories->total() }} data</p>

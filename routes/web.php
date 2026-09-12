@@ -14,15 +14,8 @@ use App\Http\Controllers\Admin\SeoController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\HeroSectionController;
 use App\Http\Controllers\Admin\BannerController;
-use App\Http\Controllers\Admin\ClientController;
-use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\Admin\AboutSectionController;
-use App\Http\Controllers\Admin\CtaSectionController;
-use App\Http\Controllers\Admin\MenuController;
-use App\Http\Controllers\Admin\ContactInfoController;
 use App\Http\Controllers\Admin\StatusController;
-use App\Http\Controllers\Admin\SearchController;
-use App\Http\Controllers\Admin\TrafficController;
 use App\Http\Controllers\AuthController;
 
 // Public
@@ -53,19 +46,10 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // Admin
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-    Route::get('/dashboard-data', [AdminController::class, 'data'])->name('dashboard.data');
     Route::post('/status/toggle', [StatusController::class, 'toggle'])->name('status.toggle');
-    Route::get('/search', SearchController::class)->name('search');
-    Route::get('/traffics', [TrafficController::class, 'index'])->name('traffics.index');
-    Route::delete('/traffics/{traffic}', [TrafficController::class, 'destroy'])->name('traffics.destroy');
     Route::resource('hero-sections', HeroSectionController::class);
     Route::resource('banners', BannerController::class);
-    Route::resource('clients', ClientController::class);
-    Route::resource('partners', PartnerController::class);
     Route::resource('about-sections', AboutSectionController::class);
-    Route::resource('cta-sections', CtaSectionController::class);
-    Route::resource('menus', MenuController::class);
-    Route::resource('contact-info', ContactInfoController::class)->parameters(['contact-info' => 'contactInfo']);
     Route::resource('project-categories', ProjectCategoryController::class);
     Route::delete('projects/{project}/images/{image}', [ProjectController::class, 'destroyImage'])->name('projects.images.destroy');
     Route::resource('projects', ProjectController::class);

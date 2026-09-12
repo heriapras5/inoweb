@@ -1,29 +1,53 @@
 @extends('admin.layouts.app')
 @section('title', 'Proyek')
 @section('content')
+@php
+// Peta slug kategori proyek -> tone badge soft (lihat .admin-badge-soft-* di admin.css)
+$categoryTones = [
+    'company' => 'blue',
+    'catalog' => 'amber',
+    'umkm' => 'green',
+    'sistem' => 'violet',
+    'landing' => 'rose',
+    'custom' => 'orange',
+];
+@endphp
 <x-admin.breadcrumb :items="[['label' => 'Dashboard', 'url' => route('admin.dashboard')], ['label' => 'Proyek']]" />
-<x-admin.section-title title="Daftar Projek" subtitle="Kelola semua projek/portofolio website">
+<x-admin.section-title title="Daftar Proyek" subtitle="Kelola semua proyek/portofolio website">
     <x-slot:actions><x-admin.add-button route="admin.projects.create" label="Tambah Proyek" /></x-slot:actions>
 </x-admin.section-title>
-<x-admin.search route="admin.projects.index" placeholder="Cari projek..." :filterNames="['search', 'category_id']">
-    <x-slot:filters>
-        <select name="category_id" class="admin-input w-44">
+<div class="w-full md:w-fit md:max-w-full">
+<form method="GET" action="{{ route('admin.projects.index') }}" class="admin-search bg-white rounded-xl border border-gray-200 shadow-sm p-3.5 sm:p-4 mb-4">
+    <div class="grid grid-cols-1 md:grid-cols-[minmax(0,20rem)_13rem_auto] items-center gap-2.5">
+        <div class="relative">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari proyek..."
+                   class="admin-input admin-input-icon">
+        </div>
+        <select name="category_id" class="admin-input w-full cursor-pointer">
             <option value="">Semua Kategori</option>
             @foreach($categories as $c)
             <option value="{{ $c->id }}" @selected(request('category_id') == $c->id)>{{ $c->name }}</option>
             @endforeach
         </select>
-    </x-slot:filters>
-</x-admin.search>
+        <div class="flex items-center gap-2.5">
+            <button type="submit" class="btn btn-primary btn-sm">Cari</button>
+            @if(request()->filled('search') || request()->filled('category_id'))
+            <a href="{{ route('admin.projects.index') }}" class="btn btn-ghost btn-sm">Reset</a>
+            @endif
+        </div>
+    </div>
+</form>
+</div>
 <x-admin.table>
     <x-slot:head>
         <x-admin.th class="w-10">No</x-admin.th>
         <x-admin.th class="w-16">Gambar</x-admin.th>
-        <x-admin.th>Judul Projek</x-admin.th>
+        <x-admin.th>Judul Proyek</x-admin.th>
         <x-admin.th>Kategori</x-admin.th>
         <x-admin.th class="w-16">Tahun</x-admin.th>
         <x-admin.th class="w-28">Status</x-admin.th>
-        <x-admin.th class="w-24 text-right">Aksi</x-admin.th>
+        <x-admin.th class="w-28 text-right">Aksi</x-admin.th>
     </x-slot:head>
     @forelse($projects as $index => $p)
     <tr class="hover:bg-blue-50/30 transition-colors">
@@ -45,10 +69,7 @@
             @if($p->categories->count())
             <div class="flex flex-wrap gap-1">
                 @foreach($p->categories as $c)
-                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold"
-                      style="background: {{ match($c->slug) { 'company' => '#eff6ff', 'catalog' => '#fefce8', 'umkm' => '#f0fdf4', 'sistem' => '#faf5ff', 'landing' => '#fff1f2', 'custom' => '#fff7ed', default => '#f1f5f9' } }}; color: {{ match($c->slug) { 'company' => '#1d4ed8', 'catalog' => '#a16207', 'umkm' => '#15803d', 'sistem' => '#7e22ce', 'landing' => '#e11d48', 'custom' => '#ea580c', default => '#475569' } }};">
-                    {{ $c->name }}
-                </span>
+                <x-admin.badge :color="$categoryTones[$c->slug] ?? 'slate'" soft class="text-[11px]">{{ $c->name }}</x-admin.badge>
                 @endforeach
             </div>
             @else
@@ -58,18 +79,11 @@
         <x-admin.td class="text-gray-500 text-xs">{{ $p->year ?: '-' }}</x-admin.td>
         <x-admin.td><x-admin.status-toggle resource="projects" :id="$p->id" :checked="$p->status" /></x-admin.td>
         <x-admin.td>
-            <x-admin.actions edit="admin.projects.edit" destroy="admin.projects.destroy" :params="[$p]">
-                <a href="{{ url('/portfolio/' . $p->slug) }}" target="_blank" title="Lihat"
-                   class="p-2 rounded-lg hover:bg-sky-50 text-gray-400 hover:text-sky-600 transition">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-                </a>
-            </x-admin.actions>
+            <x-admin.actions edit="admin.projects.edit" destroy="admin.projects.destroy" :params="[$p]" :showUrl="url('/portfolio/' . $p->slug)" showTarget="_blank" />
         </x-admin.td>
     </tr>
     @empty
-    <x-admin.empty-state :colspan="7" message="Belum ada proyek.">
-        <a href="{{ route('admin.projects.create') }}" class="inline-block text-blue-600 text-xs mt-2 hover:underline">Tambah proyek pertama</a>
-    </x-admin.empty-state>
+    <x-admin.empty-state :colspan="7" message="Belum ada proyek." />
     @endforelse
     <x-slot:footer>
         <p>Menampilkan {{ $projects->firstItem() ?? 0 }} sampai {{ $projects->lastItem() ?? 0 }} dari {{ $projects->total() }} data</p>

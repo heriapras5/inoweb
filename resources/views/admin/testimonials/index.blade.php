@@ -44,9 +44,7 @@
         <x-admin.td><x-admin.actions edit="admin.testimonials.edit" destroy="admin.testimonials.destroy" :params="[$t]" /></x-admin.td>
     </tr>
     @empty
-    <x-admin.empty-state :colspan="8" message="Belum ada testimoni.">
-        <a href="{{ route('admin.testimonials.create') }}" class="inline-block text-blue-600 text-xs mt-2 hover:underline">Tambah testimoni pertama</a>
-    </x-admin.empty-state>
+    <x-admin.empty-state :colspan="8" message="Belum ada testimoni." />
     @endforelse
     <x-slot:footer>
         <p>Menampilkan {{ $testimonials->firstItem() ?? 0 }} sampai {{ $testimonials->lastItem() ?? 0 }} dari {{ $testimonials->total() }} data</p>

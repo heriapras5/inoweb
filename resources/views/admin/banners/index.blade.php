@@ -30,9 +30,7 @@
         <x-admin.td><x-admin.actions edit="admin.banners.edit" destroy="admin.banners.destroy" :params="[$b]" /></x-admin.td>
     </tr>
     @empty
-    <x-admin.empty-state :colspan="4" message="Belum ada banner.">
-        <a href="{{ route('admin.banners.create') }}" class="inline-block text-blue-600 text-xs mt-2 hover:underline">Tambah pertama</a>
-    </x-admin.empty-state>
+    <x-admin.empty-state :colspan="4" message="Belum ada banner." />
     @endforelse
     <x-slot:footer>
         <p>Menampilkan {{ $banners->firstItem() ?? 0 }} sampai {{ $banners->lastItem() ?? 0 }} dari {{ $banners->total() }} data</p>

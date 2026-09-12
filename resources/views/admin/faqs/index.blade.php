@@ -25,9 +25,7 @@
         <x-admin.td><x-admin.actions edit="admin.faqs.edit" destroy="admin.faqs.destroy" :params="[$f]" /></x-admin.td>
     </tr>
     @empty
-    <x-admin.empty-state :colspan="6" message="Belum ada FAQ.">
-        <a href="{{ route('admin.faqs.create') }}" class="inline-block text-blue-600 text-xs mt-2 hover:underline">Tambah FAQ pertama</a>
-    </x-admin.empty-state>
+    <x-admin.empty-state :colspan="6" message="Belum ada FAQ." />
     @endforelse
     <x-slot:footer>
         <p>Menampilkan {{ $faqs->firstItem() ?? 0 }} sampai {{ $faqs->lastItem() ?? 0 }} dari {{ $faqs->total() }} data</p>

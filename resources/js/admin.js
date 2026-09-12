@@ -6,6 +6,14 @@ import Swal from 'sweetalert2';
 window.$ = window.jQuery = $;
 window.Swal = window.Swal || Swal;
 
+// Kompatibilitas: Summernote 0.9.1 memanggil $.now() yang dihapus di jQuery 4
+// (implementasi aslinya: jQuery.now = Date.now). Tanpa polyfill ini setiap
+// init editor throw di Context._initialize setelah DOM editor disisipkan,
+// memicu retry-loop menumpuk editor duplikat / fallback textarea polos.
+if (typeof window.jQuery.now !== 'function') {
+    window.jQuery.now = Date.now;
+}
+
 const summernoteReady = Promise.all([
     import('summernote/dist/summernote-lite.min.js'),
     import('summernote/dist/lang/summernote-id-ID.min.js'),
@@ -22,6 +30,10 @@ function snHeight($this) {
 }
 
 function snCreateSummernote($this) {
+    // Bersihkan sisa .note-editor dari percobaan init sebelumnya supaya
+    // setiap init selalu mulai dari DOM bersih (anti editor duplikat).
+    $this.siblings('.note-editor').remove();
+    $this.removeData('summernote');
     $this.summernote({
         height: snHeight($this),
         toolbar: [
@@ -48,6 +60,15 @@ function snTryInit($this, wait) {
         return true;
     } catch (e) {
         console.error('summernote init failed:', e);
+        // Exception init bersifat deterministik. Urutan internal Context:
+        // createLayout (DOM editor disisipkan) → _initialize (bisa throw)
+        // → $note.hide() → data("summernote"). Jika throw, textarea masih
+        // tampak dan guard internal kosong; mem-retry akan menyisipkan
+        // editor BARU lagi = tumpukan editor duplikat. Bersihkan & tandai
+        // gagal agar fallback textarea tampil tanpa tumpukan.
+        $this.siblings('.note-editor').remove();
+        $this.removeData('summernote');
+        $this.addClass('summernote-failed');
         return false;
     }
 }
@@ -59,7 +80,7 @@ function snInitWhenReady($this, wait, attempts, pluginAttempts) {
     attempts = attempts || 0;
     pluginAttempts = pluginAttempts || 0;
     if (!document.contains($this[0])) return;
-    if ($this.data('summernote-init')) return;
+    if ($this.data('summernote-init') || $this.hasClass('summernote-failed')) return;
     // Plugin belum dimuat (chunk async lambat): retry terus tanpa batas 40x.
     if (typeof $this.summernote !== 'function') {
         if (pluginAttempts >= SN_MAX_PLUGIN_ATTEMPTS) {

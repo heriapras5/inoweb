@@ -62,7 +62,7 @@
             </div>
         </x-admin.form-card>
 
-        <x-admin.form-actions :cancelUrl="route('admin.dashboard')" submitLabel="Simpan Pengaturan SEO" />
+        <x-admin.form-actions :cancelUrl="route('admin.dashboard')" submitLabel="Simpan" />
     </div>
 </form>
 @endsection

@@ -30,6 +30,14 @@ class AboutSectionController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'is_active' => 'boolean',
         ]);
+        // Editor rich text mengirim '<p><br></p>' saat dikosongkan. Perlakukan
+        // sebagai kosong agar blok Deskripsi/Visi di halaman publik tidak
+        // tersimpan sebagai markup hampa.
+        foreach (['description', 'vision'] as $richKey) {
+            if (isEmptyRichText($data[$richKey] ?? null)) {
+                $data[$richKey] = null;
+            }
+        }
         $data['is_active'] = $request->boolean('is_active', true);
         if (! empty($data['mission'])) {
             $data['mission'] = array_values(array_filter(array_map('trim', preg_split('/\r?\n/', $data['mission']))));
@@ -62,6 +70,14 @@ class AboutSectionController extends Controller
             'is_active' => 'boolean',
             'remove_image' => 'boolean',
         ]);
+        // Editor rich text mengirim '<p><br></p>' saat dikosongkan. Perlakukan
+        // sebagai kosong agar blok Deskripsi/Visi di halaman publik tidak
+        // tersimpan sebagai markup hampa.
+        foreach (['description', 'vision'] as $richKey) {
+            if (isEmptyRichText($data[$richKey] ?? null)) {
+                $data[$richKey] = null;
+            }
+        }
         $data['is_active'] = $request->boolean('is_active');
         if (! empty($data['mission'])) {
             $data['mission'] = array_values(array_filter(array_map('trim', preg_split('/\r?\n/', $data['mission']))));

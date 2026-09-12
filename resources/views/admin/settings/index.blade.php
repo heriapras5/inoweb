@@ -1,5 +1,5 @@
 @extends('admin.layouts.app')
-@section('title', 'Pengaturan Website')
+@section('title', 'Pengaturan')
 @section('content')
 <x-admin.breadcrumb :items="[['label' => 'Dashboard', 'url' => route('admin.dashboard')], ['label' => 'Pengaturan']]" />
 
@@ -69,8 +69,6 @@
                     @endif
                 </div>
 
-                <x-admin.textarea name="logo_icon" label="Logo Ikon (SVG)" :value="$settings['logo_icon'] ?? ''" :rows="4" help="SVG icon yang tampil jika logo gambar kosong." wrapperClass="[&_textarea]:font-mono [&_textarea]:text-xs" />
-
                 <div x-data="{ preview: null, removeFavicon: false }">
                     <label class="form-label">Favicon</label>
                     <input type="file" name="favicon" accept="image/png,image/jpeg,image/jpg,image/x-icon,image/webp"
@@ -129,7 +127,7 @@
         </x-admin.form-card>
 
         <div class="flex justify-end">
-            <x-admin.form-actions submitLabel="Simpan Pengaturan" />
+            <x-admin.form-actions submitLabel="Simpan" />
         </div>
     </div>
 </form>

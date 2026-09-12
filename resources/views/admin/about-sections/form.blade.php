@@ -9,7 +9,7 @@
             <x-admin.input name="title" label="Judul" :value="$section->title" required />
             <x-admin.input name="subtitle" label="Subtitle" :value="$section->subtitle" />
             <x-admin.summernote name="description" label="Deskripsi" :value="$section->description" :height="200" />
-            <x-admin.textarea name="vision" label="Visi" :value="$section->vision" :rows="2" />
+            <x-admin.summernote name="vision" label="Visi" :value="$section->vision" :height="140" />
             <x-admin.textarea name="mission" label="Misi" :value="$section->mission" :rows="4" help="Satu baris satu poin." />
             <x-admin.image-upload name="image" label="Gambar" :existing="$section->image" />
             <x-admin.switch name="is_active" label="Aktif" :checked="old('is_active', $section->is_active ?? true)" />

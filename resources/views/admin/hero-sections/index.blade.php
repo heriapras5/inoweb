@@ -35,9 +35,7 @@
         <x-admin.td><x-admin.actions edit="admin.hero-sections.edit" destroy="admin.hero-sections.destroy" :params="[$hs]" /></x-admin.td>
     </tr>
     @empty
-    <x-admin.empty-state :colspan="7" message="Belum ada slide hero.">
-        <a href="{{ route('admin.hero-sections.create') }}" class="inline-block text-blue-600 text-xs mt-2 hover:underline">Tambah slide pertama</a>
-    </x-admin.empty-state>
+    <x-admin.empty-state :colspan="7" message="Belum ada slide hero." />
     @endforelse
     <x-slot:footer>
         <p>Menampilkan {{ $heroSections->firstItem() ?? 0 }} sampai {{ $heroSections->lastItem() ?? 0 }} dari {{ $heroSections->total() }} data</p>

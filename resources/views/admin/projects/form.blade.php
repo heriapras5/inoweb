@@ -8,7 +8,7 @@
         <x-admin.form-card :title="$project->exists ? 'Edit Proyek' : 'Tambah Proyek'" :description="$project->exists ? 'Ubah data proyek.' : 'Buat proyek baru.'">
             <div class="space-y-5">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <x-admin.input name="name" label="Judul Projek" :value="$project->name" required />
+                    <x-admin.input name="name" label="Judul Proyek" :value="$project->name" required />
                     <div>
                         <label class="form-label">Kategori <span class="text-xs text-gray-400 font-normal">(bisa pilih lebih dari satu)</span></label>
                         <div class="flex flex-wrap gap-2">
@@ -47,7 +47,7 @@
                     @error('status')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                 </div>
 
-                <x-admin.summernote name="description" label="Deskripsi" :value="$project->description" :height="260" :required="true" help="Tulis deskripsi lengkap proyek termasuk fitur-fiturnya di sini." />
+                <x-admin.summernote name="description" label="Deskripsi" :value="$project->description" :height="360" :required="true" help="Tulis deskripsi lengkap proyek termasuk fitur-fiturnya di sini." />
 
                 {{-- Fitur Utama --}}
                 <div x-data="{
@@ -122,7 +122,7 @@
                     <input type="file" name="main_image" accept="image/jpeg,image/png,image/jpg,image/webp"
                            @change="mainPreview = $event.target.files[0] ? URL.createObjectURL($event.target.files[0]) : null"
                            class="admin-input file:mr-4 file:py-1.5 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
-                    <p class="form-hint mt-1">Format: PNG, JPG, WEBP. Maks 2MB. Gambar ini akan menjadi cover/hero projek.</p>
+                    <p class="form-hint mt-1">Format: PNG, JPG, WEBP. Maks 2MB. Gambar ini akan menjadi cover/hero proyek.</p>
                     @error('main_image')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                     <div x-show="mainPreview" class="mt-3 relative inline-block">
                         <img :src="mainPreview" class="h-28 w-44 rounded-xl shadow-sm border border-gray-100 object-cover">
@@ -148,7 +148,7 @@
                            x-ref="galleryInput"
                            @change="galleryFiles = Array.from($event.target.files); galleryPreviews = galleryFiles.map(f => URL.createObjectURL(f))"
                            class="admin-input file:mr-4 file:py-1.5 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
-                    <p class="form-hint mt-1">Upload beberapa gambar sekaligus untuk galeri projek. Maks 2MB per gambar. Tanpa centang replace, gambar baru akan ditambahkan ke galeri lama.</p>
+                    <p class="form-hint mt-1">Upload beberapa gambar sekaligus untuk galeri proyek. Maks 2MB per gambar. Tanpa centang replace, gambar baru akan ditambahkan ke galeri lama.</p>
                     @error('gallery_images.*')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                     <label class="flex items-center gap-2 mt-2 text-[13px] text-gray-600 cursor-pointer">
                         <input type="checkbox" name="replace_gallery" value="1" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500 w-3.5 h-3.5">

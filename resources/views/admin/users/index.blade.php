@@ -33,9 +33,7 @@
         </x-admin.td>
     </tr>
     @empty
-    <x-admin.empty-state :colspan="6" message="Belum ada admin.">
-        <a href="{{ route('admin.users.create') }}" class="inline-block text-blue-600 text-xs mt-2 hover:underline">Tambah admin pertama</a>
-    </x-admin.empty-state>
+    <x-admin.empty-state :colspan="6" message="Belum ada admin." />
     @endforelse
     <x-slot:footer>
         <p>Menampilkan {{ $users->firstItem() ?? 0 }} sampai {{ $users->lastItem() ?? 0 }} dari {{ $users->total() }} data</p>

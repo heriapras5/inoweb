@@ -25,6 +25,7 @@ class TrackVisitor
             'ip_address' => $request->ip(),
             'user_agent' => $agent,
             'page_url' => mb_substr($request->fullUrl(), 0, 255),
+            'page_path' => mb_substr($request->path(), 0, 255),
             'device_type' => $deviceType,
         ]);
 
