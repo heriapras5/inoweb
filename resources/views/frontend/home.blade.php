@@ -415,6 +415,19 @@
     </div>
 </section>
 
+@if($packages->isNotEmpty())
+<section class="py-16 sm:py-24 bg-white border-t border-gray-100" id="paket">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12" data-aos="fade-up">
+            <span class="inline-block text-blue-600 font-bold text-sm tracking-[2px] uppercase mb-3">PAKET WEBSITE</span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0f172a] leading-tight">Bikin Bisnis Lebih <span class="text-gradient">Terlihat di Internet</span></h2>
+            <div class="section-accent mx-auto"></div>
+        </div>
+        @include('frontend.partials.paket-cards')
+    </div>
+</section>
+@endif
+
 {{-- Testimoni (sementara disembunyikan)
 @if($testimonials->count())
 <section class="py-16 sm:py-24 bg-gray-50">

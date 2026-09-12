@@ -10,6 +10,7 @@ class StatusController extends Controller
     protected array $map = [
         'hero_sections' => [\App\Models\HeroSection::class, 'status'],
         'services' => [\App\Models\Service::class, 'status'],
+        'packages' => [\App\Models\Package::class, 'status'],
         'projects' => [\App\Models\Project::class, 'status'],
         'project_categories' => [\App\Models\ProjectCategory::class, 'status'],
         'faqs' => [\App\Models\Faq::class, 'status'],

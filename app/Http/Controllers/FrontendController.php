@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\HeroSection;
 use App\Models\AboutSection;
+use App\Models\Package;
 use App\Services\Frontend\FrontendService;
 use Illuminate\Http\Request;
 
@@ -22,6 +23,7 @@ class FrontendController extends Controller
         $services = $this->frontendService->getServices();
         $faqs = $this->frontendService->getFaqs();
         $testimonials = $this->frontendService->getTestimonials();
+        $packages = Package::where('status', true)->orderBy('sort_order')->get();
         $heroProjects = \App\Models\Project::with('images')->where('status', true)
             ->orderBy('created_at', 'desc')
             ->get()
@@ -31,7 +33,7 @@ class FrontendController extends Controller
                 'title' => $p->name,
                 'slug' => $p->slug,
             ])->values()->all();
-        return view('frontend.home', compact('heroSections', 'aboutSection', 'projects', 'categories', 'services', 'faqs', 'testimonials', 'heroProjects'));
+        return view('frontend.home', compact('heroSections', 'aboutSection', 'projects', 'categories', 'services', 'faqs', 'testimonials', 'heroProjects', 'packages'));
     }
 
     public function portfolio()
@@ -57,6 +59,12 @@ class FrontendController extends Controller
     {
         $services = $this->frontendService->getServices();
         return view('frontend.services', compact('services'));
+    }
+
+    public function paket()
+    {
+        $packages = Package::where('status', true)->orderBy('sort_order')->get();
+        return view('frontend.paket', compact('packages'));
     }
 
     public function about()

@@ -54,6 +54,7 @@
             ['label' => 'Kategori Projek', 'route' => route('admin.project-categories.index'), 'icon' => 'tag', 'active' => request()->routeIs('admin.project-categories*')],
             ['label' => 'Projek', 'route' => route('admin.projects.index'), 'icon' => 'folder', 'active' => request()->routeIs('admin.projects*')],
             ['label' => 'Layanan', 'route' => route('admin.services.index'), 'icon' => 'grid', 'active' => request()->routeIs('admin.services*')],
+            ['label' => 'Paket', 'route' => route('admin.packages.index'), 'icon' => 'paket', 'active' => request()->routeIs('admin.packages*')],
         ]],
         ['label' => 'Interaksi', 'items' => [
             ['label' => 'Testimoni', 'route' => route('admin.testimonials.index'), 'icon' => 'message', 'active' => request()->routeIs('admin.testimonials*')],

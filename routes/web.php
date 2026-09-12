@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\HeroSectionController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\AboutSectionController;
+use App\Http\Controllers\Admin\PackageController;
 use App\Http\Controllers\Admin\StatusController;
 use App\Http\Controllers\AuthController;
 
@@ -23,6 +24,7 @@ Route::get('/', [FrontendController::class, 'home'])->name('home');
 Route::get('/portfolio', [FrontendController::class, 'portfolio'])->name('portfolio');
 Route::get('/portfolio/{slug}', [FrontendController::class, 'portfolioDetail'])->name('portfolio.detail');
 Route::get('/layanan', [FrontendController::class, 'services'])->name('services');
+Route::get('/paket', [FrontendController::class, 'paket'])->name('paket');
 Route::get('/tentang-kami', [FrontendController::class, 'about'])->name('about');
 Route::get('/faq', [FrontendController::class, 'faq'])->name('faq');
 Route::get('/kontak', [FrontendController::class, 'contact'])->name('contact');
@@ -54,6 +56,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::delete('projects/{project}/images/{image}', [ProjectController::class, 'destroyImage'])->name('projects.images.destroy');
     Route::resource('projects', ProjectController::class);
     Route::resource('services', ServiceController::class);
+    Route::resource('packages', PackageController::class);
     Route::resource('faqs', FaqController::class);
     Route::resource('testimonials', TestimonialController::class);
     Route::resource('messages', MessageController::class)->except(['create', 'store', 'edit', 'update']);

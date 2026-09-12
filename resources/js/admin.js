@@ -18,7 +18,7 @@ const summernoteReady = Promise.all([
     import('summernote/dist/summernote-lite.min.js'),
     import('summernote/dist/lang/summernote-id-ID.min.js'),
 ]).then(() => {
-    // Plugin sudah menempel ke jQuery — tandai agar polling cepat selesai.
+    // Plugin sudah menempel ke jQuery - tandai agar polling cepat selesai.
     window.__summernoteLoaded = true;
 }).catch((e) => {
     console.error('summernote chunk load failed:', e);
@@ -114,7 +114,7 @@ summernoteReady.then(() => {
     window.initSummernote(document);
 });
 
-// Tab/pane memakai x-show (display:none) — summernote tidak bisa diinisialisasi
+// Tab/pane memakai x-show (display:none) - summernote tidak bisa diinisialisasi
 // saat tersembunyi. Tangani saat elemen baru muncul di DOM. Pemindaian
 // di-debounce dan perubahan dari dalam editor sendiri diabaikan agar
 // pengetikan tidak membebani halaman form.
@@ -142,7 +142,7 @@ if (window.MutationObserver) {
     });
 }
 
-// meta content adalah URL biasa (bukan JSON) — baca langsung sebagai string.
+// meta content adalah URL biasa (bukan JSON) - baca langsung sebagai string.
 function swalBase(customClass) {
     return {
         buttonsStyling: false,
