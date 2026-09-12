@@ -15,14 +15,13 @@
     <link rel="canonical" href="{{ setting('seo_canonical') ?: url()->current() }}">
 
     @php
-        $absUrl = function ($path) {
-            if (empty($path)) return null;
-            if (preg_match('#^https?://#i', $path)) return $path;
-            return url(ltrim($path, '/'));
-        };
-        // Urutan share: gambar (dari Pengaturan SEO / Logo Website) -> link -> judul -> subjudul.
-        // Jika tidak ada gambar di pengaturan, tag image sengaja tidak dirender (tidak menunjuk file tidak ada).
-        $ogImage = $absUrl(setting('seo_og_image') ?: (setting('og_image') ?: setting('logo_image')));
+        // Urutan share: gambar (endpoint dinamis: logo dibentuk BULAT di tengah
+        // kanvas 1200x630 putih, sumber dari Pengaturan SEO / Logo Website)
+        // -> link -> judul -> subjudul.
+        // Endpoint selalu merender gambar valid (fallback lingkaran biru bila
+        // pengaturan kosong), dan ?v= hash membuat cache scraper segar setiap
+        // logo diganti. width/height 1200x630 persis sesuai kanvas endpoint.
+        $ogImage = url('/og-image.png') . '?v=' . md5((string) (setting('seo_og_image') ?: setting('logo_image')));
         $ogTitle = trim(strip_tags((string) View::yieldContent('title', (setting('seo_title') ?: setting('site_name', 'INOWEB')) . ' - ' . setting('site_tagline', 'Inovasi Website'))));
         $ogDesc = trim(strip_tags((string) View::yieldContent('meta_description', setting('seo_description') ?: setting('site_description', 'INOWEB - Inovasi Website.'))));
     @endphp

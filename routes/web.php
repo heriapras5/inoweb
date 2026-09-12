@@ -31,6 +31,7 @@ Route::get('/kontak', [FrontendController::class, 'contact'])->name('contact');
 Route::get('/kebijakan-privasi', [FrontendController::class, 'privacyPolicy'])->name('privacy');
 Route::get('/syarat-ketentuan', [FrontendController::class, 'terms'])->name('terms');
 Route::get('/favicon.png', [FrontendController::class, 'favicon'])->name('favicon');
+Route::get('/og-image.png', [FrontendController::class, 'ogImage'])->name('og-image');
 
 Route::post('/kontak/kirim', [FrontendController::class, 'sendMessage'])->name('contact.send');
 

@@ -161,6 +161,79 @@ class FrontendController extends Controller
         ]);
     }
 
+    public function ogImage()
+    {
+        // Gambar share dinamis: logo (dari Pengaturan SEO / Logo Website)
+        // dibentuk BULAT di tengah kanvas 1200x630 putih. Kanvas putih
+        // (bukan transparan) agar tampil benar di dark-mode WhatsApp.
+        // Sumber selalu dibaca live dari settings + ?v= hash di URL,
+        // sehingga ganti logo di admin langsung mengubah hasil share.
+        $width = 1200;
+        $height = 630;
+        $diameter = 480;
+
+        $logo = setting('seo_og_image') ?: setting('logo_image');
+
+        $img = imagecreatetruecolor($width, $height);
+        $white = imagecolorallocate($img, 255, 255, 255);
+        imagefill($img, 0, 0, $white);
+
+        $source = null;
+        if ($logo) {
+            $fullPath = public_path(ltrim($logo, '/'));
+            if (is_file($fullPath)) {
+                $source = @imagecreatefromstring((string) file_get_contents($fullPath));
+            }
+        }
+
+        if ($source) {
+            // Center-crop persegi -> resize ke diameter lingkaran.
+            $sw = imagesx($source);
+            $sh = imagesy($source);
+            $side = min($sw, $sh);
+            $sx = (int) (($sw - $side) / 2);
+            $sy = (int) (($sh - $side) / 2);
+            $square = imagecreatetruecolor($diameter, $diameter);
+            imagesavealpha($square, true);
+            imagealphablending($square, true);
+            imagecopyresampled($square, $source, 0, 0, $sx, $sy, $diameter, $diameter, $side, $side);
+            imagedestroy($source);
+
+            // Mask lingkaran: piksel di luar radius dibuat putih.
+            $c = ($diameter - 1) / 2;
+            $r = $diameter / 2;
+            for ($y = 0; $y < $diameter; $y++) {
+                for ($x = 0; $x < $diameter; $x++) {
+                    if ((($x - $c) * ($x - $c)) + (($y - $c) * ($y - $c)) > ($r * $r)) {
+                        imagesetpixel($square, $x, $y, $white);
+                    }
+                }
+            }
+
+            imagecopy($img, $square, (int) (($width - $diameter) / 2), (int) (($height - $diameter) / 2), 0, 0, $diameter, $diameter);
+            imagedestroy($square);
+        } else {
+            // Fallback: lingkaran biru + bilah putih (selaras favicon).
+            $blue = imagecolorallocate($img, 37, 99, 235);
+            $cx = $width / 2;
+            $cy = $height / 2;
+            imagefilledellipse($img, $cx, $cy, $diameter, $diameter, $blue);
+            imagefilledrectangle($img, (int) ($cx - 150), (int) ($cy - 110), (int) ($cx + 150), (int) ($cy - 20), $white);
+            imagefilledrectangle($img, (int) ($cx - 90), (int) ($cy + 10), (int) ($cx + 90), (int) ($cy + 40), $white);
+            imagefilledrectangle($img, (int) ($cx - 45), (int) ($cy + 55), (int) ($cx + 45), (int) ($cy + 85), $white);
+        }
+
+        ob_start();
+        imagepng($img);
+        $png = ob_get_clean();
+        imagedestroy($img);
+
+        return response($png, 200, [
+            'Content-Type' => 'image/png',
+            'Cache-Control' => 'public, max-age=31536000, immutable',
+        ]);
+    }
+
     public function sendMessage(Request $request)
     {
         $validated = $request->validate([
