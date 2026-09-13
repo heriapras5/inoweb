@@ -35,6 +35,9 @@ if (!function_exists('cleanRichText')) {
         if (!$html) {
             return '';
         }
+        // Normalisasi spasi non-breaking Summernote agar paragraf
+        // "kosong" seperti <p>&nbsp;</p> ikut terbuang di bawah.
+        $html = preg_replace('/&nbsp;|&#160;/i', ' ', $html);
         $html = preg_replace('/\s+(?:style|dir|id|class|data-[a-z0-9-]+|on[a-z]+)="[^"]*"/i', '', $html);
         $html = preg_replace("/\s+(?:style|dir|id|class|data-[a-z0-9-]+|on[a-z]+)='[^']*'/i", '', $html);
 

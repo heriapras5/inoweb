@@ -20,10 +20,10 @@
 @php $firstImage = $project->coverImage(); @endphp
 
 {{-- Page Header --}}
-<section class="bg-gradient-hero pt-20 sm:pt-32 pb-6 sm:pb-12 relative overflow-hidden">
+<section class="bg-gradient-hero pt-16 sm:pt-24 pb-6 sm:pb-10 relative overflow-hidden">
     <x-hero-bg />
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <nav class="flex mb-6 text-sm" data-aos="fade-up">
+        <nav class="flex mb-4 text-sm" data-aos="fade-up">
             <ol class="flex items-center gap-2">
                 <li><a href="{{ url('/') }}" class="text-[#64748b] no-underline hover:text-blue-600 transition-colors">Beranda</a></li>
                 <li class="text-[#cbd5e1]">/</li>
@@ -35,9 +35,9 @@
         <div class="grid lg:grid-cols-2 gap-6 lg:gap-16 items-center">
             <div data-aos="fade-right" data-aos-delay="100">
                 @if($project->categories->isNotEmpty())
-                <span class="portfolio-badge inline-block bg-blue-600/10 text-blue-600 mb-3">{{ $project->categories->first()->name }}</span>
+                <span class="portfolio-badge inline-block bg-blue-600/10 text-blue-600 mb-2">{{ $project->categories->first()->name }}</span>
                 @endif
-                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0f172a] leading-tight tracking-tight text-balance mb-6">
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0f172a] leading-tight tracking-tight text-balance mb-4">
                     @php
                         $words = explode(' ', $project->name);
                         $mid = max(1, floor(count($words) / 2));
@@ -118,7 +118,7 @@
                                 <div class="hero-3d-shine"></div>
                                 <div class="hero-3d-badge" x-show="images.length">
                                     <span class="dot"></span>
-                                    <span x-text="images[active].alt"></span>
+                                    <span x-text="images.length ? (images[active] || {}).alt : ''"></span>
                                 </div>
                             </div>
                         </div>

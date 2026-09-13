@@ -30,7 +30,11 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             SettingsSeeder::class,
+            AboutSectionSeeder::class,
+            HeroSectionSeeder::class,
             ServiceSeeder::class,
+            ProjectCategorySeeder::class,
+            ProjectSeeder::class,
             FaqSeeder::class,
             TestimonialSeeder::class,
             PackageSeeder::class,

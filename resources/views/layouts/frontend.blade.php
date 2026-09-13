@@ -118,8 +118,6 @@
                     </linearGradient>
                 </defs>
             </svg>
-            <!-- Online dot -->
-            <span class="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-green-500 border-2 border-white rounded-full"></span>
         </span>
     </a>
 

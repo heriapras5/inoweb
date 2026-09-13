@@ -61,7 +61,7 @@
                             <div class="hero-badge mb-4 mx-auto lg:mx-0">
                                 INOVASI PROFESIONAL TERPERCAYA
                             </div>
-                            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0f172a] leading-tight tracking-tight mb-5 typewriter-cursor" x-text="typedTitle"></h1>
+                            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0f172a] leading-tight tracking-tight mb-2 typewriter-cursor" x-text="typedTitle"></h1>
                             <p x-show="slide.subtitle" x-text="slide.subtitle" class="text-[#475569] text-base sm:text-lg leading-relaxed mb-8 max-w-lg mx-auto lg:mx-0"></p>
                             <div class="flex flex-col sm:flex-row gap-3 mb-8 justify-center lg:justify-start">
                                 <a href="https://wa.me/{{ $waNum }}?text=Halo,%20saya%20ingin%20konsultasi%20tentang%20pembuatan%20website" target="_blank" rel="noopener" class="btn-primary px-6 py-3 text-base inline-flex items-center justify-center gap-2">
@@ -79,7 +79,7 @@
                 <template x-if="!slides.length">
                     <div>
                         <div class="hero-badge mb-4 mx-auto lg:mx-0">INOVASI PROFESIONAL TERPERCAYA</div>
-                        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0f172a] leading-tight tracking-tight mb-5">Solusi Website Profesional<br>Untuk Bisnis Anda</h2>
+                        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0f172a] leading-tight tracking-tight mb-2">Solusi Website Profesional<br>Untuk Bisnis Anda</h2>
                         <p class="text-[#475569] text-base sm:text-lg leading-relaxed mb-8 max-w-lg mx-auto lg:mx-0">INOWEB hadir untuk membantu bisnis, UMKM, dan perusahaan memiliki website modern, cepat, dan sesuai kebutuhan Anda.</p>
                         <div class="flex flex-col sm:flex-row gap-3 mb-8 justify-center lg:justify-start">
                             <a href="https://wa.me/{{ $waNum }}?text=Halo,%20saya%20ingin%20konsultasi%20tentang%20pembuatan%20website" target="_blank" rel="noopener" class="btn-primary px-6 py-3 text-base inline-flex items-center justify-center gap-2">
@@ -153,7 +153,7 @@
                         <div class="hero-3d-card" x-ref="stage"
                              :style="'transform: rotateY(' + (ry + tiltY) + 'deg) rotateX(' + (rx + tiltX) + 'deg)'">
                             <div class="hero-3d-layer-back"></div>
-                            <a :href="items.length ? '{{ url('/portfolio') }}/' + items[imgActive].slug : '{{ route('portfolio') }}'"
+                            <a :href="items.length ? '{{ url('/portfolio') }}/' + (items[imgActive] || {}).slug : '{{ route('portfolio') }}'"
                                class="hero-3d-slot no-underline" aria-label="Lihat portofolio">
                                 <template x-for="(item, i) in items" :key="'img' + i">
                                     <div class="hero-3d-img" :class="{ active: imgActive === i }">
@@ -168,7 +168,7 @@
                                 <div class="hero-3d-shine"></div>
                                 <div class="hero-3d-badge" x-show="items.length">
                                     <span class="dot"></span>
-                                    <span x-text="items[imgActive].title"></span>
+                                    <span x-text="items.length ? (items[imgActive] || {}).title : ''"></span>
                                 </div>
                             </a>
                         </div>
