@@ -8,7 +8,17 @@
         <span class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-white text-blue-700 text-[11px] font-bold tracking-wider uppercase px-4 py-1.5 rounded-full shadow-lg whitespace-nowrap">{{ $package->badge }}</span>
         @endif
         <h3 class="text-lg font-extrabold tracking-wide {{ $popular ? 'text-white' : 'text-[#0f172a]' }}">{{ $package->name }}</h3>
+        @if($package->old_price)
+        <div class="mt-1 mb-4">
+            <p class="text-[1.375rem] leading-8 font-bold line-through decoration-2 text-red-600">{{ $package->old_price }}</p>
+            <div class="mt-0.5 flex items-center gap-2 flex-wrap">
+                <span class="text-2xl font-extrabold {{ $popular ? 'text-white' : 'text-blue-600' }}">{{ $package->price }}</span>
+                <span class="inline-flex items-center bg-amber-400 text-[#78350f] text-[10px] font-extrabold tracking-wider uppercase px-2 py-0.5 rounded-full shrink-0">Promo</span>
+            </div>
+        </div>
+        @else
         <p class="mt-1 mb-4 text-2xl font-extrabold {{ $popular ? 'text-white' : 'text-blue-600' }}">{{ $package->price }}</p>
+        @endif
         @if($package->tagline)
         <p class="text-sm leading-relaxed mb-5 {{ $popular ? 'text-white/80' : 'text-[#64748b]' }}">{{ $package->tagline }}</p>
         @endif

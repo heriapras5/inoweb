@@ -13,7 +13,8 @@ class PackageSeeder extends Seeder
             [
                 'name' => 'INOWEB START',
                 'slug' => 'inoweb-start',
-                'price' => 'Rp1.499.000',
+                'price' => 'Rp1.249.000',
+                'old_price' => 'Rp1.499.000',
                 'tagline' => 'Cocok untuk bisnis yang baru mulai online.',
                 'facilities' => [
                     'Domain .COM - 1 tahun',

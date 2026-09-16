@@ -9,7 +9,7 @@ class Package extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['name', 'slug', 'price', 'tagline', 'facilities', 'renewal', 'badge', 'sort_order', 'status'];
+    protected $fillable = ['name', 'slug', 'price', 'old_price', 'tagline', 'facilities', 'renewal', 'badge', 'sort_order', 'status'];
 
     protected function casts(): array
     {

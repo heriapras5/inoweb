@@ -4,7 +4,7 @@
 
 ---
 
-## 🚀 INOWEB START - Rp1.499.000
+## 🚀 INOWEB START - ~~Rp1.499.000~~ **Rp1.249.000**
 
 *Cocok untuk bisnis yang baru mulai online.*
 

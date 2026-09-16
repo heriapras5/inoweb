@@ -11,8 +11,9 @@ class PackageController extends Controller
     public function index(Request $request)
     {
         $search = $request->get('search');
-        $packages = Package::when($search, fn($q) => $q->where('name', 'like', "%{$search}%"))
+        $packages = Package::when($search, fn ($q) => $q->where('name', 'like', "%{$search}%"))
             ->orderBy('sort_order')->paginate(10);
+
         return view('admin.packages.index', compact('packages'));
     }
 
@@ -26,6 +27,7 @@ class PackageController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'price' => 'required|string|max:255',
+            'old_price' => 'nullable|string|max:255',
             'tagline' => 'nullable|string|max:255',
             'facilities' => 'nullable|array',
             'facilities.*' => 'string|max:255',
@@ -38,6 +40,7 @@ class PackageController extends Controller
         $data['slug'] = $this->generateUniqueSlug($data['name']);
         $data['facilities'] = array_values(array_filter(array_map('trim', $data['facilities'] ?? [])));
         Package::create($data);
+
         return redirect()->route('admin.packages.index')->with('success', 'Paket berhasil ditambahkan.');
     }
 
@@ -51,6 +54,7 @@ class PackageController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'price' => 'required|string|max:255',
+            'old_price' => 'nullable|string|max:255',
             'tagline' => 'nullable|string|max:255',
             'facilities' => 'nullable|array',
             'facilities.*' => 'string|max:255',
@@ -63,12 +67,14 @@ class PackageController extends Controller
         $data['slug'] = $this->generateUniqueSlug($data['name'], $package->id);
         $data['facilities'] = array_values(array_filter(array_map('trim', $data['facilities'] ?? [])));
         $package->update($data);
+
         return redirect()->route('admin.packages.index')->with('success', 'Paket berhasil diperbarui.');
     }
 
     public function destroy(Package $package)
     {
         $package->delete();
+
         return redirect()->route('admin.packages.index')->with('success', 'Paket berhasil dihapus.');
     }
 
@@ -78,8 +84,9 @@ class PackageController extends Controller
         $slug = $base;
         $i = 2;
         while (Package::where('slug', $slug)->where('id', '!=', $ignoreId)->exists()) {
-            $slug = $base . '-' . $i++;
+            $slug = $base.'-'.$i++;
         }
+
         return $slug;
     }
 }
