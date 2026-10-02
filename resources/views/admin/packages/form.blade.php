@@ -10,6 +10,7 @@
                 <x-admin.input name="name" label="Nama Paket" :value="$package->name" placeholder="INOWEB START" required />
                 <x-admin.input name="price" label="Harga" :value="$package->price" placeholder="Rp1.249.000" help="Teks bebas, cth: Rp1.499.000 atau Mulai Rp5.000.000." required />
                 <x-admin.input name="old_price" label="Harga Coret" :value="$package->old_price" placeholder="Rp1.499.000" help="Isi untuk tampil promo: harga coret + chip PROMO. Kosongkan untuk tanpa promo." />
+                <x-admin.input name="saving_text" label="Label Hemat" :value="$package->saving_text" placeholder="Hemat 250rb" help="Cth: Hemat 250rb. Tampil di samping chip PROMO. Kosongkan untuk menyembunyikan." />
             </div>
             <x-admin.input name="tagline" label="Tagline" :value="$package->tagline" placeholder="Cocok untuk bisnis yang baru mulai online." />
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -19,6 +19,14 @@
         @else
         <p class="mt-1 mb-4 text-2xl font-extrabold {{ $popular ? 'text-white' : 'text-blue-600' }}">{{ $package->price }}</p>
         @endif
+        @if($package->saving_text)
+        <div class="-mt-2 mb-4">
+            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-extrabold tracking-wide ring-1 {{ $popular ? 'bg-white/15 text-emerald-100 ring-white/25' : 'bg-emerald-50 text-emerald-700 ring-emerald-200' }}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 5L5 19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>
+                {{ $package->saving_text }}
+            </span>
+        </div>
+        @endif
         @if($package->tagline)
         <p class="text-sm leading-relaxed mb-5 {{ $popular ? 'text-white/80' : 'text-[#64748b]' }}">{{ $package->tagline }}</p>
         @endif

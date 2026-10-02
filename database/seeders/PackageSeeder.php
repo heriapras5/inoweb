@@ -15,6 +15,7 @@ class PackageSeeder extends Seeder
                 'slug' => 'inoweb-start',
                 'price' => 'Rp1.249.000',
                 'old_price' => 'Rp1.499.000',
+                'saving_text' => 'Hemat 250rb',
                 'tagline' => 'Cocok untuk bisnis yang baru mulai online.',
                 'facilities' => [
                     'Domain .COM - 1 tahun',
@@ -39,6 +40,7 @@ class PackageSeeder extends Seeder
                 'name' => 'INOWEB BUSINESS',
                 'slug' => 'inoweb-business',
                 'price' => 'Rp2.499.000',
+                'saving_text' => 'Hemat 500rb',
                 'tagline' => 'Cocok untuk UMKM dan bisnis yang ingin tampil lebih profesional.',
                 'facilities' => [
                     'Domain .COM - 1 tahun',
@@ -65,6 +67,7 @@ class PackageSeeder extends Seeder
                 'name' => 'INOWEB PRO',
                 'slug' => 'inoweb-pro',
                 'price' => 'Rp3.999.000',
+                'saving_text' => 'Hemat 750rb',
                 'tagline' => 'Cocok untuk perusahaan dengan kebutuhan website yang lebih lengkap.',
                 'facilities' => [
                     'Domain .COM - 1 tahun',
