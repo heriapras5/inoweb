@@ -13,26 +13,27 @@ trait BuildsPageStats
     /**
      * Halaman terpopuler pada rentang waktu (semua path).
      */
-    protected function topPages(Carbon $from, int $limit = 6): array
+    protected function topPages(Carbon $from, int $limit = 6, ?Carbon $to = null): array
     {
-        return $this->pageRows($from, null, $limit);
+        return $this->pageRows($from, null, $limit, $to);
     }
 
     /**
      * Halaman portofolio paling banyak dikunjungi (listing + detail projek).
      */
-    protected function portfolioPages(Carbon $from, int $limit = 5): array
+    protected function portfolioPages(Carbon $from, int $limit = 5, ?Carbon $to = null): array
     {
-        return $this->pageRows($from, 'portfolio', $limit);
+        return $this->pageRows($from, 'portfolio', $limit, $to);
     }
 
     /**
      * Group by page_path terurut jumlah kunjungan, dengan opsi filter prefix path.
      */
-    protected function pageRows(Carbon $from, ?string $pathPrefix, int $limit): array
+    protected function pageRows(Carbon $from, ?string $pathPrefix, int $limit, ?Carbon $to = null): array
     {
         $rows = PageView::query()
             ->where('created_at', '>=', $from)
+            ->when($to !== null, fn ($q) => $q->where('created_at', '<=', $to))
             ->whereNotNull('page_path')
             ->when($pathPrefix !== null, fn ($q) => $q->where('page_path', 'like', $pathPrefix . '%'))
             ->select('page_path', DB::raw('COUNT(*) as total'))

@@ -49,6 +49,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // Admin
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('/dashboard/data', [AdminController::class, 'data'])->name('dashboard.data');
     Route::post('/status/toggle', [StatusController::class, 'toggle'])->name('status.toggle');
     Route::resource('hero-sections', HeroSectionController::class);
     Route::resource('banners', BannerController::class);

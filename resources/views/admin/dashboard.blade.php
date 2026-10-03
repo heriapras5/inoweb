@@ -11,19 +11,12 @@
 </x-admin.section-title>
 
 @php
-$init = $periodStats['daily'];
+$init = $stats;
 $periods = [
-    'daily' => ['label' => 'Harian', 'unit' => 'hari'],
-    'weekly' => ['label' => 'Mingguan', 'unit' => 'minggu'],
-    'monthly' => ['label' => 'Bulanan', 'unit' => 'bulan'],
-    'yearly' => ['label' => 'Tahunan', 'unit' => 'tahun'],
-];
-// Rentang tanggal aktif per periode untuk bar info (pola bar info juneo-phone)
-$periodMeta = [
-    'daily' => ['range' => now()->subDays(29)->translatedFormat('d M') . ' - ' . now()->translatedFormat('d M Y'), 'note' => 'Laporan harian, 30 hari terakhir'],
-    'weekly' => ['range' => now()->subWeeks(11)->startOfWeek()->translatedFormat('d M') . ' - ' . now()->translatedFormat('d M Y'), 'note' => 'Laporan mingguan, 12 minggu terakhir'],
-    'monthly' => ['range' => now()->subMonthsNoOverflow(11)->startOfMonth()->translatedFormat('M Y') . ' - ' . now()->translatedFormat('M Y'), 'note' => 'Laporan bulanan, 12 bulan terakhir'],
-    'yearly' => ['range' => now()->subYears(4)->startOfYear()->format('Y') . ' - ' . now()->format('Y'), 'note' => 'Laporan tahunan, 5 tahun terakhir'],
+    'daily' => ['label' => 'Harian', 'unit' => 'jam'],
+    'weekly' => ['label' => 'Mingguan', 'unit' => 'hari'],
+    'monthly' => ['label' => 'Bulanan', 'unit' => 'hari'],
+    'yearly' => ['label' => 'Tahunan', 'unit' => 'bulan'],
 ];
 $iconVisits = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
 $iconUnique = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>';
@@ -34,14 +27,17 @@ $iconCalendar = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" 
 
 <div x-data="dashboard({
     series: @js($series),
-    topPages: @js($topPages),
-    portfolioTop: @js($portfolioTop),
-    stats: @js($periodStats),
-    periodMeta: @js($periodMeta),
+    stat: @js($stats),
+    pages: @js($topPages),
+    portfolioPages: @js($portfolioTop),
+    meta: @js($meta),
+    period: @js($period),
+    dataUrl: @js($dataUrl),
+    today: @js($todayInput),
     units: @js(collect($periods)->map(fn ($p) => $p['unit'])->all()),
 })">
 
-    {{-- Bar filter periode (pola juneo-phone): satu-satunya pengendali kartu, grafik, dan halaman --}}
+    {{-- Bar filter periode (pola juneo-phone): tombol preset + rentang kustom, semua via AJAX --}}
     <div class="bg-white border border-gray-200 border-l-4 border-l-blue-600 rounded-xl shadow-sm p-3.5 mb-4 flex flex-wrap items-center justify-between gap-3">
         <div class="min-w-0">
             <p class="text-sm font-bold text-[#1e293b]">Periode Laporan</p>
@@ -49,48 +45,68 @@ $iconCalendar = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" 
         </div>
         <div class="flex flex-wrap gap-2">
             @foreach($periods as $key => $p)
-            <button type="button" @click="setPeriod('{{ $key }}')"
-                    :class="period === '{{ $key }}'
+            <button type="button" @click="setPeriod('{{ $key }}')" :disabled="loading"
+                    :class="period === '{{ $key }}' && !isCustom
                         ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-sm border-transparent'
                         : 'bg-white border-gray-200 text-[#64748b] hover:bg-gray-50'"
-                    class="px-3.5 py-1.5 text-xs font-semibold rounded-lg border transition-colors">
+                    class="px-3.5 py-1.5 text-xs font-semibold rounded-lg border transition-colors disabled:opacity-50">
                 {{ $p['label'] }}
             </button>
             @endforeach
         </div>
     </div>
 
+    {{-- Bar rentang kustom (pola juneo-phone): dari - sampai + Terapkan/Reset --}}
+    <div class="bg-white border border-gray-200 rounded-xl shadow-sm px-3.5 py-3 mb-4 flex flex-wrap items-center gap-2">
+        <span class="text-xs font-semibold text-[#64748b] mr-1">Kustom:</span>
+        <input type="date" x-model="from" :max="today"
+               class="text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 text-[#1e293b] focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <span class="text-xs text-[#94a3b8]">s/d</span>
+        <input type="date" x-model="to" :max="today"
+               class="text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 text-[#1e293b] focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <button type="button" @click="applyCustom()" :disabled="loading"
+                class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors disabled:opacity-50">
+            Terapkan
+        </button>
+        <button type="button" @click="resetFilter()" :disabled="loading" x-cloak x-show="isCustom"
+                class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-white border border-gray-200 text-[#64748b] hover:bg-gray-50 transition-colors disabled:opacity-50">
+            Reset
+        </button>
+        <span x-cloak x-show="isCustom" class="admin-badge admin-badge-soft-green">Kustom</span>
+        <p x-cloak x-show="error" x-text="error" class="w-full text-xs text-red-600 mt-1"></p>
+    </div>
+
     {{-- Bar info rentang tanggal aktif --}}
-    <div class="admin-card px-4 py-3 mb-6 flex flex-wrap items-center gap-3">
+    <div class="admin-card px-4 py-3 mb-6 flex flex-wrap items-center gap-3" :class="loading ? 'opacity-60' : ''">
         <div class="w-9 h-9 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
             {!! $iconCalendar !!}
         </div>
         <div class="min-w-0">
             <div class="flex items-center gap-2 flex-wrap">
-                <span class="text-sm font-bold text-[#0f172a]" x-text="meta().range"></span>
-                <span class="admin-badge admin-badge-soft-blue">Berjalan</span>
+                <span class="text-sm font-bold text-[#0f172a]" x-text="meta.range"></span>
+                <span class="admin-badge admin-badge-soft-blue" x-text="loading ? 'Memuat...' : 'Berjalan'"></span>
             </div>
-            <span class="block text-[11px] text-[#94a3b8] mt-0.5" x-text="meta().note"></span>
+            <span class="block text-[11px] text-[#94a3b8] mt-0.5" x-text="meta.note"></span>
         </div>
         <span class="sm:ml-auto text-[11px] text-[#94a3b8] hidden md:block">Data kunjungan diperbarui setiap beberapa menit</span>
     </div>
 
     {{-- KPI row: 4 kartu dengan count-up dan sparkline, ikut periode --}}
-    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
-        <x-admin.stat-card label="Kunjungan Website" :value="number_format($init['visits'])" tone="blue" :icon="$iconVisits"
-            value-bind="fmt(disp.visits)" delta-bind="cur.visitsChange" spark-bind="sparkSeries('total')"
-            footer="Pengunjung unik {{ number_format($init['unique']) }}" footer-bind="'Pengunjung unik ' + fmt(cur.unique)" />
-        <x-admin.stat-card label="Pengunjung Unik" :value="number_format($init['unique'])" tone="teal" :icon="$iconUnique"
-            value-bind="fmt(disp.unique)" hint="berdasarkan alamat IP" spark-bind="sparkSeries('unique')" />
-        <x-admin.stat-card label="Kunjungan Portofolio" :value="number_format($init['portfolio'])" tone="green" :icon="$iconPortfolio"
-            value-bind="fmt(disp.portfolio)" delta-bind="cur.portfolioChange" spark-bind="sparkSeries('portfolio')" />
-        <x-admin.stat-card label="Porsi Portofolio" :value="$init['share'] . '%'" tone="violet" :icon="$iconShare"
-            value-bind="disp.share + '%'" footer="dari {{ number_format($init['visits']) }} kunjungan" footer-bind="'dari ' + fmt(cur.visits) + ' kunjungan'"
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6" :class="loading ? 'opacity-60 pointer-events-none' : ''">
+        <x-admin.stat-card label="Kunjungan Website" :value="number_format($init['visits'])" tone="blue" :icon="$iconVisits" data-kpi="visits"
+            value-bind="fmt(disp.visits)" delta-bind="stat.visitsChange" spark-bind="series.total"
+            footer="Pengunjung unik {{ number_format($init['unique']) }}" footer-bind="'Pengunjung unik ' + fmt(stat.unique)" />
+        <x-admin.stat-card label="Pengunjung Unik" :value="number_format($init['unique'])" tone="teal" :icon="$iconUnique" data-kpi="unique"
+            value-bind="fmt(disp.unique)" hint="berdasarkan alamat IP" spark-bind="series.unique" />
+        <x-admin.stat-card label="Kunjungan Portofolio" :value="number_format($init['portfolio'])" tone="green" :icon="$iconPortfolio" data-kpi="portfolio"
+            value-bind="fmt(disp.portfolio)" delta-bind="stat.portfolioChange" spark-bind="series.portfolio" />
+        <x-admin.stat-card label="Porsi Portofolio" :value="$init['share'] . '%'" tone="violet" :icon="$iconShare" data-kpi="share"
+            value-bind="disp.share + '%'" footer="dari {{ number_format($init['visits']) }} kunjungan" footer-bind="'dari ' + fmt(stat.visits) + ' kunjungan'"
             spark-bind="shareSeries" />
     </div>
 
     {{-- Grafik tren kombinasi: total vs portofolio --}}
-    <div class="admin-card p-5 sm:p-6 mb-6">
+    <div class="admin-card p-5 sm:p-6 mb-6" :class="loading ? 'opacity-60 pointer-events-none' : ''">
         <div class="flex items-center gap-2 mb-4">
             <span class="h-5 w-1.5 rounded-full bg-gradient-to-b from-blue-600 to-blue-400 shrink-0"></span>
             <div class="min-w-0">
@@ -104,7 +120,7 @@ $iconCalendar = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" 
     </div>
 
     {{-- Dua kolom: halaman terpopuler + drill-down portofolio --}}
-    <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-6">
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-6" :class="loading ? 'opacity-60 pointer-events-none' : ''">
         <div class="lg:col-span-3 admin-card p-5 sm:p-6">
             <div class="flex items-center justify-between gap-3 mb-1">
                 <div class="flex items-center gap-2">
@@ -114,12 +130,12 @@ $iconCalendar = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" 
             </div>
             <p class="text-[11px] text-[#94a3b8] mb-4">6 halaman dengan kunjungan terbanyak pada periode ini.</p>
 
-            <div x-cloak x-show="activePages().length === 0" class="text-sm text-[#94a3b8] text-center py-10">
+            <div x-cloak x-show="pages.length === 0" class="text-sm text-[#94a3b8] text-center py-10">
                 Belum ada data kunjungan halaman.
             </div>
-            <div x-show="activePages().length > 0">
-                <template x-for="(p, i) in activePages()" :key="period + ':' + p.path">
-                    <div class="flex items-center gap-3 py-3" :class="i < activePages().length - 1 ? 'border-b border-gray-50' : ''">
+            <div x-show="pages.length > 0">
+                <template x-for="(p, i) in pages" :key="fetchKey + ':' + p.path">
+                    <div class="flex items-center gap-3 py-3" :class="i < pages.length - 1 ? 'border-b border-gray-50' : ''">
                         <span class="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold shrink-0"
                               :class="i === 0 ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-500'" x-text="i + 1"></span>
                         <div class="flex-1 min-w-0">
@@ -146,14 +162,14 @@ $iconCalendar = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" 
                 </div>
                 <a href="{{ route('admin.projects.index') }}" class="text-xs font-semibold text-blue-600 hover:text-blue-700 no-underline">Kelola projek &rarr;</a>
             </div>
-            <p class="text-[11px] text-[#94a3b8] mb-4" x-text="'Halaman portofolio paling ramai. Total periode ini: ' + fmt(cur.portfolio) + ' kunjungan.'"></p>
+            <p class="text-[11px] text-[#94a3b8] mb-4" x-text="'Halaman portofolio paling ramai. Total periode ini: ' + fmt(stat.portfolio) + ' kunjungan.'"></p>
 
-            <div x-cloak x-show="activePortfolio().length === 0" class="text-sm text-[#94a3b8] text-center py-10">
+            <div x-cloak x-show="portfolioPages.length === 0" class="text-sm text-[#94a3b8] text-center py-10">
                 Belum ada kunjungan halaman portofolio.
             </div>
-            <div x-show="activePortfolio().length > 0">
-                <template x-for="(p, i) in activePortfolio()" :key="period + ':' + p.path">
-                    <div class="flex items-center gap-3 py-3" :class="i < activePortfolio().length - 1 ? 'border-b border-gray-50' : ''">
+            <div x-show="portfolioPages.length > 0">
+                <template x-for="(p, i) in portfolioPages" :key="fetchKey + ':' + p.path">
+                    <div class="flex items-center gap-3 py-3" :class="i < portfolioPages.length - 1 ? 'border-b border-gray-50' : ''">
                         <div class="flex-1 min-w-0">
                             <span class="block text-sm font-semibold text-[#1e293b] truncate" x-text="p.name"></span>
                             <div class="mt-1.5 h-1.5 rounded-full bg-gray-100 overflow-hidden">
@@ -237,35 +253,58 @@ $iconCalendar = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" 
     </div>
 </div>
 
+@push('styles')
+<style>
+    @keyframes stat-pop {
+        0% { transform: scale(1); }
+        35% { transform: scale(1.08); color: #2563eb; }
+        100% { transform: scale(1); }
+    }
+    .stat-pop {
+        animation: stat-pop 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .stat-pop { animation: none; }
+    }
+</style>
+@endpush
+
 @push('scripts')
 <script>
 document.addEventListener('alpine:init', function () {
     Alpine.data('dashboard', function (passed) {
+        // Instance Chart disimpan di closure (bukan state reaktif Alpine):
+        // state reaktif mem-bungkus instance dengan proxy, dan Chart.js
+        // crash saat method-nya dipanggil lewat proxy reaktif (rekursi
+        // getter "Maximum call stack size exceeded" / layout "fullSize").
+        let chart = null;
         return {
-            period: 'daily',
-            chart: null,
-            // Data dari server wajib dipetakan eksplisit ke scope;
-            // Alpine hanya memakai return value factory sebagai scope,
-            // argumen x-data tidak otomatis tersedia lewat this.
-            series: passed.series || {},
-            topPages: passed.topPages || {},
-            portfolioTop: passed.portfolioTop || {},
-            stats: passed.stats || {},
+            period: passed.period || 'daily',
+            isCustom: false,
+            from: '',
+            to: '',
+            today: passed.today || '',
+            dataUrl: passed.dataUrl || '',
+            loading: false,
+            error: '',
+            fetchKey: 0,
+            // Data satu periode aktif; argumen x-data tidak otomatis masuk
+            // scope Alpine sehingga dipetakan eksplisit di sini.
+            series: passed.series || { labels: [], total: [], unique: [], portfolio: [] },
+            stat: passed.stat || { visits: 0, visitsChange: 0, unique: 0, portfolio: 0, portfolioChange: 0, share: 0 },
+            pages: passed.pages || [],
+            portfolioPages: passed.portfolioPages || [],
+            meta: passed.meta || { range: '', note: '' },
             units: passed.units || {},
-            periodMeta: passed.periodMeta || {},
             disp: { visits: 0, unique: 0, portfolio: 0, share: 0 },
-            get cur() { return this.stats[this.period]; },
             get subtitleText() {
-                const s = this.series[this.period];
-                const st = this.bucketStats(s.total);
-                return 'Rata-rata ' + this.fmt(st.avg) + ' kunjungan per ' + (this.units[this.period] || 'hari')
+                const st = this.bucketStats(this.series.total);
+                return 'Rata-rata ' + this.fmt(st.avg) + ' kunjungan per ' + (this.units[this.period] || 'periode')
                     + ', puncak ' + this.fmt(st.max) + (st.maxLabel !== '-' ? ' (' + st.maxLabel + ')' : '');
             },
             fmt(n) { return Number(n || 0).toLocaleString('id-ID'); },
-            activePages() { return this.topPages[this.period] || []; },
-            activePortfolio() { return this.portfolioTop[this.period] || []; },
             portfolioShare(p) {
-                const total = this.cur.portfolio || 0;
+                const total = this.stat.portfolio || 0;
                 return total > 0 ? Math.round((p.total / total) * 100) : 0;
             },
             bucketStats(values) {
@@ -274,14 +313,13 @@ document.addEventListener('alpine:init', function () {
                 return {
                     avg: Math.round(values.reduce((a, b) => a + b, 0) / values.length),
                     max: max,
-                    maxLabel: values.length ? (this.series[this.period].labels[values.indexOf(max)] || '-') : '-',
+                    maxLabel: values.length ? ((this.series.labels || [])[values.indexOf(max)] || '-') : '-',
                 };
             },
-            meta() { return this.periodMeta[this.period] || { range: '', note: '' }; },
-            sparkSeries(key) { return (this.series[this.period] || {})[key] || []; },
+            sparkSeries(key) { return this.series[key] || []; },
             get shareSeries() {
-                const s = this.series[this.period] || { total: [], portfolio: [] };
-                return s.total.map((t, i) => t > 0 ? Math.round((s.portfolio[i] / t) * 100) : 0);
+                const s = this.series || { total: [], portfolio: [] };
+                return (s.total || []).map((t, i) => (t > 0 ? Math.round(((s.portfolio || [])[i] / t) * 100) : 0));
             },
             sparkPoints(a) {
                 if (!a || a.length < 2) return '0,15 200,15';
@@ -313,21 +351,98 @@ document.addEventListener('alpine:init', function () {
                 ['visits', 'unique', 'portfolio', 'share'].forEach((k) => {
                     this.animateKpi(k, Number(stats[k]) || 0);
                 });
+                this.pulseCards();
+            },
+            pulseCards() {
+                document.querySelectorAll('[data-kpi] .stat-value-text').forEach((el) => {
+                    el.classList.remove('stat-pop');
+                    void el.offsetWidth;
+                    el.classList.add('stat-pop');
+                    el.addEventListener('animationend', () => el.classList.remove('stat-pop'), { once: true });
+                });
+            },
+            applyPayload(json) {
+                this.period = json.period;
+                this.isCustom = !!json.isCustom;
+                this.series = json.series;
+                this.stat = json.stats;
+                this.pages = json.topPages || [];
+                this.portfolioPages = json.portfolioTop || [];
+                this.meta = json.meta;
+                this.fetchKey += 1;
+                this.updateChart();
+                this.animateAll(this.stat);
+            },
+            async fetchData(params) {
+                this.loading = true;
+                this.error = '';
+                try {
+                    const res = await fetch(this.dataUrl + '?' + new URLSearchParams(params), {
+                        headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+                    });
+                    if (!res.ok) {
+                        const err = await res.json().catch(() => ({}));
+                        throw new Error(err.message || ('Gagal memuat data (' + res.status + ')'));
+                    }
+                    this.applyPayload(await res.json());
+                } catch (e) {
+                    this.error = e.message;
+                } finally {
+                    this.loading = false;
+                }
+            },
+            setPeriod(p) {
+                if (this.loading || (this.period === p && !this.isCustom)) return;
+                this.fetchData({ period: p });
+            },
+            applyCustom() {
+                if (!this.from || !this.to) {
+                    this.error = 'Pilih tanggal mulai dan selesai.';
+                    return;
+                }
+                if (this.from > this.to) {
+                    this.error = 'Tanggal mulai tidak boleh setelah tanggal selesai.';
+                    return;
+                }
+                this.fetchData({ from: this.from, to: this.to });
+            },
+            resetFilter() {
+                this.from = '';
+                this.to = '';
+                this.setPeriod('daily');
+            },
+            updateChart() {
+                if (!chart || !this.$refs.trend?.isConnected) return;
+                // Salin ke array biasa: objek reactive-proxy Alpine yang dioper
+                // langsung ke Chart.js memicu rekursi tak berujung di resolver
+                // opsinya (RangeError "Maximum call stack size exceeded" /
+                // "Cannot set properties of undefined (setting 'fullSize')").
+                chart.data.labels = [...(this.series.labels || [])];
+                chart.data.datasets[0].data = [...(this.series.total || [])];
+                chart.data.datasets[1].data = [...(this.series.portfolio || [])];
+                chart.update();
             },
             init() {
                 this.initChart();
-                this.animateAll(this.cur);
+                this.animateAll(this.stat);
+            },
+            destroy() {
+                if (chart) {
+                    chart.destroy();
+                    chart = null;
+                }
             },
             initChart() {
-                const s = this.series[this.period];
-                this.chart = new Chart(this.$refs.trend.getContext('2d'), {
+                const existing = this.$refs.trend && Chart.getChart(this.$refs.trend);
+                if (existing) existing.destroy();
+                chart = new Chart(this.$refs.trend.getContext('2d'), {
                     type: 'line',
                     data: {
-                        labels: s.labels,
+                        labels: [...(this.series.labels || [])],
                         datasets: [
                             {
                                 label: 'Total Kunjungan',
-                                data: s.total,
+                                data: [...(this.series.total || [])],
                                 borderColor: '#2563eb',
                                 backgroundColor: 'rgba(37, 99, 235, 0.06)',
                                 fill: true,
@@ -341,7 +456,7 @@ document.addEventListener('alpine:init', function () {
                             },
                             {
                                 label: 'Portofolio',
-                                data: s.portfolio,
+                                data: [...(this.series.portfolio || [])],
                                 borderColor: '#059669',
                                 backgroundColor: 'rgba(5, 150, 105, 0.10)',
                                 fill: true,
@@ -403,18 +518,6 @@ document.addEventListener('alpine:init', function () {
                         },
                     },
                 });
-            },
-            setPeriod(p) {
-                if (this.period === p) return;
-                this.period = p;
-                const s = this.series[p];
-                if (s && this.chart) {
-                    this.chart.data.labels = s.labels;
-                    this.chart.data.datasets[0].data = s.total;
-                    this.chart.data.datasets[1].data = s.portfolio;
-                    this.chart.update();
-                }
-                this.animateAll(this.cur);
             },
         };
     });
